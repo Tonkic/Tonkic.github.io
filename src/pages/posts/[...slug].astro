@@ -1,0 +1,157 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro"
+import NotesSidebar from "../../components/NotesSidebar"
+import NoteFilterPanel from "../../components/NoteFilterPanel"
+import {
+  getAllPosts,
+  getDirectoryByPath,
+  getDirectoryEntries,
+  getDirectoryPaths,
+  getDirectoryUrl,
+  getPostByNotePath,
+  renderPostHtml,
+} from "../../lib/posts"
+
+export function getStaticPaths() {
+  const posts = getAllPosts()
+  const dirs = getDirectoryPaths()
+
+  const filePaths = posts.map((post) => post.notePath)
+  const allPaths = [...new Set([...dirs, ...filePaths])]
+
+  return allPaths.map((path) => {
+    const post = getPostByNotePath(path)
+    const dir = getDirectoryByPath(path)
+
+    return {
+      params: { slug: path },
+      props: {
+        path,
+        post,
+        dir,
+      },
+    }
+  })
+}
+
+const { path, post, dir } = Astro.props
+const allPosts = getAllPosts()
+const directories = getDirectoryEntries()
+const html = post ? renderPostHtml(post, allPosts) : ""
+const dirItems = (dir?.posts ?? []).map((item) => ({
+  notePath: item.notePath,
+  title: item.title,
+  excerpt: item.excerpt,
+  aliases: item.aliases,
+  categories: item.categories,
+  searchText: item.searchText,
+}))
+const searchItems = allPosts.map((item) => ({
+  notePath: item.notePath,
+  title: item.title,
+  excerpt: item.excerpt,
+  aliases: item.aliases,
+  categories: item.categories,
+  searchText: item.searchText,
+}))
+const extraAttributes = post ? Object.entries(post.attributes) : []
+---
+
+<BaseLayout title={post ? post.title : `${dir?.name ?? "目录"} · 笔记`} description={post ? post.excerpt : "目录浏览"}>
+  <div class="notes-layout">
+    <NotesSidebar directories={directories} currentPath={path} client:load />
+
+    <section class="notes-main">
+      <div class="post-actions notes-topbar">
+        <a href="/posts" class="back-link" onclick="if (history.length > 1) { history.back(); return false; }">← 返回</a>
+        <div class="topbar-search">
+          <NoteFilterPanel items={searchItems} emptyLabel="暂无笔记" showResultsByDefault={false} client:load />
+        </div>
+      </div>
+
+      {post ? (
+        <article>
+          {post.date && <p class="subtitle">{post.date}</p>}
+          {(post.aliases.length > 0 || post.categories.length > 0 || post.tags.length > 0 || extraAttributes.length > 0) && (
+            <section class="meta-panel">
+              {post.aliases.length > 0 && (
+                <div class="meta-row">
+                  <span class="meta-label">别名</span>
+                  <div class="meta-chip-list">
+                    {post.aliases.map((alias) => (
+                      <span class="meta-chip alias">{alias}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {post.categories.length > 0 && (
+                <div class="meta-row">
+                  <span class="meta-label">分类</span>
+                  <div class="meta-chip-list">
+                    {post.categories.map((category) => (
+                      <span class="meta-chip category">{category}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {post.tags.length > 0 && (
+                <div class="meta-row">
+                  <span class="meta-label">标签</span>
+                  <div class="meta-chip-list">
+                    {post.tags.map((tag) => (
+                      <span class="meta-chip tag">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {extraAttributes.length > 0 && (
+                <div class="meta-kv-grid">
+                  {extraAttributes.map(([key, values]) => (
+                    <div class="meta-kv-item">
+                      <span class="meta-kv-key">{key}</span>
+                      <span class="meta-kv-value">{values.join(" / ")}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          )}
+          <div set:html={html} />
+        </article>
+      ) : dir ? (
+        <article>
+          <h2>{dir.name}</h2>
+
+          {dir.childDirPaths.length > 0 && (
+            <section class="notes-block">
+              <h3>子目录</h3>
+              <ul class="notes-list">
+                {dir.childDirPaths.map((childPath) => (
+                  <li class="entry-row folder-row">
+                    <a href={getDirectoryUrl(childPath)}>
+                      <span class="entry-chip folder">目录</span>
+                      <span>{childPath.split("/").at(-1)}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          <section class="notes-block">
+            <h3>文件</h3>
+            <NoteFilterPanel items={dirItems} emptyLabel="当前目录暂无文件" client:load />
+          </section>
+        </article>
+      ) : (
+        <article>
+          <h2>未找到内容</h2>
+          <p>当前路径不存在对应文件或目录。</p>
+        </article>
+      )}
+    </section>
+  </div>
+</BaseLayout>

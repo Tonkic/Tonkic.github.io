@@ -1,0 +1,12 @@
+---
+import { marked } from "marked"
+import BaseLayout from "../layouts/BaseLayout.astro"
+import { getHomePage } from "../lib/pages"
+
+const page = getHomePage()
+const html = marked.parse(page.body)
+---
+
+<BaseLayout title={page.title || "首页"} description={page.description}>
+  <article set:html={html} />
+</BaseLayout>

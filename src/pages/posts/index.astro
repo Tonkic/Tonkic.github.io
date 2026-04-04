@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro"
+import NotesSidebar from "../../components/NotesSidebar"
+import NoteFilterPanel from "../../components/NoteFilterPanel"
+import { getDirectoryByPath, getDirectoryEntries, getDirectoryUrl } from "../../lib/posts"
+
+const rootDir = getDirectoryByPath("")
+const directories = getDirectoryEntries()
+const rootItems = (rootDir?.posts ?? []).map((post) => ({
+  notePath: post.notePath,
+  title: post.title,
+  excerpt: post.excerpt,
+  aliases: post.aliases,
+  categories: post.categories,
+  searchText: post.searchText,
+}))
+---
+
+<BaseLayout title="博客" description="博客文章列表">
+  <div class="notes-layout">
+    <NotesSidebar directories={directories} currentPath="" client:load />
+    <section class="notes-main">
+      <h2 class="folder-title">全部笔记</h2>
+
+      {rootDir && rootDir.childDirPaths.length > 0 && (
+        <section class="notes-block">
+          <h3>子目录</h3>
+          <ul class="notes-list">
+            {rootDir.childDirPaths.map((path) => (
+              <li class="entry-row folder-row">
+                <a href={getDirectoryUrl(path)}>
+                  <span class="entry-chip folder">目录</span>
+                  <span>{path.split("/").at(-1)}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section class="notes-block">
+        <h3>文件</h3>
+        <NoteFilterPanel items={rootItems} emptyLabel="全部笔记目录下暂无文件" client:load />
+      </section>
+    </section>
+  </div>
+</BaseLayout>

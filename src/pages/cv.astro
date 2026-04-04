@@ -1,0 +1,12 @@
+---
+import { marked } from "marked"
+import BaseLayout from "../layouts/BaseLayout.astro"
+import { getCvPage } from "../lib/pages"
+
+const page = getCvPage()
+const html = marked.parse(page.body)
+---
+
+<BaseLayout title={page.title || "CV"} description={page.description}>
+  <article set:html={html} />
+</BaseLayout>

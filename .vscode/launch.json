@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Astro: Debug in Edge",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:4321",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "Astro: Debug in Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:4321",
+      "webRoot": "${workspaceFolder}"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Run Dev + Debug Edge",
+      "configurations": ["Astro: Debug in Edge"],
+      "preLaunchTask": "npm: dev"
+    }
+  ]
+}
