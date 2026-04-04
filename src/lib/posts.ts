@@ -368,6 +368,15 @@ function copyVaultAssetAndGetUrl(baseDir: string, currentNotePath: string, rawTa
     if (fileName) {
       const byName = assetIndex.byBasename.get(fileName)
       if (byName) source = byName
+
+      // Fallback for Obsidian-style duplicate suffixes like "name 1.png".
+      if (!source) {
+        const dedupName = fileName.replace(/\s+\d+(\.[a-z0-9]+)$/i, "$1")
+        if (dedupName !== fileName) {
+          const dedupHit = assetIndex.byBasename.get(dedupName)
+          if (dedupHit) source = dedupHit
+        }
+      }
     }
   }
 
