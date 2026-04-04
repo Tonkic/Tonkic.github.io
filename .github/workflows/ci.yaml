@@ -5,6 +5,10 @@ on:
     branches:
       - master
       - main
+  schedule:
+    - cron: "*/30 * * * *"
+  repository_dispatch:
+    types: [vault-updated]
   workflow_dispatch: # 允许手动触发
 
 permissions:
