@@ -333,7 +333,7 @@ function encodeUrlPath(path: string): string {
 }
 
 function copyVaultAssetAndGetUrl(baseDir: string, currentNotePath: string, rawTarget: string): string | null {
-  const target = rawTarget.split("|")[0].trim()
+  const target = decodeURIComponent(rawTarget.split("|")[0].trim())
   if (!target || /^(https?:)?\/\//i.test(target)) return target || null
 
   const currentMdPath = join(baseDir, `${currentNotePath}.md`)
@@ -513,6 +513,24 @@ export function renderPostHtml(post: Post, allPosts: Post[]): string {
       return `[${pathName(target)}](${toDirectoryUrl(foundDir.path)})`
     }
     return target
+  })
+
+  // Standard Markdown image syntax: ![alt](path/to/file.png)
+  markdown = markdown.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_match, alt: string, rawTarget: string) => {
+    const target = String(rawTarget).trim()
+    if (!target) return _match
+
+    // Keep remote or absolute links unchanged.
+    if (/^(https?:)?\/\//i.test(target) || target.startsWith("/")) {
+      return `![${alt}](${target})`
+    }
+
+    const assetUrl = copyVaultAssetAndGetUrl(baseDir, post.notePath, target)
+    if (assetUrl) {
+      return `![${alt}](${assetUrl})`
+    }
+
+    return _match
   })
 
   // Obsidian wikilink syntax: [[path|label]]
