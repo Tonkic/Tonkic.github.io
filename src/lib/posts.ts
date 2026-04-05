@@ -2,6 +2,14 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync } from "
 import { dirname, extname, join, normalize, relative } from "node:path"
 import matter from "gray-matter"
 import { marked } from "marked"
+import markedKatex from "marked-katex-extension"
+
+marked.use(
+  markedKatex({
+    throwOnError: false,
+    output: "html",
+  }),
+)
 
 export type Post = {
   slug: string
