@@ -8,13 +8,20 @@ local/
 # Ignore the Gemfile that is generated
 Gemfile.lock
 
-# Ignore files created by npm
-node_modules
-package-lock.json
+# Ignore dependency folders created by npm
+node_modules/
 
-# Ignore the vendor file at root level and bundle for alternative installation
+# Ignore vendor/bundle and alternative installation outputs
 /vendor/
 .bundle/
 
 # Ignore folders related to IDEs
 .vscode/
+
+# Ignore frontend build outputs
+dist/
+.astro/
+.next/
+out/
+tsconfig.tsbuildinfo
+*.log
