@@ -1,9 +1,10 @@
 ---
 name: Feature request
-about: Suggest an idea or improvement for Quartz
-title: ""
-labels: enhancement
-assignees: ""
+about: Suggest an idea for this project
+title: ''
+labels: ''
+assignees: ''
+
 ---
 
 **Is your feature request related to a problem? Please describe.**

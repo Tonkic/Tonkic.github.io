@@ -1,0 +1,42 @@
+name: Sync Obsidian Blog
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "20 20 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout site
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync Obsidian vault into Blog data
+        run: npm run sync:blog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate site
+        run: |
+          npm run check
+          npm run build
+
+      - name: Commit synced Blog data
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: sync obsidian blog"
+          file_pattern: src/data/obsidian-blog.ts

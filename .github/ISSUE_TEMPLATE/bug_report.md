@@ -1,17 +1,16 @@
 ---
 name: Bug report
-about: Something about Quartz isn't working the way you expect
-title: ""
-labels: bug
-assignees: ""
+about: Create a report to help us improve
+title: ''
+labels: ''
+
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+A clear and concise description of what the bug is, be sure to note if the issue is presenet in the *template* or appeared on *your site*. If the bug appears on your site, please be sure to provide a link to your repository.
 
 **To Reproduce**
 Steps to reproduce the behavior:
-
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
@@ -20,21 +19,14 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Screenshots and Source**
+**Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-You can help speed up fixing the problem by either
-
-1. providing a simple reproduction
-2. linking to your Quartz repository where the problem can be observed
-
-**Desktop (please complete the following information):**
-
-- Quartz Version: [e.g. v4.1.2]
-- `node` Version: [e.g. v18.16]
-- `npm` version: [e.g. v10.1.0]
-- OS: [e.g. iOS]
-- Browser [e.g. chrome, safari]
+**Browser (please complete the following information):**
+ - Device: [e.g. iPhone6] (if applicable)
+ - OS: [e.g. iOS]
+ - Browser [e.g. chrome, safari]
+ - Version [e.g. 22]
 
 **Additional context**
 Add any other context about the problem here.
