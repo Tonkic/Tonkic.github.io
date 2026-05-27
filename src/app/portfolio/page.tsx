@@ -21,8 +21,8 @@ export default function PortfolioPage() {
         </div>
         <div className="portfolio-grid">
           {portfolioEntries.map((entry) => (
-            <article className="route-card" key={entry.slug}>
-              <Link href={entry.href}>
+            <article className="portfolio-card" key={entry.slug}>
+              <Link className="portfolio-card-main" href={entry.href}>
                 <span className="card-eyebrow">{entry.type}</span>
                 <h3>{entry.title}</h3>
                 <p>{entry.summary}</p>
