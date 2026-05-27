@@ -11,10 +11,10 @@ export default function TalksPage() {
   return (
     <div className="page-stack">
       <PageHero eyebrow="Academic / Talks" title="Talks" outline="sharing">
-        Talks 是学术内容的子内容，后续可以放报告、分享或学术交流记录。
+        报告、分享和学术交流记录会放在这里。
       </PageHero>
       <Reveal className="glass-panel">
-        <EntryList entries={talkEntries} />
+        <EntryList entries={talkEntries} emptyMessage="还没有公开的 talk。" />
       </Reveal>
     </div>
   );

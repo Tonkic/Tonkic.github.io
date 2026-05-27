@@ -97,7 +97,7 @@ export function ApiRelayDashboard() {
             <span>中转</span>
           </h1>
           <p className="hero-copy">
-            这是对外售卖的模型 API 中转入口。本站不保存 API Key；模型调用、充值和 token 管理都在中转站完成。
+            模型 API 中转站入口。进入中转站后可以登录、充值、创建 token，并按 OpenAI 兼容格式调用模型。
           </p>
           <div className="hero-actions">
             <a className="button primary" href={siteProfile.publicRelayUrl} target="_blank" rel="noreferrer">
@@ -116,17 +116,17 @@ export function ApiRelayDashboard() {
           transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
           <p className="eyebrow">Public Snapshot</p>
-          <p className="status-dot online">中转站：公开入口可访问</p>
+          <p className="status-dot online">中转站：可访问</p>
           <p>服务地址：{relayInfo.baseUrl}</p>
-          <p>公开数据：来自 New API /api/status 与 /api/pricing 的最近快照</p>
-          <p>说明：当前 GET 响应未返回 CORS 头，静态站不能在浏览器中直接读取接口。</p>
+          <p>接口格式：OpenAI compatible</p>
+          <p>价格单位：USD</p>
         </motion.aside>
       </section>
 
       <section className="stats-grid">
         <StatCard label="系统名" value={relayInfo.systemName} meta="New API" />
-        <StatCard label="版本" value={relayInfo.version} meta="status.version" />
-        <StatCard label="公开模型" value={String(pricingModels.length)} meta="/api/pricing snapshot" />
+        <StatCard label="版本" value={relayInfo.version} meta="服务版本" />
+        <StatCard label="公开模型" value={String(pricingModels.length)} meta="当前展示" />
         <StatCard label="接口格式" value="OpenAI" meta={relayInfo.endpointPath} />
       </section>
 
@@ -134,7 +134,7 @@ export function ApiRelayDashboard() {
         <div>
           <p className="eyebrow">Gateway</p>
           <h2>对外售卖中转</h2>
-          <p>模型与价格使用公开信息快照展示。真正调用模型仍需要用户进入中转站登录并创建自己的 token。</p>
+          <p>这里保留入口和模型价格概览；实际调用、充值和 token 管理都在中转站完成。</p>
           <div className="inline-actions">
             <a className="button primary" href={siteProfile.publicRelayUrl} target="_blank" rel="noreferrer">
               进入中转站

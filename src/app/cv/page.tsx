@@ -11,7 +11,7 @@ export default function CvPage() {
   return (
     <div className="page-stack">
       <PageHero eyebrow="Career" title="CV" outline="profile">
-        CV 与学术内容分开。这里面向求职和工作场景，后续可以逐步补充教育经历、项目经历、技能栈与工作材料。
+        面向求职和工作场景，集中放教育背景、技能、项目经历与联系方式。
       </PageHero>
       <Reveal className="glass-panel split-panel">
         <div>

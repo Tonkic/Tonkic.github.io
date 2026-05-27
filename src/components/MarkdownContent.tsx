@@ -189,8 +189,7 @@ const parseBlocks = (content: string): Block[] => {
   let index = 0;
 
   while (index < lines.length) {
-    const line = lines[index];
-    const trimmed = line.trim();
+    const trimmed = lines[index].trim();
 
     if (!trimmed) {
       index += 1;
@@ -286,9 +285,10 @@ const parseBlocks = (content: string): Block[] => {
     const paragraph: string[] = [trimmed];
     index += 1;
     while (index < lines.length && lines[index].trim() && !/^(#{1,6})\s+/.test(lines[index].trim())) {
-      if (lines[index].trim().startsWith("```") || lines[index].trim().startsWith("$$") || /^[-*]\s+/.test(lines[index].trim()) || /^\d+[.)]\s+/.test(lines[index].trim())) break;
-      if (lines[index].trim().includes("|") && index + 1 < lines.length && isTableDivider(lines[index + 1])) break;
-      paragraph.push(lines[index].trim());
+      const next = lines[index].trim();
+      if (next.startsWith("```") || next.startsWith("$$") || /^[-*]\s+/.test(next) || /^\d+[.)]\s+/.test(next)) break;
+      if (next.includes("|") && index + 1 < lines.length && isTableDivider(lines[index + 1])) break;
+      paragraph.push(next);
       index += 1;
     }
     blocks.push({ type: "paragraph", content: paragraph.join(" ") });

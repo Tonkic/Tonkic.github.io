@@ -11,10 +11,13 @@ export default function PublicationsPage() {
   return (
     <div className="page-stack">
       <PageHero eyebrow="Academic / Publications" title="Publications" outline="papers">
-        这里保留真实 publication 的结构，不使用模板论文填充。
+        论文、预印本和正式发表内容会放在这里。
       </PageHero>
       <Reveal className="glass-panel">
-        <EntryList entries={publicationEntries} />
+        <EntryList
+          entries={publicationEntries}
+          emptyMessage="还没有公开的 publication。"
+        />
       </Reveal>
     </div>
   );

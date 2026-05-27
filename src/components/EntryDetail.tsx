@@ -20,7 +20,7 @@ export function EntryDetail({
       <Reveal className="glass-panel">
         <p className="eyebrow">{entry.type}</p>
         <h1>{entry.title}</h1>
-        <p className="entry-meta">{entry.date ?? "日期待补充"}</p>
+        <p className="entry-meta">{entry.date ?? "未注明日期"}</p>
         <p>{entry.summary}</p>
         {entry.tags ? (
           <div className="tag-row">

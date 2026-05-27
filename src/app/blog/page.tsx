@@ -11,7 +11,8 @@ export default function BlogPage() {
   return (
     <div className="page-stack">
       <PageHero eyebrow="Writing" title="Blog" outline="notes">
-        技术类、知识类、学习类内容会优先放在这里。内容会从 Obsidian vault 每日同步，作为这个站的长期知识库入口。
+        技术类、知识类和学习类内容会优先放在这里。内容来自 Obsidian vault 的每日同步，
+        作为这个站的长期知识库入口。
       </PageHero>
       <Reveal className="glass-panel">
         <BlogKnowledgeExplorer entries={blogPreviewEntries} linkMap={blogLinkMap} pageTree={blogPageTree} />

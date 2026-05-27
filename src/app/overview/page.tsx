@@ -16,7 +16,7 @@ export default function OverviewPage() {
           <span>总览</span>
         </h1>
         <p className="hero-copy">
-          这是给第一次访问的陌生访客准备的导航页。它回答两个问题：我是谁，这个站里有什么。
+          如果你刚来到这里，可以从 Blog 和模型 API 中转开始；项目、CV 和学术内容放在第二层。
         </p>
       </Reveal>
 

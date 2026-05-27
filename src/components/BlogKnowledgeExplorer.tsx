@@ -16,9 +16,7 @@ const normalizeUrl = (url?: string) => {
 };
 
 const getNodeText = (value: PageTree.Node["name"]) =>
-  typeof value === "string" || typeof value === "number"
-    ? String(value).replace(/_$/, "")
-    : "未命名";
+  typeof value === "string" || typeof value === "number" ? String(value).replace(/_$/, "") : "未命名";
 
 const countPages = (nodes: TreeNode[]): number =>
   nodes.reduce((total, node) => {
@@ -120,14 +118,8 @@ export function BlogKnowledgeExplorer({
   linkMap?: Record<string, string>;
   pageTree: PageTree.Root;
 }) {
-  const entriesByHref = useMemo(
-    () => new Map(entries.map((entry) => [normalizeUrl(entry.href), entry])),
-    [entries],
-  );
-  const entriesBySlug = useMemo(
-    () => new Map(entries.map((entry) => [entry.slug, entry])),
-    [entries],
-  );
+  const entriesByHref = useMemo(() => new Map(entries.map((entry) => [normalizeUrl(entry.href), entry])), [entries]);
+  const entriesBySlug = useMemo(() => new Map(entries.map((entry) => [entry.slug, entry])), [entries]);
   const firstEntry = entries[0];
   const [activeSlug, setActiveSlug] = useState(firstEntry?.slug ?? "");
   const activeEntry = entriesBySlug.get(activeSlug) ?? firstEntry;

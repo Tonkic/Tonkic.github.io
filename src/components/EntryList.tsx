@@ -1,7 +1,17 @@
 import Link from "next/link";
 import type { ContentEntry } from "@/data/site";
 
-export function EntryList({ entries }: { entries: ContentEntry[] }) {
+export function EntryList({
+  entries,
+  emptyMessage = "暂时没有可展示的条目。",
+}: {
+  entries: ContentEntry[];
+  emptyMessage?: string;
+}) {
+  if (!entries.length) {
+    return <p className="empty-state">{emptyMessage}</p>;
+  }
+
   return (
     <div className="entry-list">
       {entries.map((entry) => (

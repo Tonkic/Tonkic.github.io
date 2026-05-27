@@ -14,8 +14,8 @@ export default function HomePage() {
             <span>builds</span>
           </h1>
           <p className="hero-copy">
-            我是 {siteProfile.realName}，目前关注人工智能、计算机视觉、计算机图形学、机器学习与
-            computational photography。这个站先帮第一次来的访客快速判断：我是谁，以及这里有什么。
+            我是 {siteProfile.name}，目前关注人工智能、计算机视觉、计算机图形学、机器学习与
+            computational photography。这里主要放 Blog、模型 API 中转，以及一些项目、简历和学术内容。
           </p>
           <div className="hero-actions">
             <Link className="button primary" href="/blog">
@@ -35,7 +35,7 @@ export default function HomePage() {
           <div className="orbit-ring" />
           <div className="orbit-copy">
             <span className="large-number">02</span>
-            <p>第一梯队内容是 Blog 和模型 API 中转；Portfolio、CV、学术内容作为第二梯队入口保留。</p>
+            <p>先看 Blog 和模型 API 中转；想了解项目、简历或学术内容，可以继续往下走。</p>
           </div>
         </Reveal>
       </section>
@@ -49,7 +49,7 @@ export default function HomePage() {
         <Reveal className="section-heading">
           <p className="eyebrow">First Tier</p>
           <h2>先看这里。</h2>
-          <p>站点入口不是平均分配注意力，而是先把最有用的两件事推到前台。</p>
+          <p>一个是长期更新的知识库，一个是模型 API 中转入口。</p>
         </Reveal>
         <div className="card-grid two-up">
           {firstTierCards.map((card, index) => (

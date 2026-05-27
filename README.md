@@ -2,12 +2,13 @@
 
 Tonkic 的个人网站，使用 Next.js + TypeScript 构建。
 
-站点重点：
+当前核心内容：
 
-- Blog：技术类、知识类、学习类文章入口。
-- Blog 内容源：每日同步 `Tonkic/tonkic-obsidian-vault` 中的 Markdown 笔记。
-- 模型 API 中转：展示对外售卖 New API 中转站入口、公开模型和美元价格快照。
-- Portfolio / CV / 学术内容：第二梯队信息入口。
+- Blog：技术、知识与学习类文章入口。
+- API Relay：对外公开的模型 API 中转展示页。
+- Portfolio / CV / Academic：第二层内容入口。
+
+Blog 内容通过 `scripts/sync-obsidian-blog.mjs` 从 `Tonkic/tonkic-obsidian-vault` 同步，生成 `src/data/obsidian-blog.ts`。
 
 ## Development
 
