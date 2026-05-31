@@ -36,7 +36,7 @@ Blog 页面不再按标签分类，而是使用 Fumadocs `loader()` 从 `sourceP
 
 Dashboard 只展示对外售卖中转：
 
-- 服务地址：`http://8.134.220.84:8020`
+- 服务地址：`http://8.134.127.63:3000`
 - 类型：New API 网关
 
 已确认能力：
@@ -51,7 +51,7 @@ Dashboard 是浏览器端 React client component，但当前不在浏览器中�
 
 因此当前页面使用最近公开信息快照展示模型与美元价格，并提供中转站和文档跳转。网站不保存、不输入、不展示任何 API Key。
 
-如果以后要恢复动态读取，需要在 `http://8.134.220.84:8020` 的实际 `GET /api/status` 和 `GET /api/pricing` 响应上加 CORS 头，例如：
+如果以后要恢复动态读取，需要在 `http://8.134.127.63:3000` 的实际 `GET /api/status` 和 `GET /api/pricing` 响应上加 CORS 头，例如：
 
 ```nginx
 add_header Access-Control-Allow-Origin * always;

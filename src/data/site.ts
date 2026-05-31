@@ -33,7 +33,7 @@ export const siteProfile = {
   affiliation: "School of Artificial Intelligence, SCNU",
   email: "Tonkic.Tim@gmail.com",
   github: "https://github.com/Tonkic",
-  publicRelayUrl: "http://8.134.220.84:8020/",
+  publicRelayUrl: "http://8.134.127.63:3000/",
 };
 
 export const navItems: NavItem[] = [

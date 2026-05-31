@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
 import { siteProfile } from "@/data/site";
 
 type PricingModel = {
@@ -13,7 +14,7 @@ type PricingModel = {
 };
 
 const relayInfo = {
-  baseUrl: "http://8.134.220.84:8020",
+  baseUrl: "http://8.134.127.63:3000",
   systemName: "New API",
   version: "v0.0.0",
   docsLink: "https://my.feishu.cn/wiki/PRSaw0rEFiKEcqkE0qScnwf2n6f?from=from_copylink",
@@ -21,6 +22,10 @@ const relayInfo = {
   endpointMethod: "POST",
   quotaDisplayType: "USD",
 };
+
+type RelayHealth =
+  | { label: string; tone: "checking" | "offline" | "online" }
+  | { label: string; reason: string; tone: "unknown" };
 
 const pricingModels: PricingModel[] = [
   {
@@ -82,6 +87,37 @@ const pricingModels: PricingModel[] = [
 ];
 
 export function ApiRelayDashboard() {
+  const relayOrigin = useMemo(() => relayInfo.baseUrl.replace(/\/$/, ""), []);
+  const [health, setHealth] = useState<RelayHealth>({ label: "中转站：检测中", tone: "checking" });
+
+  useEffect(() => {
+    if (window.location.protocol === "https:" && relayOrigin.startsWith("http://")) {
+      setHealth({
+        label: "中转站：需打开确认",
+        reason: "HTTPS 页面不能直接探测 HTTP 服务",
+        tone: "unknown",
+      });
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 5000);
+
+    fetch(`${relayOrigin}/`, {
+      cache: "no-store",
+      mode: "no-cors",
+      signal: controller.signal,
+    })
+      .then(() => setHealth({ label: "中转站：可访问", tone: "online" }))
+      .catch(() => setHealth({ label: "中转站：未连接", tone: "offline" }))
+      .finally(() => window.clearTimeout(timeout));
+
+    return () => {
+      controller.abort();
+      window.clearTimeout(timeout);
+    };
+  }, [relayOrigin]);
+
   return (
     <div className="dashboard-shell">
       <section className="dashboard-hero">
@@ -116,7 +152,8 @@ export function ApiRelayDashboard() {
           transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
           <p className="eyebrow">Public Snapshot</p>
-          <p className="status-dot online">中转站：可访问</p>
+          <p className={`status-dot ${health.tone}`}>{health.label}</p>
+          {"reason" in health ? <p>{health.reason}</p> : null}
           <p>服务地址：{relayInfo.baseUrl}</p>
           <p>接口格式：OpenAI compatible</p>
           <p>价格单位：USD</p>

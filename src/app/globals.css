@@ -770,6 +770,16 @@ p {
   box-shadow: 0 0 18px var(--green);
 }
 
+.status-dot.checking::before,
+.status-dot.unknown::before {
+  background: var(--amber);
+  box-shadow: 0 0 18px var(--amber);
+}
+
+.status-dot.unknown {
+  color: var(--amber);
+}
+
 .status-dot.offline::before,
 .model-status.unavailable {
   background: rgba(255, 141, 125, 0.14);
