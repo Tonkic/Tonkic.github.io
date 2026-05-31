@@ -55,7 +55,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "核方法",
     "date": "",
     "type": "Blog",
-    "summary": "目的 将线性不可分的东西映射到高维，使得其可分 例子 以著名的非线性可分异或问题为例： 原空间 $x=(x 1,x 2)$，映射到新的空间$z=(x 1,x 2,(x 1 x 2)^2)$ 高维空间中，很容易可以使用红色平面将其正确分类。",
+    "summary": "目的 将线性不可分的东西映射到高维，使得其可分 例子 以著名的非线性可分异或问题为例： 原空间 $x=(x_1,x_2)$，映射到新的空间$z=(x_1,x_2,(x_1 x_2)^2)$ 高维空间中，很容易可以使用红色平面将其正确分类。",
     "href": "/blog/10ce7af36f",
     "tags": [
       "计算机",
@@ -259,7 +259,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "Softmax",
     "date": "",
     "type": "Blog",
-    "summary": "通过Softmax函数就可以将多分类的输出值转换为范围在【0, 1】和为1的概率分布。 假设有一个数组V，$V i$表示V中的第i个元素，那么这个元素的softmax值为 $$\\sigma(i) = \\frac{e^{i}}{\\sum {j=1}^K e^{j}}$$ tansformer中的QV相乘求相似度的时候，需要做一个缩放防止出现极端情况，如图，分别...",
+    "summary": "通过Softmax函数就可以将多分类的输出值转换为范围在【0, 1】和为1的概率分布。 假设有一个数组V，$V_i$表示V中的第i个元素，那么这个元素的softmax值为 $$\\sigma(i) = \\frac{e^{i}}{\\sum_{j=1}^K e^{j}}$$ tansformer中的QV相乘求相似度的时候，需要做一个缩放防止出现极端情况，如图，分别...",
     "href": "/blog/91c41abc08-softmax",
     "tags": [
       "计算机",
@@ -293,7 +293,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "卷积层大小计算公式",
     "date": "",
     "type": "Blog",
-    "summary": "$$ H {\\text{out}} = \\left\\lfloor \\frac{H {\\text{in}} + 2P K}{S} + 1 \\right\\rfloor $$ 输入尺寸 Hin=32，卷积核 K=3，填充 P=1，步长 S=2 得到Hout = 16",
+    "summary": "$$ H_{\\text{out}} = \\left\\lfloor \\frac{H_{\\text{in}} + 2P K}{S} + 1 \\right\\rfloor $$ 输入尺寸 Hin=32，卷积核 K=3，填充 P=1，步长 S=2 得到Hout = 16",
     "href": "/blog/b42deb2ee5",
     "tags": [
       "计算机",
@@ -378,7 +378,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "先给出绝对位置编码(0,max_seq_len-1)",
     "date": "",
     "type": "Blog",
-    "summary": "Rotary Position Embedding 目前用的最多的方法 相对位置编码 内积运算不受相对旋转影响 高维向量旋转的实现： 切成二维的形状 每两个维度都将以某个$\\theta$角进行旋转 $$ f {\\{q,k\\}}(\\mathbf{x} m, m) = \\mathbf{R} {\\Theta,m}^d \\mathbf{W} {\\{q,k\\}} \\m...",
+    "summary": "Rotary Position Embedding 目前用的最多的方法 相对位置编码 内积运算不受相对旋转影响 高维向量旋转的实现： 切成二维的形状 每两个维度都将以某个$\\theta$角进行旋转 $$ f_{\\{q,k\\}}(\\mathbf{x}_m, m) = \\mathbf{R}_{\\Theta,m}^d \\mathbf{W}_{\\{q,k\\}} \\m...",
     "href": "/blog/64bcd4126a-rope",
     "tags": [
       "计算机",
@@ -582,7 +582,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "norm",
     "date": "",
     "type": "Blog",
-    "summary": "非正式地说，向量的 范数 是表示一个向量有多大。 这里考虑的 大小 （size）概念不涉及维度，而是分量的大小。其实就是将向量映射标量。",
+    "summary": "非正式地说，向量的_范数_是表示一个向量有多大。 这里考虑的_大小_（size）概念不涉及维度，而是分量的大小。其实就是将向量映射标量。",
     "href": "/blog/58345f4b2b-norm",
     "tags": [
       "计算机",
@@ -718,7 +718,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "dff",
     "date": "",
     "type": "Blog",
-    "summary": "always $d {ff} = 4 · d {model}$ or $d {ff} = 2.66 · d {model}$ 例外：T5 model使用64倍",
+    "summary": "always $d_{ff} = 4 · d_{model}$ or $d_{ff} = 2.66 · d_{model}$ 例外：T5 model使用64倍",
     "href": "/blog/b6ec97248b-dff",
     "tags": [
       "计算机",
@@ -735,7 +735,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "head dimension times the number of heads",
     "date": "",
     "type": "Blog",
-    "summary": "$d {\\text{head}}\\times num {\\text{heads}} = d {\\text{model}}$ 表示等号两边一般是1：1，但不是强制的 把向量切成 h 个小头并行算，每个头的维度是 d model/h，h 个头的总维度仍是 d model",
+    "summary": "$d_{\\text{head}}\\times num_{\\text{heads}} = d_{\\text{model}}$ 表示等号两边一般是1：1，但不是强制的 把向量切成 h 个小头并行算，每个头的维度是 d_model/h，h 个头的总维度仍是 d_model",
     "href": "/blog/418c3c6e21-head-dimension-times-the-number-of-heads",
     "tags": [
       "计算机",
@@ -1058,7 +1058,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "上置信界",
     "date": "",
     "type": "Blog",
-    "summary": "aliases: upper confidence bound 直观理解 核心哲学就是： “面对未知，先把它想得无限好，直到现实打脸为止。” 霍夫丁不等式 霍夫丁不等式给出一个估计：说明“估计值偏离真实值太多”的可能性有多小 $$ \\mathbb{P}\\left( \\bar{X} n \\mu \\geq u \\right) \\leq \\exp( 2n u^2)...",
+    "summary": "aliases: upper confidence bound 直观理解 核心哲学就是： “面对未知，先把它想得无限好，直到现实打脸为止。” 霍夫丁不等式 霍夫丁不等式给出一个估计：说明“估计值偏离真实值太多”的可能性有多小 $$ \\mathbb{P}\\left( \\bar{X}_n \\mu \\geq u \\right) \\leq \\exp( 2n u^2)...",
     "href": "/blog/ccff83f998",
     "tags": [
       "计算机",
@@ -1075,7 +1075,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "Actor-Critic",
     "date": "",
     "type": "Blog",
-    "summary": "用 Critic 网络估计的价值 替代了 REINFORCE 中的 完整轨迹回报 $G t$ 改进了 方法需要完整走完一整个轨迹的缺点，而是使用Critic网络的预测值来给出对未来的预期 $V(s {t+1})$ ，避免了某一次随机实验偏差过大的情况",
+    "summary": "用 Critic 网络估计的价值 替代了 REINFORCE 中的 完整轨迹回报 $G_t$ 改进了 方法需要完整走完一整个轨迹的缺点，而是使用Critic网络的预测值来给出对未来的预期 $V(s_{t+1})$ ，避免了某一次随机实验偏差过大的情况",
     "href": "/blog/267c343122-actor-critic",
     "tags": [
       "计算机",
@@ -1126,7 +1126,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "Dueling DQN",
     "date": "",
     "type": "Blog",
-    "summary": "改进算法 根据定义，状态价值 $V(s)$ 是动作价值 $Q(s, a)$ 在当前策略 $\\pi$ 下的期望（Expectation）： $$V(s) = \\mathbb{E} {a \\sim \\pi}[Q(s, a)]$$ Dueling DQN 的网络结构将 $Q$ 值拆分为两路输出：$V$ 和 $A$。 $$Q(s, a) = V(s) + A(s, ...",
+    "summary": "改进算法 根据定义，状态价值 $V(s)$ 是动作价值 $Q(s, a)$ 在当前策略 $\\pi$ 下的期望（Expectation）： $$V(s) = \\mathbb{E}_{a \\sim \\pi}[Q(s, a)]$$ Dueling DQN 的网络结构将 $Q$ 值拆分为两路输出：$V$ 和 $A$。 $$Q(s, a) = V(s) + A(s, ...",
     "href": "/blog/3100125d46-dueling-dqn",
     "tags": [
       "计算机",
@@ -1160,7 +1160,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "PPO",
     "date": "",
     "type": "Blog",
-    "summary": "aliases: Proximal Policy Optimization $r t(\\theta)$衡量 更新后的策略在当前状态下选择这个动作的概率，是旧策略的多少倍。是概率值的比 $$r t(\\theta) = \\frac{\\pi {new}(a t|s t)}{\\pi {old}(a t|s t)}$$ PPO的改进 当$r t(\\theta)$大于/...",
+    "summary": "aliases: Proximal Policy Optimization $r_t(\\theta)$衡量 更新后的策略在当前状态下选择这个动作的概率，是旧策略的多少倍。是概率值的比 $$r_t(\\theta) = \\frac{\\pi_{new}(a_t|s_t)}{\\pi_{old}(a_t|s_t)}$$ PPO的改进 当$r_t(\\theta)$大于/...",
     "href": "/blog/af229e3866-ppo",
     "tags": [
       "计算机",
@@ -1177,7 +1177,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "REINFORCE",
     "date": "",
     "type": "Blog",
-    "summary": "REINFORCE 算法 属于Policy based方法，需要完整走完一整个轨迹（trajectory） 优点 ：直接优化策略，能处理连续动作空间，理论推导简单。 缺点 ： 方差大 (High Variance) ：因为是蒙特卡洛采样，每一局游戏的随机性很大（运气好坏影响大），导致 $\\psi t$ 波动剧烈，训练不稳定。 效率低 ：必须等回合结束才能更新...",
+    "summary": "REINFORCE 算法 属于Policy based方法，需要完整走完一整个轨迹（trajectory） 优点 ：直接优化策略，能处理连续动作空间，理论推导简单。 缺点 ： 方差大 (High Variance) ：因为是蒙特卡洛采样，每一局游戏的随机性很大（运气好坏影响大），导致 $\\psi_t$ 波动剧烈，训练不稳定。 效率低 ：必须等回合结束才能更新...",
     "href": "/blog/3c3266a743-reinforce",
     "tags": [
       "计算机",
@@ -1211,7 +1211,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "ϵ-贪心算法",
     "date": "",
     "type": "Blog",
-    "summary": "ϵ 贪婪算法在完全贪婪算法的基础上添加了噪声，每次以概率 1 ϵ 选择以往经验中期望奖励估值最大的那根拉杆（利用），以概率 ϵ 随机选择一根拉杆（探索），公式如下： ϵ一般是一个很小的值 如果ϵ固定不变， 线性增长 在 ϵ 贪婪算法的具体实现中，我们可以令 ϵ 随时间衰减（$\\epsilon t = \\frac{1}{t}$），即探索的概率将会不断降低。但是...",
+    "summary": "ϵ 贪婪算法在完全贪婪算法的基础上添加了噪声，每次以概率 1 ϵ 选择以往经验中期望奖励估值最大的那根拉杆（利用），以概率 ϵ 随机选择一根拉杆（探索），公式如下： ϵ一般是一个很小的值 如果ϵ固定不变， 线性增长 在 ϵ 贪婪算法的具体实现中，我们可以令 ϵ 随时间衰减（$\\epsilon_t = \\frac{1}{t}$），即探索的概率将会不断降低。但是...",
     "href": "/blog/da0a0b9948",
     "tags": [
       "计算机",
@@ -1245,7 +1245,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "统计语言模型",
     "date": "",
     "type": "Blog",
-    "summary": "现在有一个词库V和句子语料库W V类似{“磁性”，“词性”，“的”} W类似{“判断单词的词性”，“磁铁的磁性很强”，“北京的词性是名词”} 如果我们现在要填空“这个单词的 ” 这里使用n=2的n元语言模型，只选取两个词 可以判断P(词性|的) = $\\frac{P(词性和的同时出现)}{P(的)}$ = $\\frac{2}{3}$ 可以判断P(磁性|的) ...",
+    "summary": "现在有一个词库V和句子语料库W V类似{“磁性”，“词性”，“的”} W类似{“判断单词的词性”，“磁铁的磁性很强”，“北京的词性是名词”} 如果我们现在要填空“这个单词的___” 这里使用n=2的n元语言模型，只选取两个词 可以判断P(词性|的) = $\\frac{P(词性和的同时出现)}{P(的)}$ = $\\frac{2}{3}$ 可以判断P(磁性|的...",
     "href": "/blog/e0e71982dc",
     "tags": [
       "计算机",
@@ -1500,7 +1500,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "Stable Diffusion",
     "date": "",
     "type": "Blog",
-    "summary": "重建分支（reconstruction branch）和条件分支（condition branch） $x$ (Input Image)，$\\mathcal{E}$ (Encoder 编码器/VAE)，$\\mathcal{D}$ (Decoder 解码器) Diffusion Process：不断加噪的过程，知道变成纯噪声$z T$ $\\tau \\theta...",
+    "summary": "重建分支（reconstruction branch）和条件分支（condition branch） $x$ (Input Image)，$\\mathcal{E}$ (Encoder 编码器/VAE)，$\\mathcal{D}$ (Decoder 解码器) Diffusion Process：不断加噪的过程，知道变成纯噪声$z_T$ $\\tau_\\theta...",
     "href": "/blog/9caeb1f8ef-stable-diffusion",
     "tags": [
       "计算机",
@@ -1602,7 +1602,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "MoNE",
     "date": "",
     "type": "Blog",
-    "summary": "总结 MoE选择专家后不一定需要激活全部参数，揭示了在专家内部存在着“第二层稀疏性” INTRODUCTION实验图解释 实验Figure1得出只激活一个专家内top0.6的参数，模型的性能几乎没有下降 实验Figure2得出这种稀疏性在模型不同深度的layer中普遍存在 Figure3表示传统MoE专家可以分解为神经元粒度FFN的加权求和 $$ E i(\\...",
+    "summary": "总结 MoE选择专家后不一定需要激活全部参数，揭示了在专家内部存在着“第二层稀疏性” INTRODUCTION实验图解释 实验Figure1得出只激活一个专家内top0.6的参数，模型的性能几乎没有下降 实验Figure2得出这种稀疏性在模型不同深度的layer中普遍存在 Figure3表示传统MoE专家可以分解为神经元粒度FFN的加权求和 $$ E_i(\\...",
     "href": "/blog/22bcb25f66-mone",
     "tags": [
       "计算机",
@@ -1670,7 +1670,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "DataLoader",
     "date": "",
     "type": "Blog",
-    "summary": "trainloader = DataLoader(trainset, batch size=32, shuffle=True, collate fn=collate func) 其中collate func需要自己编写，比如指明batch字典中\\[0\\]是text，\\[1\\]label",
+    "summary": "trainloader = DataLoader(trainset, batch_size=32, shuffle=True, collate_fn=collate_func) 其中collate_func需要自己编写，比如指明batch字典中\\[0\\]是text，\\[1\\]label",
     "href": "/blog/a986fedb39-dataloader",
     "tags": [
       "计算机",
@@ -1840,7 +1840,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "t-SNE",
     "date": "",
     "type": "Blog",
-    "summary": "SNE思想 点在高维空间邻近，降维后也应该临近 步骤 1. 计算各个点之间的距离使用概率，如果x0和x1离得近，x0就有高概率选着x1作为邻居，所有点的分布应该符合高斯分布（将高斯分布的x变量改为欧几里得距离$（x 0 x 1）^2$，同时这个分布的和为1（概率决定） 2. 使用KL散度给出两个分布之间的差距,我们将这个loss最小化就得到了高维距离和低维距...",
+    "summary": "SNE思想 点在高维空间邻近，降维后也应该临近 步骤 1. 计算各个点之间的距离使用概率，如果x0和x1离得近，x0就有高概率选着x1作为邻居，所有点的分布应该符合高斯分布（将高斯分布的x变量改为欧几里得距离$（x_0 x_1）^2$，同时这个分布的和为1（概率决定） 2. 使用KL散度给出两个分布之间的差距,我们将这个loss最小化就得到了高维距离和低维距...",
     "href": "/blog/b71f1ea43f-t-sne",
     "tags": [
       "计算机",
@@ -1925,7 +1925,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "MimicBrush",
     "date": "",
     "type": "Blog",
-    "summary": "从视频剪辑中随机选择两个帧，屏蔽一个帧的一些区域，并使用另一帧的信息学习恢复屏蔽的区域。 大量训练后，这个双U Net就可以学会zero shot图像编辑能力 attention层面的concat $$Attention = \\text{softmax}\\left(\\frac{Q {i}\\cdot \\text{cat}(K {i},K {r})^{T}}{\\...",
+    "summary": "从视频剪辑中随机选择两个帧，屏蔽一个帧的一些区域，并使用另一帧的信息学习恢复屏蔽的区域。 大量训练后，这个双U Net就可以学会zero shot图像编辑能力 attention层面的concat $$Attention = \\text{softmax}\\left(\\frac{Q_{i}\\cdot \\text{cat}(K_{i},K_{r})^{T}}{\\...",
     "href": "/blog/9de20f721d-mimicbrush",
     "tags": [
       "计算机",
@@ -2044,7 +2044,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "InitNO",
     "date": "",
     "type": "Blog",
-    "summary": "目标 优化diffusion模型的初始噪声 两个量化指标 1. 交叉注意力响应分数 (Cross attention response score, $\\mathcal{S} {CrossAttn}$) ： 计算中间特征（送入diffusion之后的第一步去噪之后的特征图） 与 输入文本提示词（Text Tokens）之间的相关性 1. 自注意力冲突分数 (...",
+    "summary": "目标 优化diffusion模型的初始噪声 两个量化指标 1. 交叉注意力响应分数 (Cross attention response score, $\\mathcal{S}_{CrossAttn}$) ： 计算中间特征（送入diffusion之后的第一步去噪之后的特征图） 与 输入文本提示词（Text Tokens）之间的相关性 1. 自注意力冲突分数 (...",
     "href": "/blog/ee3a81122a-initno",
     "tags": [
       "计算机",
@@ -2095,7 +2095,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "Prompt-to-Prompt Image Editing with Cross Attention Control",
     "date": "",
     "type": "Blog",
-    "summary": "运行步骤 在利用源提示词生成图像的扩散过程中，记录下每一个时间步 $t$ 产生的源交叉注意力图 $M t$ 同时运行目标提示词（修改后的文本）的扩散过程。设计了一个核心编辑函数 $Edit(M t, M t^ , t)$，将源图的空间注意力图强行覆盖或注入到新图像的生成过程中 。 重点：算法会强行把源图像的注意力图 $M t$ 注入（覆盖）到新图像的生成线路...",
+    "summary": "运行步骤 在利用源提示词生成图像的扩散过程中，记录下每一个时间步 $t$ 产生的源交叉注意力图 $M_t$ 同时运行目标提示词（修改后的文本）的扩散过程。设计了一个核心编辑函数 $Edit(M_t, M_t^ , t)$，将源图的空间注意力图强行覆盖或注入到新图像的生成过程中 。 重点：算法会强行把源图像的注意力图 $M_t$ 注入（覆盖）到新图像的生成线路...",
     "href": "/blog/79ebd5fc55-prompt-to-prompt-image-editing-with-cross-attention-control",
     "tags": [
       "计算机",
@@ -2129,7 +2129,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "RA-DIT",
     "date": "",
     "type": "Blog",
-    "summary": "RA DIT 并没有把 LLM 和检索器（Retriever）混在一起训练，而是将它们解耦成左右两个独立的微调步骤 左侧：检索器的微调 LLM 充当了监督者，利用 LLM 计算出的LSR 分数 ($p {LSR}$)： LSR分数：如果某个文档片段 $c$ 能让 LLM 答对问题 $y$ 的概率变高，那么它就是一个好文档，分数就高 右侧：LLM 的微调 1....",
+    "summary": "RA DIT 并没有把 LLM 和检索器（Retriever）混在一起训练，而是将它们解耦成左右两个独立的微调步骤 左侧：检索器的微调 LLM 充当了监督者，利用 LLM 计算出的LSR 分数 ($p_{LSR}$)： LSR分数：如果某个文档片段 $c$ 能让 LLM 答对问题 $y$ 的概率变高，那么它就是一个好文档，分数就高 右侧：LLM 的微调 1....",
     "href": "/blog/1b74f07594-ra-dit",
     "tags": [
       "计算机",
@@ -2248,7 +2248,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "Latent Reasoning in LLMs as a Vocabulary-Space Superposition",
     "date": "",
     "type": "Blog",
-    "summary": "动机 训练一个模型，使用latent space的token开完成CoT的过程 符号 1. 文本与序列相关符号 $Q$ ：输入的 问题（Question） 。 $T$ ：完整的 显式推理序列（Explicit Reasoning Sequence） ，即思维链（CoT） $S i$ ：显式推理的 子片段（Subsegments） 3。论文通过一个分割函数 $...",
+    "summary": "动机 训练一个模型，使用latent space的token开完成CoT的过程 符号 1. 文本与序列相关符号 $Q$ ：输入的 问题（Question） 。 $T$ ：完整的 显式推理序列（Explicit Reasoning Sequence） ，即思维链（CoT） $S_i$ ：显式推理的 子片段（Subsegments） 3。论文通过一个分割函数 $...",
     "href": "/blog/261c08083a-latent-reasoning-in-llms-as-a-vocabulary-space-superposition",
     "tags": [
       "计算机",
@@ -2707,7 +2707,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "论文",
     "date": "",
     "type": "Blog",
-    "summary": "论文 Towards Total Recall in Industrial Anomaly Detection 定义 $𝒳 N$表示所有正常的图像的集合，其中$y x$都为0 ImageNet：一个大型图像数据集 Patch Size：也称为补丁大小，是指在训练神经网络时，将输入图像划分为的小块尺寸。在计算机视觉任务中，图像通常被分割成多个小块，每个小块独...",
+    "summary": "论文 Towards Total Recall in Industrial Anomaly Detection 定义 $𝒳_N$表示所有正常的图像的集合，其中$y_x$都为0 ImageNet：一个大型图像数据集 Patch Size：也称为补丁大小，是指在训练神经网络时，将输入图像划分为的小块尺寸。在计算机视觉任务中，图像通常被分割成多个小块，每个小块独...",
     "href": "/blog/b6a766ad2b-patchcore",
     "tags": [
       "计算机",
@@ -2792,7 +2792,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "SAPO",
     "date": "",
     "type": "Blog",
-    "summary": "$\\theta$ (Theta): The parameters of the autoregressive language model. $\\pi \\theta$ (Pi): The stochastic policy representing the model over token sequences. $\\mathcal{D}$ & $q$: $\\...",
+    "summary": "$\\theta$ (Theta): The parameters of the autoregressive language model. $\\pi_\\theta$ (Pi): The stochastic policy representing the model over token sequences. $\\mathcal{D}$ & $q$: $\\...",
     "href": "/blog/2d22873fdb-sapo",
     "tags": [
       "计算机",
@@ -3304,65 +3304,68 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%AE%97%E6%B3%95/java%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%86%99%E6%B3%95.md"
   },
   {
-    "slug": "c63e35ec4d-immortalwrt",
+    "slug": "65a1efaa41",
+    "title": "路由器闪回",
+    "date": "",
+    "type": "Blog",
+    "summary": "打开http://10.0.1.1/config admin firmware.html 看到页面按esc 选择openwrt 24.10.0 mediatek mt7622 linksys_e8450 ubi initramfs recovery installer.itb",
+    "href": "/blog/65a1efaa41",
+    "tags": [
+      "计算机",
+      "网络",
+      "路由器"
+    ],
+    "content": "打开http://10.0.1.1/config-admin-firmware.html\n看到页面按esc\n选择openwrt-24.10.0-mediatek-mt7622-linksys_e8450-ubi-initramfs-recovery-installer.itb",
+    "sourcePath": "计算机/网络/路由器/路由器闪回.md",
+    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%BD%91%E7%BB%9C/%E8%B7%AF%E7%94%B1%E5%99%A8/%E8%B7%AF%E7%94%B1%E5%99%A8%E9%97%AA%E5%9B%9E.md"
+  },
+  {
+    "slug": "149632736c-immortalwrt",
     "title": "软路由immortalWRT",
     "date": "",
     "type": "Blog",
     "summary": "使用immortalWRT有丰富的插件社区和中国大陆CDN支持 [https://github.com/immortalwrt/immortalwrt]",
-    "href": "/blog/c63e35ec4d-immortalwrt",
-    "tags": [
-      "计算机",
-      "网络"
-    ],
-    "content": "使用immortalWRT有丰富的插件社区和中国大陆CDN支持\n[https://github.com/immortalwrt/immortalwrt]",
-    "sourcePath": "计算机/网络/软路由immortalWRT.md",
-    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%BD%91%E7%BB%9C/%E8%BD%AF%E8%B7%AF%E7%94%B1immortalWRT.md"
-  },
-  {
-    "slug": "6fcce3d660",
-    "title": "路由器闪回",
-    "date": "",
-    "type": "Blog",
-    "summary": "打开http://10.0.1.1/config admin firmware.html 看到页面按esc 选择openwrt 24.10.0 mediatek mt7622 linksys e8450 ubi initramfs recovery installer.itb",
-    "href": "/blog/6fcce3d660",
+    "href": "/blog/149632736c-immortalwrt",
     "tags": [
       "计算机",
       "网络",
-      "未命名"
+      "路由器"
     ],
-    "content": "打开http://10.0.1.1/config-admin-firmware.html\n看到页面按esc\n选择openwrt-24.10.0-mediatek-mt7622-linksys_e8450-ubi-initramfs-recovery-installer.itb",
-    "sourcePath": "计算机/网络/未命名/路由器闪回.md",
-    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%BD%91%E7%BB%9C/%E6%9C%AA%E5%91%BD%E5%90%8D/%E8%B7%AF%E7%94%B1%E5%99%A8%E9%97%AA%E5%9B%9E.md"
+    "content": "使用immortalWRT有丰富的插件社区和中国大陆CDN支持\n[https://github.com/immortalwrt/immortalwrt]",
+    "sourcePath": "计算机/网络/路由器/软路由immortalWRT.md",
+    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%BD%91%E7%BB%9C/%E8%B7%AF%E7%94%B1%E5%99%A8/%E8%BD%AF%E8%B7%AF%E7%94%B1immortalWRT.md"
   },
   {
-    "slug": "c6f597d0f0-duckdns",
-    "title": "--- 用户配置 ---",
-    "date": "",
-    "type": "Blog",
-    "summary": "Obsidian vault 同步笔记。",
-    "href": "/blog/c6f597d0f0-duckdns",
-    "tags": [
-      "计算机",
-      "网络"
-    ],
-    "content": "```bash\n#!/bin/bash\n\n# --- 用户配置 ---\nDOMAINS=\"tonkic\"\n\nTOKEN=\"d923ace2-3d5e-42d5-97a3-54d898a24f03\"\n\nINTERFACE=\"ppp0\"\n\n\n\nSCRIPT_DIR=$(dirname \"$(readlink -f \"$0\")\")\nLOG_FILE=\"${SCRIPT_DIR}/duck.log\"\n\nIP_ADDRESS=$(ip addr show ${INTERFACE} | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1)\n\n\nif [ -z \"${IP_ADDRESS}\" ]; then\n  echo \"$(date): ERROR - Could not find IP address on interface ${INTERFACE}.\" > \"${LOG_FILE}\"\n  exit 1\nfi\n\nURL=\"https://www.duckdns.org/update?domains=${DOMAINS}&token=${TOKEN}&ip=${IP_ADDRESS}\"\n\necho \"Attempting to update DuckDNS for domain(s) ${DOMAINS} with IP ${IP_ADDRESS} from interface ${INTERFACE}...\"\n\ncurl --noproxy '*' -sk -o \"${LOG_FILE}\" \"${URL}\"\n\necho \"\" >> \"${LOG_FILE}\"\n\nRESPONSE=$(cat \"${LOG_FILE}\" | tr -d '\\n')\n\nif [ \"${RESPONSE}\" = \"OK\" ]; then\n  echo \"Update successful! IP set to ${IP_ADDRESS}. Response: OK\"\nelse\n  echo \"Update failed! Check log for details. Response: ${RESPONSE}\"\nfi\n\n```",
-    "sourcePath": "计算机/网络/duckdns.md",
-    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%BD%91%E7%BB%9C/duckdns.md"
-  },
-  {
-    "slug": "5a5207bc48-padavan-hysteria2",
+    "slug": "0307289740-padavan-hysteria2",
     "title": "Padavan+hysteria2",
     "date": "",
     "type": "Blog",
     "summary": "https://github.com/apernet/hysteria/releases 下载hysteria linux mipsle 前台运行 /opt/bin/hysteria client config /etc/storage/hy2.yaml 检查 检查进程 ps | grep hysteria 检查端口 netstat tuln | grep ...",
-    "href": "/blog/5a5207bc48-padavan-hysteria2",
+    "href": "/blog/0307289740-padavan-hysteria2",
     "tags": [
       "计算机",
-      "网络"
+      "网络",
+      "路由器"
     ],
     "content": "https://github.com/apernet/hysteria/releases\n下载hysteria-linux-mipsle\n```shell\nchmod +x /opt/bin/hysteria\nsh /etc/storage/hy2_tproxy.sh\n```\n### 前台运行\n/opt/bin/hysteria client --config /etc/storage/hy2.yaml\n\n### 检查\n检查进程\nps | grep hysteria\n检查端口 \nnetstat -tuln | grep 1090\n\n- **jsDelivr (Fastly):** `https://fastly.jsdelivr.net/gh/hiboyhiboy/opt-file@master/Advanced_Extensions_hysteriaasp`\n放到/opt/app/hysteria/\n下载下来的文件加个点Advanced_Extensions_hysteria.asp\n\n\n/opt/app/hysteria/config.json\n```json\n{\n  \"server\": \"104.248.221.171:62993\",\n  \"auth\": \"c38194f3\",\n  \"tls\": {\n    \"sni\": \"www.bing.com\",\n    \"insecure\": true\n  },\n  \"bandwidth\": {\n    \"up\": \"100 mbps\",\n    \"down\": \"100 mbps\"\n  },\n  \"socks5\": {\n    \"listen\": \"0.0.0.0:1080\",\n    \"disableUDP\": false\n  }\n}\n```",
-    "sourcePath": "计算机/网络/Padavan+hysteria2.md",
-    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%BD%91%E7%BB%9C/Padavan%2Bhysteria2.md"
+    "sourcePath": "计算机/网络/路由器/Padavan+hysteria2.md",
+    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%BD%91%E7%BB%9C/%E8%B7%AF%E7%94%B1%E5%99%A8/Padavan%2Bhysteria2.md"
+  },
+  {
+    "slug": "ca3e3f784b-duckdns",
+    "title": "--- 用户配置 ---",
+    "date": "",
+    "type": "Blog",
+    "summary": "Obsidian vault 同步笔记。",
+    "href": "/blog/ca3e3f784b-duckdns",
+    "tags": [
+      "计算机",
+      "网络",
+      "ddns"
+    ],
+    "content": "```bash\n#!/bin/bash\n\n# --- 用户配置 ---\nDOMAINS=\"tonkic\"\n\nTOKEN=\"d923ace2-3d5e-42d5-97a3-54d898a24f03\"\n\nINTERFACE=\"ppp0\"\n\n\n\nSCRIPT_DIR=$(dirname \"$(readlink -f \"$0\")\")\nLOG_FILE=\"${SCRIPT_DIR}/duck.log\"\n\nIP_ADDRESS=$(ip addr show ${INTERFACE} | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1)\n\n\nif [ -z \"${IP_ADDRESS}\" ]; then\n  echo \"$(date): ERROR - Could not find IP address on interface ${INTERFACE}.\" > \"${LOG_FILE}\"\n  exit 1\nfi\n\nURL=\"https://www.duckdns.org/update?domains=${DOMAINS}&token=${TOKEN}&ip=${IP_ADDRESS}\"\n\necho \"Attempting to update DuckDNS for domain(s) ${DOMAINS} with IP ${IP_ADDRESS} from interface ${INTERFACE}...\"\n\ncurl --noproxy '*' -sk -o \"${LOG_FILE}\" \"${URL}\"\n\necho \"\" >> \"${LOG_FILE}\"\n\nRESPONSE=$(cat \"${LOG_FILE}\" | tr -d '\\n')\n\nif [ \"${RESPONSE}\" = \"OK\" ]; then\n  echo \"Update successful! IP set to ${IP_ADDRESS}. Response: OK\"\nelse\n  echo \"Update failed! Check log for details. Response: ${RESPONSE}\"\nfi\n\n```",
+    "sourcePath": "计算机/网络/ddns/duckdns.md",
+    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%BD%91%E7%BB%9C/ddns/duckdns.md"
   },
   {
     "slug": "cfe27637e2-sing-box",
@@ -3526,7 +3529,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "DeepSeek V4 模型价格",
     "date": "",
     "type": "Blog",
-    "summary": "DeepSeek V4 模型价格 https://api docs.deepseek.com/quick start/pricing 人民币 | 模型 | 缓存命中输入 | 缓存未命中输入 | 输出 | | | :| :| :| | deepseek v4 flash | ¥0.02 | ¥1.00 | ¥2.00 | | deepseek v4 pro 当...",
+    "summary": "DeepSeek V4 模型价格 https://api docs.deepseek.com/quick_start/pricing 人民币 | 模型 | 缓存命中输入 | 缓存未命中输入 | 输出 | | | :| :| :| | deepseek v4 flash | ¥0.02 | ¥1.00 | ¥2.00 | | deepseek v4 pro 当...",
     "href": "/blog/5fb937de85-deepseek-2026-5-25",
     "tags": [
       "计算机",
@@ -3560,7 +3563,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "MiniMax 按量计费价格",
     "date": "",
     "type": "Blog",
-    "summary": "MiniMax 按量计费价格 https://platform.minimaxi.com/docs/guides/pricing paygo 人民币 | 模型 | 输入 | 输出 | 缓存读取 | 缓存写入 | | | :| :| :| :| | MiniMax M2.7 | ¥2.10 | ¥8.40 | ¥0.42 | ¥2.625 | | MiniMa...",
+    "summary": "MiniMax 按量计费价格 https://platform.minimaxi.com/docs/guides/pricing paygo 人民币 | 模型 | 输入 | 输出 | 缓存读取 | 缓存写入 | | | : | : | : | : | | MiniMax M2.7 | ¥2.10 | ¥8.40 | ¥0.42 | ¥2.625 | | Mi...",
     "href": "/blog/7262757414-minimax-2026-5-25",
     "tags": [
       "计算机",
@@ -3568,7 +3571,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
       "newapi",
       "模型价格"
     ],
-    "content": "# MiniMax 按量计费价格\nhttps://platform.minimaxi.com/docs/guides/pricing-paygo\n## 人民币\n\n| 模型 | 输入 | 输出 | 缓存读取 | 缓存写入 |\n|---|---:|---:|---:|---:|\n| MiniMax-M2.7 | ¥2.10 | ¥8.40 | ¥0.42 | ¥2.625 |\n| MiniMax-M2.7-highspeed | ¥4.20 | ¥16.80 | ¥0.42 | ¥2.625 |\n| MiniMax-M2.5 | ¥2.10 | ¥8.40 | ¥0.21 | ¥2.625 |\n| MiniMax-M2.5-highspeed | ¥4.20 | ¥16.80 | ¥0.21 | ¥2.625 |\n\n## 美元\n\n| 模型 | 输入 | 输出 | 缓存读取 | 缓存写入 |\n|---|---:|---:|---:|---:|\n| MiniMax-M2.7 | $0.30 | $1.20 | $0.06 | $0.375 |\n| MiniMax-M2.7-highspeed | $0.60 | $2.40 | $0.06 | $0.375 |\n| MiniMax-M2.5 | $0.30 | $1.20 | $0.03 | $0.375 |\n| MiniMax-M2.5-highspeed | $0.60 | $2.40 | $0.03 | $0.375 |",
+    "content": "# MiniMax 按量计费价格\nhttps://platform.minimaxi.com/docs/guides/pricing-paygo\n## 人民币\n\n| 模型                     |    输入 |     输出 |  缓存读取 |   缓存写入 |\n| ---------------------- | ----: | -----: | ----: | -----: |\n| MiniMax-M2.7           | ¥2.10 |  ¥8.40 | ¥0.42 | ¥2.625 |\n| MiniMax-M2.7-highspeed | ¥4.20 | ¥16.80 | ¥0.42 | ¥2.625 |\n| MiniMax-M2.5           | ¥2.10 |  ¥8.40 | ¥0.21 | ¥2.625 |\n| MiniMax-M2.5-highspeed | ¥4.20 | ¥16.80 | ¥0.21 | ¥2.625 |\n\n## 美元\n\n| 模型 | 输入 | 输出 | 缓存读取 | 缓存写入 |\n|---|---:|---:|---:|---:|\n| MiniMax-M2.7 | $0.30 | $1.20 | $0.06 | $0.375 |\n| MiniMax-M2.7-highspeed | $0.60 | $2.40 | $0.06 | $0.375 |\n| MiniMax-M2.5 | $0.30 | $1.20 | $0.03 | $0.375 |\n| MiniMax-M2.5-highspeed | $0.60 | $2.40 | $0.03 | $0.375 |",
     "sourcePath": "计算机/ai编程工具/newapi/模型价格/MiniMax(2026.5.25).md",
     "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/newapi/%E6%A8%A1%E5%9E%8B%E4%BB%B7%E6%A0%BC/MiniMax(2026.5.25).md"
   },
@@ -3792,13 +3795,13 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "闭包",
     "date": "",
     "type": "Blog",
-    "summary": "函数里面嵌套函数 满足3条件： 1. 存在函数的嵌套关系 2. 内层函数引用了外层函数的变量 3. 外层函数返回内层函数的地址值",
+    "summary": "定义 闭包（Closure）是指一个“内部函数”不仅能干自己的活，还能记住并访问它“外部函数”里的变量，即使那个外部函数已经执行结束了。 要求 函数里面嵌套函数 满足3条件： 1. 存在函数的嵌套关系 2. 内层函数引用了外层函数的变量 3. 外层函数返回内层函数的地址值 例子",
     "href": "/blog/64f84ba77e",
     "tags": [
       "计算机",
       "python"
     ],
-    "content": "函数里面嵌套函数\n\n满足3条件：\n1. 存在函数的嵌套关系\n2. 内层函数引用了外层函数的变量\n3. 外层函数返回内层函数的地址值",
+    "content": "### 定义\n闭包（Closure）是指一个“内部函数”不仅能干自己的活，还能记住并访问它“外部函数”里的变量，即使那个外部函数已经执行结束了。\n\n### 要求\n函数里面嵌套函数\n满足3条件：\n1. 存在函数的嵌套关系\n2. 内层函数引用了外层函数的变量\n3. 外层函数返回内层函数的地址值\n\n### 例子\n```python\ndef counter_outer(start):  # 外层函数\n    count = start          # 外层函数的局部变量\n\n    def inner():           # 条件1：存在函数的嵌套关系\n        nonlocal count\n        count += 1         # 条件2：内层函数引用了外层函数的变量\n        return count\n\n    return inner           # 条件3：外层函数返回内层函数的“地址值”（也就是函数名/对象）\n```",
     "sourcePath": "计算机/python/闭包.md",
     "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/python/%E9%97%AD%E5%8C%85.md"
   },
@@ -3807,7 +3810,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "导入",
     "date": "",
     "type": "Blog",
-    "summary": "当导入一个模块时，会执行这个模块 导入一个包时，会执行包的 init .py",
+    "summary": "当导入一个模块时，会执行这个模块 导入一个包时，会执行包的__init__.py",
     "href": "/blog/93e377ec39",
     "tags": [
       "计算机",
@@ -3819,16 +3822,16 @@ export const obsidianBlogEntries: ContentEntry[] = [
   },
   {
     "slug": "3bf604c613",
-    "title": "装饰器",
+    "title": "直接调用，自动带上了计时功能",
     "date": "",
     "type": "Blog",
-    "summary": "添加装饰器，需要： 1. 存在 2. 存在需要被装饰的函数",
+    "summary": "目的 在不修改原函数的情况下添加新功能 例子 添加装饰器，需要： 1. 存在 2. 存在需要被装饰的函数",
     "href": "/blog/3bf604c613",
     "tags": [
       "计算机",
       "python"
     ],
-    "content": "添加装饰器，需要：\n1. 存在[闭包](闭包.md.md)\n2. 存在需要被装饰的函数",
+    "content": "### 目的\n在不修改原函数的情况下添加新功能\n\n### 例子\n```python\ndef timer(func):          # 1. 接收一个函数作为参数（原手机）\n    def wrapper():        # 2. 在内部定义一个外壳函数（手机壳）\n        start = time.time()\n        func()            # 3. 真正执行你的原函数（原手机核心功能）\n        end = time.time()\n        print(f\"耗时: {end - start:.4f} 秒\")\n    return wrapper        # 4. 把包装好的新函数丢出去（套好壳的手机）\n\n@timer  # 这一行等价于：download_file = timer(download_file)\ndef download_file():\n    print(\"正在下载大文件...\")\n    time.sleep(1.5)\n    print(\"下载完成！\")\n\n# 直接调用，自动带上了计时功能\ndownload_file()\n```\n\n添加装饰器，需要：\n1. 存在[闭包](闭包.md.md)\n2. 存在需要被装饰的函数",
     "sourcePath": "计算机/python/装饰器.md",
     "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/python/%E8%A3%85%E9%A5%B0%E5%99%A8.md"
   },
@@ -3987,7 +3990,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "基本概念",
     "date": "",
     "type": "Blog",
-    "summary": "基本概念 数据 数据元素、数据项 数据对象、数据结构 程序=数据结构+算法 tags: 数据结构 概念 相同数据结构，有次序，有限的数据结构 实现方式 顺序表 链表 应用 文件系统的FAT，inode表等 tags: 数据结构 栈 卡特兰数 n个不同元素进栈的排列个数 $$ C n = \\frac{1}{n+1} C^{n} {2n} = \\frac{(2n...",
+    "summary": "基本概念 数据 数据元素、数据项 数据对象、数据结构 程序=数据结构+算法 tags: 数据结构 概念 相同数据结构，有次序，有限的数据结构 实现方式 顺序表 链表 应用 文件系统的FAT，inode表等 tags: 数据结构 栈 卡特兰数 n个不同元素进栈的排列个数 $$ C_n = \\frac{1}{n+1} C^{n}_{2n} = \\frac{(2n...",
     "href": "/blog/6380ce9329",
     "tags": [
       "考研",
@@ -4077,7 +4080,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "等价无穷小",
     "date": "",
     "type": "Blog",
-    "summary": "$$ x \\sim \\tan(x) \\sim \\sin(x) \\sim \\arcsin(x) \\sim e^{x} 1 \\sim \\arctan(x) \\sim \\ln(1 + x) \\sim \\ln(x + \\sqrt{1 + x^2}) $$$$ (1 \\cos(x)) \\sim \\frac{1}{2}x^2$$$$\\log a(1 + x) \\sim ...",
+    "summary": "$$ x \\sim \\tan(x) \\sim \\sin(x) \\sim \\arcsin(x) \\sim e^{x} 1 \\sim \\arctan(x) \\sim \\ln(1 + x) \\sim \\ln(x + \\sqrt{1 + x^2}) $$$$ (1 \\cos(x)) \\sim \\frac{1}{2}x^2$$$$\\log_a(1 + x) \\sim ...",
     "href": "/blog/ad7ea982ca",
     "tags": [
       "考研",
@@ -4122,7 +4125,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "积分条件反射",
     "date": "",
     "type": "Blog",
-    "summary": "见到$\\sqrt{(x a)(b x)}$直接配方成$\\sqrt{(\\frac{b a}{2})^2 (x \\frac{a+b}{2})^2}$ 见到$\\int {0}^{n \\pi} f(x) dx$直接区间再现,然后与原式相加",
+    "summary": "见到$\\sqrt{(x a)(b x)}$直接配方成$\\sqrt{(\\frac{b a}{2})^2 (x \\frac{a+b}{2})^2}$ 见到$\\int_{0}^{n \\pi} f(x) dx$直接区间再现,然后与原式相加",
     "href": "/blog/e3bda4c750",
     "tags": [
       "考研",
@@ -4152,7 +4155,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "使用条件",
     "date": "",
     "type": "Blog",
-    "summary": "使用条件 1. $\\frac{0}{0}或者$$\\frac{\\infty}{\\infty}$ 2. $\\lim\\limits {x\\to x 0}$,函数在$x 0$去心领域可导,且分母导数不为0 3. 分子导数比分母导数的极限存在或者为无穷",
+    "summary": "使用条件 1. $\\frac{0}{0}或者$$\\frac{\\infty}{\\infty}$ 2. $\\lim\\limits_{x\\to x_0}$,函数在$x_0$去心领域可导,且分母导数不为0 3. 分子导数比分母导数的极限存在或者为无穷",
     "href": "/blog/7eab406030",
     "tags": [
       "考研",
@@ -4167,7 +4170,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "数列递推",
     "date": "",
     "type": "Blog",
-    "summary": "考虑递推关系： $$ a {n+2} p a {n+1} q a n = 0 $$ 令 $a {n+2} = x^2$ 和 $a {n+1} = x$，我们可以得到特征方程： $$ x^2 p x q = 0 $$ 求解该方程的特征根： $$ x = \\frac{p \\pm \\sqrt{p^2 + 4q^2}}{2} $$ 1. 有两个解 x1, x2: 则...",
+    "summary": "考虑递推关系： $$ a_{n+2} p a_{n+1} q a_n = 0 $$ 令 $a_{n+2} = x^2$ 和 $a_{n+1} = x$，我们可以得到特征方程： $$ x^2 p x q = 0 $$ 求解该方程的特征根： $$ x = \\frac{p \\pm \\sqrt{p^2 + 4q^2}}{2} $$ 1. 有两个解 x1, x2: 则...",
     "href": "/blog/8a0ed7e349",
     "tags": [
       "考研",
@@ -4182,7 +4185,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "泰勒展开",
     "date": "",
     "type": "Blog",
-    "summary": "1. ( e^x ) 的泰勒展开 $$ e^x = 1 + x + \\frac{x^2}{2!} + \\frac{x^3}{3!} + \\cdots + \\frac{x^n}{n!} + R n(x) $$ 2. ( \\sin(x) ) 的泰勒展开 $$ \\sin(x) = x \\frac{x^3}{3!} + \\frac{x^5}{5!} \\frac{x^...",
+    "summary": "1. ( e^x ) 的泰勒展开 $$ e^x = 1 + x + \\frac{x^2}{2!} + \\frac{x^3}{3!} + \\cdots + \\frac{x^n}{n!} + R_n(x) $$ 2. ( \\sin(x) ) 的泰勒展开 $$ \\sin(x) = x \\frac{x^3}{3!} + \\frac{x^5}{5!} \\frac{x^...",
     "href": "/blog/d3504f5a86",
     "tags": [
       "考研",
@@ -4197,7 +4200,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "考虑趋于0+时",
     "date": "",
     "type": "Blog",
-    "summary": "考虑趋于0+时 $$ \\lim {x \\to 0} x^a (\\ln x)^b $$ 只要a 0,b无论取什么极限都是0 考虑趋于$+\\infty$时 $$ \\lim {x \\to \\infty} x^a (\\ln x)^b $$ x趋于无穷的速度远大于lnx，所以看a，a 0则无穷a<0则0",
+    "summary": "考虑趋于0+时 $$ \\lim_{x \\to 0} x^a (\\ln x)^b $$ 只要a 0,b无论取什么极限都是0 考虑趋于$+\\infty$时 $$ \\lim_{x \\to \\infty} x^a (\\ln x)^b $$ x趋于无穷的速度远大于lnx，所以看a，a 0则无穷a<0则0",
     "href": "/blog/8ae18504c9-x-lnx",
     "tags": [
       "考研",
@@ -4482,7 +4485,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "栈",
     "date": "",
     "type": "Blog",
-    "summary": "栈 卡特兰数 n个不同元素进栈的排列个数 $$C n = \\frac{1}{n+1} C^n {2n} = \\frac{(2n)!}{(n+1)!n!}$$ 顺序结构 注：top= 1时栈空 链式结构 // 链表节点 队列 顺序结构 链式结构 栈与队列的应用 括号匹配 遇到左括号入栈，右括号出栈 中缀转后缀（使用栈） 1. 遇到数字直接输出 2. 遇到符号弹...",
+    "summary": "栈 卡特兰数 n个不同元素进栈的排列个数 $$C_n = \\frac{1}{n+1} C^n_{2n} = \\frac{(2n)!}{(n+1)!n!}$$ 顺序结构 注：top= 1时栈空 链式结构 // 链表节点 队列 顺序结构 链式结构 栈与队列的应用 括号匹配 遇到左括号入栈，右括号出栈 中缀转后缀（使用栈） 1. 遇到数字直接输出 2. 遇到符号弹...",
     "href": "/blog/05fdd5b57b",
     "tags": [
       "考研",
@@ -4721,7 +4724,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "KL散度",
     "date": "",
     "type": "Blog",
-    "summary": "aliases: Kullback Leibler Divergence 直观解释 抽象：两种概率分布之间的距离 KL散度描述了我们用分布Q来估计数据的真实分布P的编码损失 。 公式 对于离散随机变量，其概率分布$P$和$Q$的KL散度可按下式定义为 $$D {KL}(P \\mid\\mid Q) = \\sum {i} P(i) \\ln \\frac{Q(i)}...",
+    "summary": "aliases: Kullback Leibler Divergence 直观解释 抽象：两种概率分布之间的距离 KL散度描述了我们用分布Q来估计数据的真实分布P的编码损失 。 公式 对于离散随机变量，其概率分布$P$和$Q$的KL散度可按下式定义为 $$D_{KL}(P \\mid\\mid Q) = \\sum_{i} P(i) \\ln \\frac{Q(i)}...",
     "href": "/blog/bc2ccfb97d-kl",
     "tags": [
       "数学",
