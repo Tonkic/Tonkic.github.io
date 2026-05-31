@@ -37,6 +37,8 @@ const latexSymbols: Record<string, string> = {
   cdot: "·",
 };
 
+const latexSizingCommands = new Set(["big", "bigl", "bigr", "Big", "Bigl", "Bigr", "left", "right"]);
+
 const readLatexGroup = (value: string, start: number) => {
   if (value[start] === "{") {
     let depth = 1;
@@ -105,6 +107,10 @@ const renderLatex = (value: string): React.ReactNode[] => {
             </span>,
           );
           index = group.end;
+          continue;
+        }
+
+        if (latexSizingCommands.has(name)) {
           continue;
         }
 

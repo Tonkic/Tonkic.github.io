@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("../out", import.meta.url));
 const requiredRoutes = ["/", "/overview/", "/blog/", "/api-relay/", "/portfolio/", "/cv/", "/academic/"];
+const mathRegressionRoute = "/blog/9185bf3a6c-sigmoid/";
 const walkSteps = 48;
 
 const mimeTypes = new Map([
@@ -71,6 +72,11 @@ const internalLinks = (html) => {
   return [...new Set(links)];
 };
 
+const stylesheetLinks = (html) =>
+  [...html.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"/g)]
+    .map((match) => match[1])
+    .filter((href) => href.startsWith("/_next/static/css/"));
+
 const seededRandom = (seed = 20260601) => {
   let state = seed;
   return () => {
@@ -94,6 +100,20 @@ const run = async () => {
     for (const link of discoveredLinks) {
       await fetchPage(baseUrl, link);
     }
+
+    const sigmoidHtml = await fetchPage(baseUrl, mathRegressionRoute);
+    const renderedMathBlocks = [...sigmoidHtml.matchAll(/class="math-block-content"[\s\S]*?<\/figure>/g)]
+      .map((match) => match[0])
+      .join("\n");
+    assert.ok(renderedMathBlocks, "No rendered math blocks found on sigmoid page");
+    assert.ok(!renderedMathBlocks.includes("big("), "LaTeX sizing command rendered as visible text: big(");
+    assert.ok(!renderedMathBlocks.includes("big)"), "LaTeX sizing command rendered as visible text: big)");
+
+    const cssPaths = stylesheetLinks(sigmoidHtml);
+    assert.ok(cssPaths.length > 0, "No stylesheet found on sigmoid page");
+    const cssText = (await Promise.all(cssPaths.map((path) => fetchPage(baseUrl, path)))).join("\n");
+    assert.ok(!cssText.includes("vertical-align:-.42em"), "Math fractions still use negative vertical alignment");
+    assert.ok(!cssText.includes("vertical-align: -0.42em"), "Math fractions still use negative vertical alignment");
 
     const random = seededRandom();
     let current = "/";

@@ -929,14 +929,14 @@ p {
 }
 
 .math-inline {
-  display: inline-block;
-  border: 1px solid rgba(139, 232, 255, 0.22);
-  border-radius: 8px;
-  background: rgba(139, 232, 255, 0.08);
+  display: inline-flex;
+  align-items: center;
   color: var(--ink);
   font-family: "Times New Roman", "Cambria Math", serif;
-  line-height: 1.35;
-  padding: 0 0.28em;
+  line-height: 1;
+  padding: 0 0.08em;
+  vertical-align: middle;
+  white-space: nowrap;
 }
 
 .math-inline sub,
@@ -953,11 +953,15 @@ p {
 }
 
 .math-frac {
-  display: inline-grid;
-  grid-template-rows: auto auto;
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   margin: 0 0.14em;
+  line-height: 1.08;
   text-align: center;
-  vertical-align: -0.42em;
+  transform: translateY(-0.04em);
+  vertical-align: middle;
 }
 
 .math-frac > span:first-child {
@@ -1048,11 +1052,18 @@ p {
   color: var(--ink);
   font-family: "Times New Roman", "Cambria Math", serif;
   font-size: clamp(1.05rem, 2vw, 1.35rem);
-  line-height: 1.7;
+  line-height: 1.45;
   overflow-x: auto;
   padding: 30px 22px 24px;
   text-align: center;
   white-space: pre-wrap;
+}
+
+.math-block-content > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.4em;
 }
 
 .markdown-image {
