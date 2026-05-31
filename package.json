@@ -10,6 +10,7 @@
     "build": "next build",
     "lint": "next lint",
     "check": "tsc --noEmit",
+    "test:journey": "npm run build && node scripts/random-user-journey.mjs",
     "sync:blog": "node scripts/sync-obsidian-blog.mjs"
   },
   "dependencies": {
