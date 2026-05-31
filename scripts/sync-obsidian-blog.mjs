@@ -78,7 +78,7 @@ const cleanMarkdownForSummary = (content) =>
     .replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, "$2$1")
     .replace(/!\[[^\]]*\]\([^)]+\)/g, " ")
     .replace(/\[[^\]]+\]\(([^)]+)\)/g, " ")
-    .replace(/[#>*_`~-]/g, " ")
+    .replace(/[#>*`~-]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 

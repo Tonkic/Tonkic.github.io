@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("../out", import.meta.url));
 const requiredRoutes = ["/", "/overview/", "/blog/", "/api-relay/", "/portfolio/", "/cv/", "/academic/"];
 const mathRegressionRoute = "/blog/9185bf3a6c-sigmoid/";
+const attentionMaskRoute = "/blog/0d01619aaa-attention-mask/";
 const walkSteps = 48;
 
 const mimeTypes = new Map([
@@ -108,6 +109,14 @@ const run = async () => {
     assert.ok(renderedMathBlocks, "No rendered math blocks found on sigmoid page");
     assert.ok(!renderedMathBlocks.includes("big("), "LaTeX sizing command rendered as visible text: big(");
     assert.ok(!renderedMathBlocks.includes("big)"), "LaTeX sizing command rendered as visible text: big)");
+
+    const attentionHtml = await fetchPage(baseUrl, attentionMaskRoute);
+    const attentionMathBlocks = [...attentionHtml.matchAll(/class="math-block-content"[\s\S]*?<\/figure>/g)]
+      .map((match) => match[0])
+      .join("\n");
+    assert.ok(attentionMathBlocks, "No rendered math blocks found on attention mask page");
+    assert.ok(attentionMathBlocks.includes("math-sqrt"), "Square root formula did not render with math-sqrt");
+    assert.ok(!/>\s*sqrt\s*</.test(attentionMathBlocks), "Square root command rendered as visible text");
 
     const cssPaths = stylesheetLinks(sigmoidHtml);
     assert.ok(cssPaths.length > 0, "No stylesheet found on sigmoid page");

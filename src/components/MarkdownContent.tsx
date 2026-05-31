@@ -98,6 +98,18 @@ const renderLatex = (value: string): React.ReactNode[] => {
           continue;
         }
 
+        if (name === "sqrt" && value[index] === "{") {
+          flush();
+          const group = readLatexGroup(value, index);
+          nodes.push(
+            <span className="math-sqrt" key={`sqrt-${index}`}>
+              <span>{renderLatex(group.content)}</span>
+            </span>,
+          );
+          index = group.end;
+          continue;
+        }
+
         if ((name === "text" || name === "mathcal") && value[index] === "{") {
           flush();
           const group = readLatexGroup(value, index);

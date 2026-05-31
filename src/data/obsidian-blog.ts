@@ -310,7 +310,7 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "attention mask",
     "date": "",
     "type": "Blog",
-    "summary": "实现 $$\\text{Attention}(Q, K, V) = \\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d k}} + \\text{mask}\\right)V$$ 加一个mask矩阵，屏蔽的区域设置为 inf inf为0，代表其最终输出的logits为0",
+    "summary": "实现 $$\\text{Attention}(Q, K, V) = \\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}} + \\text{mask}\\right)V$$ 加一个mask矩阵，屏蔽的区域设置为 inf inf为0，代表其最终输出的logits为0",
     "href": "/blog/0d01619aaa-attention-mask",
     "tags": [
       "计算机",

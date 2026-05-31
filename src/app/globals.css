@@ -973,6 +973,27 @@ p {
   padding: 0.04em 0.18em 0;
 }
 
+.math-sqrt {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.04em;
+  vertical-align: middle;
+}
+
+.math-sqrt::before {
+  content: "√";
+  font-size: 1.12em;
+  line-height: 1;
+  transform: translateY(0.04em);
+}
+
+.math-sqrt > span {
+  display: inline-block;
+  border-top: 1px solid currentColor;
+  line-height: 1.08;
+  padding: 0.02em 0.12em 0;
+}
+
 .code-block {
   overflow: hidden;
   border: 1px solid var(--line);
