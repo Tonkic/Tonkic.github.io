@@ -31,7 +31,7 @@ export const siteProfile = {
   realName: "Zhang Tingyu",
   role: "Master's student in Artificial Intelligence",
   affiliation: "School of Artificial Intelligence, SCNU",
-  email: "Tonkic.Tim@gmail.com",
+  email: "tonkic@qq.com",
   github: "https://github.com/Tonkic",
   publicRelayUrl: "http://8.134.127.63:3000/",
 };
