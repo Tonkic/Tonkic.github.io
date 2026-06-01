@@ -52,20 +52,21 @@ export const resumeEducation: ResumeEducation[] = [
 
 export const resumeProjects: ResumeProject[] = [
   {
-    name: "基于 BERT 的文本轻相分类",
-    description: "机器学习项目",
+    name: "基于 BERT 的中文情感分类系统",
+    description: "NLP / 深度学习项目",
     bullets: [
-      "使用 Google AI 的 BERT 模型进行中文文本分类与情感分析，在 ChnSentiCorp 数据集上完成训练与评估。",
-      "完成数据预处理、训练流程配置和结果记录，关注准确率、loss 等指标变化。",
+      "基于 Google BERT 完成中文情感分类任务，覆盖数据清洗、样本编码、模型训练、验证评估和结果记录流程。",
+      "在 ChnSentiCorp 数据集上进行实验，跟踪 accuracy、loss 等指标变化，积累文本分类任务调参和误差分析经验。",
+      "项目体现 PyTorch/Transformers 模型使用、NLP 数据处理和机器学习实验复现能力。",
     ],
   },
   {
     name: "面向工业异常检测的轻量化 PatchCore 模型研究",
-    description: "毕业设计",
+    description: "计算机视觉 / 毕业设计",
     bullets: [
-      "围绕工业场景异常检测，对 PatchCore 思路进行轻量化改进与实验验证。",
-      "分析模型内存占用、特征分布和推理开销，尝试在精度与效率之间取得更好的平衡。",
-      "针对工业缺陷检测的多场景需求，整理实验结果并形成毕业设计文档。",
+      "围绕工业质检中的异常检测场景，研究 PatchCore 的特征提取、特征库构建和最近邻检索流程。",
+      "尝试从特征压缩、采样策略和推理开销角度进行轻量化实验，关注精度、内存占用和推理效率之间的平衡。",
+      "整理多场景工业缺陷检测实验结果并形成毕业设计文档，体现计算机视觉论文阅读、实验设计和结果分析能力。",
     ],
   },
 ];

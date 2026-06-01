@@ -37,6 +37,34 @@ export default function CvPage() {
           </div>
         </header>
 
+        <ResumeSection title="实习经历">
+          {resumeExperiences.map((item) => (
+            <div className="resume-internship" key={`${item.company}-${item.role}`}>
+              <div className="resume-line-item compact">
+                <strong>{item.company}</strong>
+                <time>{item.period}</time>
+              </div>
+              <div className="resume-line-item compact muted">
+                <span>{item.role}</span>
+                <span>{item.location}</span>
+              </div>
+              <BulletList items={item.bullets} />
+            </div>
+          ))}
+        </ResumeSection>
+
+        <ResumeSection title="项目经历">
+          {resumeProjects.map((project) => (
+            <div className="resume-block-item" key={project.name}>
+              <strong>
+                {project.name}
+                <span>{project.description}</span>
+              </strong>
+              <BulletList items={project.bullets} />
+            </div>
+          ))}
+        </ResumeSection>
+
         <ResumeSection title="教育经历">
           {resumeEducation.map((item) => (
             <div className="resume-line-item" key={`${item.school}-${item.degree}`}>
@@ -56,36 +84,8 @@ export default function CvPage() {
           ))}
         </ResumeSection>
 
-        <ResumeSection title="项目经历">
-          {resumeProjects.map((project) => (
-            <div className="resume-block-item" key={project.name}>
-              <strong>
-                {project.name}
-                <span>{project.description}</span>
-              </strong>
-              <BulletList items={project.bullets} />
-            </div>
-          ))}
-        </ResumeSection>
-
         <ResumeSection title="专业技能">
           <BulletList items={resumeSkills} />
-        </ResumeSection>
-
-        <ResumeSection title="实习经历">
-          {resumeExperiences.map((item) => (
-            <div className="resume-internship" key={`${item.company}-${item.role}`}>
-              <div className="resume-line-item compact">
-                <strong>{item.company}</strong>
-                <time>{item.period}</time>
-              </div>
-              <div className="resume-line-item compact muted">
-                <span>{item.role}</span>
-                <span>{item.location}</span>
-              </div>
-              <BulletList items={item.bullets} />
-            </div>
-          ))}
         </ResumeSection>
       </article>
     </div>
