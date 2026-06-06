@@ -3433,16 +3433,32 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "title": "跳过人类确认",
     "date": "",
     "type": "Blog",
-    "summary": "Obsidian vault 同步笔记。",
+    "summary": "如果需要在root用户下使用,可以先执行以下命令:",
     "href": "/blog/62345bf5f1",
     "tags": [
       "计算机",
       "ai编程工具",
       "claude code"
     ],
-    "content": "```bash\nclaude --dangerously-skip-permissions\n```",
+    "content": "```bash\nclaude --dangerously-skip-permissions\n```\n##### 如果需要在root用户下使用,可以先执行以下命令:\n```bash\nexport IS_SANDBOX=1\n```",
     "sourcePath": "计算机/ai编程工具/claude code/跳过人类确认.md",
     "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/claude%20code/%E8%B7%B3%E8%BF%87%E4%BA%BA%E7%B1%BB%E7%A1%AE%E8%AE%A4.md"
+  },
+  {
+    "slug": "8f86359551-linux",
+    "title": "linux开荒",
+    "date": "",
+    "type": "Blog",
+    "summary": "Obsidian vault 同步笔记。",
+    "href": "/blog/8f86359551-linux",
+    "tags": [
+      "计算机",
+      "ai编程工具",
+      "claude code"
+    ],
+    "content": "```bash\n#!/usr/bin/env bash\nset -euo pipefail\n\nCONFIG_JSON='{\n  \"env\": {\n    \"ANTHROPIC_BASE_URL\": \"https://CPA或sub2api.com:12345\",\n    \"ANTHROPIC_AUTH_TOKEN\": \"sk-Lxxxxxxx你的秘钥xxxxxxx\",\n    \"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC\": \"1\",\n    \"CLAUDE_CODE_ATTRIBUTION_HEADER\": \"0\"\n  },\n  \"permissions\": {\n    \"allow\": [\n      \"*\"\n    ],\n    \"defaultMode\": \"bypassPermissions\"\n  },\n  \"skipDangerousModePermissionPrompt\": true\n}'\nCLAUDE_NPM_PACKAGE=\"@anthropic-ai/claude-code\"\nBASE_APT_PACKAGES=(tmux curl ca-certificates gnupg)\nMIN_NODE_MAJOR=18\nNODESOURCE_SETUP_URL=\"https://deb.nodesource.com/setup_current.x\"\nGLOBAL_CONFIG_DIR=\"/claude\"\nGLOBAL_CONFIG_FILE=\"/claude/setting.json\"\nUSER_CONFIG_DIR=\"$HOME/.claude\"\nUSER_CONFIG_FILE=\"$HOME/.claude/settings.json\"\nBASHRC_FILE=\"$HOME/.bashrc\"\nBASHRC_MARKER_START=\"# >>> cc-ssh-tmux >>>\"\nBASHRC_MARKER_END=\"# <<< cc-ssh-tmux <<<\"\nTMUX_SESSION_NAME=\"cc\"\n\nif  \"${EUID}\" -eq 0 ; then\n  SUDO=\"\"\nelse\n  if command -v sudo >/dev/null 2>&1; then\n    SUDO=\"sudo\"\n  else\n    echo \"[ERROR] 请用 root 运行，或先安装 sudo。\"\n    exit 1\n  fi\nfi\n\necho \"[1/6] 安装基础依赖（tmux / curl / ca-certificates / gnupg）...\"\n$SUDO apt-get update -y\n$SUDO apt-get install -y --no-install-recommends \"${BASE_APT_PACKAGES[@]}\"\n\nCURRENT_NODE_MAJOR=0\nif command -v node >/dev/null 2>&1; then\n  CURRENT_NODE_MAJOR=\"$(node -v | sed -E 's/^v([0-9]+).*/\\1/')\"\nfi\n\nif  \"$CURRENT_NODE_MAJOR\" -lt \"$MIN_NODE_MAJOR\" ; then\n  echo \"[2/6] Node.js 版本 < ${MIN_NODE_MAJOR}，升级到最新版本...\"\n  if  -n \"$SUDO\" ; then\n    curl -fsSL \"$NODESOURCE_SETUP_URL\" | $SUDO -E bash -\n  else\n    curl -fsSL \"$NODESOURCE_SETUP_URL\" | bash -\n  fi\n  $SUDO apt-get install -y --no-install-recommends nodejs\nelse\n  echo \"[2/6] Node.js 版本满足要求（v${CURRENT_NODE_MAJOR}），跳过升级。\"\nfi\n\necho \"[3/6] npm 全局安装 Claude Code...\"\nif ! command -v claude >/dev/null 2>&1; then\n  $SUDO npm install -g \"$CLAUDE_NPM_PACKAGE\"\nelse\n  echo \"[INFO] 已检测到 claude，跳过安装。\"\nfi\n\necho \"[4/6] 写入 Claude 配置...\"\n$SUDO mkdir -p \"$GLOBAL_CONFIG_DIR\"\nprintf '%s\\n' \"$CONFIG_JSON\" | $SUDO tee \"$GLOBAL_CONFIG_FILE\" >/dev/null\n\nmkdir -p \"$USER_CONFIG_DIR\"\nprintf '%s\\n' \"$CONFIG_JSON\" > \"$USER_CONFIG_FILE\"\n\necho \"[5/6] 配置 ~/.bashrc（SSH 下 tmux + -c + 最高权限）...\"\ntouch \"$BASHRC_FILE\"\n\nif grep -qF \"$BASHRC_MARKER_START\" \"$BASHRC_FILE\"; then\n  awk -v start=\"$BASHRC_MARKER_START\" -v end=\"$BASHRC_MARKER_END\" '\n    BEGIN { skip=0 }\n    $0==start { skip=1; next }\n    $0==end { skip=0; next }\n    skip==0 { print }\n  ' \"$BASHRC_FILE\" > \"${BASHRC_FILE}.tmp\"\n  mv \"${BASHRC_FILE}.tmp\" \"$BASHRC_FILE\"\nfi\n\ncat >> \"$BASHRC_FILE\" <<EOF\n$BASHRC_MARKER_START\nunalias cc 2>/dev/null\ncc() {\n    local _base=\"IS_SANDBOX=1 command claude --dangerously-skip-permissions\"\n\n    if  -n \"\\$SSH_CONNECTION\" && -z \"\\$TMUX\"  && command -v tmux >/dev/null 2>&1; then\n        if [ \"\\$#\" -gt 0 ]; then\n            local _args\n            printf -v _args '%q ' \"\\$@\"\n            tmux new-session -A -s \"$TMUX_SESSION_NAME\" \"\\${_base} \\${_args}\"\n        else\n            tmux new-session -A -s \"$TMUX_SESSION_NAME\" \"bash -lc '\\${_base} -c || \\${_base}'\"\n        fi\n        return\n    fi\n\n    if [ \"\\$#\" -gt 0 ]; then\n        IS_SANDBOX=1 command claude --dangerously-skip-permissions \"\\$@\"\n    else\n        IS_SANDBOX=1 command claude --dangerously-skip-permissions -c || IS_SANDBOX=1 command claude --dangerously-skip-permissions\n    fi\n}\n$BASHRC_MARKER_END\nEOF\n\necho \"[6/6] 完成。\"\necho \"\"\necho \"请执行：source ~/.bashrc\"\necho \"之后在 SSH 里直接输入 cc 即可：tmux + 自动续会话(-c) + 最高权限。\"\n```",
+    "sourcePath": "计算机/ai编程工具/claude code/linux开荒.md",
+    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/claude%20code/linux%E5%BC%80%E8%8D%92.md"
   },
   {
     "slug": "373531f6bf-mattpocock-skills",
