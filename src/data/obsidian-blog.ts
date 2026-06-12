@@ -2142,6 +2142,23 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/04_%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/02_%E6%96%87%E7%94%9F%E5%9B%BE/RAG%E7%BB%93%E5%90%88/RA-DIT.md"
   },
   {
+    "slug": "ac4f8fbbf9-re-imagen",
+    "title": "Re-Imagen",
+    "date": "",
+    "type": "Blog",
+    "summary": "使用一种类似RAG的策略，RAG得到的是图像 文本对。RAG使用的检索方法是BM25 检索和CLIP 检索，由于LAION数据库过大，实验中主要使用BM25检索（文本 文本） 定义两条路径： 一条是“只看参考图不看文字” 一条是“只看文字不看参考图” 在去噪的过程中，会掷出一个随机数，通过随机数来决定当前时间步走哪一条路径",
+    "href": "/blog/ac4f8fbbf9-re-imagen",
+    "tags": [
+      "计算机",
+      "人工智能",
+      "04_论文阅读",
+      "02_文生图"
+    ],
+    "content": "![Pasted image 20260222205931](../../../../../pic/Pasted%20image%2020260222205931.png)\n使用一种类似RAG的策略，RAG得到的是图像-文本对。RAG使用的检索方法是BM25 检索和CLIP 检索，由于LAION数据库过大，实验中主要使用BM25检索（文本-文本）\n\n定义两条路径：\n一条是“只看参考图不看文字”\n一条是“只看文字不看参考图”\n\n在去噪的过程中，会掷出一个随机数，通过随机数来决定当前时间步走哪一条路径",
+    "sourcePath": "计算机/人工智能/04_论文阅读/02_文生图/RAG结合/Re-Imagen.md",
+    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/04_%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/02_%E6%96%87%E7%94%9F%E5%9B%BE/RAG%E7%BB%93%E5%90%88/Re-Imagen.md"
+  },
+  {
     "slug": "d5b9b2486b-vision-rag",
     "title": "Vision RAG",
     "date": "",
@@ -2157,23 +2174,6 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "content": "![Pasted image 20251126235214](../../../../../pic/Pasted%20image%2020251126235214.png)左边：模型先识别图片中的实体（灯塔），然后进行文本RAG（wiki），只根据文本回答，没有图像，只知道灯塔名字，也能回答\n中间：用户给出一张模糊或残缺的图片（如撞坏的车），问一个复杂的属性问题。然后模型去检索该实体更清晰、更常见的图片，通过RAG得到的图片判断车型后回答\n右边：用户给出一个纯文本的、涉及细粒度视觉特征的问题，答案通常不在文本资料里，模型必须看图。",
     "sourcePath": "计算机/人工智能/04_论文阅读/02_文生图/RAG结合/Vision RAG.md",
     "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/04_%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/02_%E6%96%87%E7%94%9F%E5%9B%BE/RAG%E7%BB%93%E5%90%88/Vision%20RAG.md"
-  },
-  {
-    "slug": "6be9938108-re-imagen",
-    "title": "Re-Imagen",
-    "date": "",
-    "type": "Blog",
-    "summary": "使用一种类似RAG的策略，RAG得到的是图像 文本对。RAG使用的检索方法是BM25 检索和CLIP 检索，由于LAION数据库过大，实验中主要使用BM25检索（文本 文本） 定义两条路径： 一条是“只看参考图不看文字” 一条是“只看文字不看参考图” 在去噪的过程中，会掷出一个随机数，通过随机数来决定当前时间步走哪一条路径",
-    "href": "/blog/6be9938108-re-imagen",
-    "tags": [
-      "计算机",
-      "人工智能",
-      "04_论文阅读",
-      "02_文生图"
-    ],
-    "content": "![Pasted image 20260222205931](../../../../pic/Pasted%20image%2020260222205931.png)\n使用一种类似RAG的策略，RAG得到的是图像-文本对。RAG使用的检索方法是BM25 检索和CLIP 检索，由于LAION数据库过大，实验中主要使用BM25检索（文本-文本）\n\n定义两条路径：\n一条是“只看参考图不看文字”\n一条是“只看文字不看参考图”\n\n在去噪的过程中，会掷出一个随机数，通过随机数来决定当前时间步走哪一条路径",
-    "sourcePath": "计算机/人工智能/04_论文阅读/02_文生图/Re-Imagen.md",
-    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/04_%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/02_%E6%96%87%E7%94%9F%E5%9B%BE/Re-Imagen.md"
   },
   {
     "slug": "2192a6bd7d-representation-alignment-for-generation-training-diffusion-transformers-is-easier-than-you-think",
@@ -3023,6 +3023,23 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "content": "这类 palace structure 的实际落地，本质上就是 metadata filtering，使用四层结构(wings, rooms, closets, drawers)\n\n| Layer  层 | What  什么                                                               | Size  大小          | When  何时                        |\n| -------- | ---------------------------------------------------------------------- | ----------------- | ------------------------------- |\n| **L0**   | Identity — who is this AI?  <br>身份——这是哪个 AI？                           | ~50 tokens        | Always loaded  始终加载             |\n| **L1**   | Critical facts — team, projects, preferences  <br>关键事实——团队、项目、偏好       | ~120 tokens(AAAK) | Always loaded  始终加载中            |\n| **L2**   | Room recall — recent sessions, current project  <br>房间回忆 — 最近的会话，当前项目  | On demand  按需     | When topic comes up  <br>当话题出现时 |\n| **L3**   | Deep search — semantic query across all closets  <br>深度搜索——跨所有储物间的语义查询 | On demand  按需     | When explicitly asked  在明确要求时   |",
     "sourcePath": "计算机/人工智能/05_开源项目/MemPalace.md",
     "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/05_%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/MemPalace.md"
+  },
+  {
+    "slug": "93c3a44d60-guidance-a-cheat-code-for-diffusion-models",
+    "title": "Guidance a cheat code for diffusion models",
+    "date": "",
+    "type": "Blog",
+    "summary": "Classifier Guidance 和 Classifier Free Guidance 的区别 最简理解： Classifier Guidance 是用外部分类器告诉 diffusion 往哪个类别走；Classifier Free Guidance 是让 diffusion 自己同时学会有条件和无条件预测，然后用二者差值当作条件引导方向。 1. 传统...",
+    "href": "/blog/93c3a44d60-guidance-a-cheat-code-for-diffusion-models",
+    "tags": [
+      "计算机",
+      "人工智能",
+      "06_技术博客",
+      "diffusion"
+    ],
+    "content": "## Classifier Guidance 和 Classifier-Free Guidance 的区别\n### 最简理解：\nClassifier Guidance 是用外部分类器告诉 diffusion 往哪个类别走；Classifier-Free Guidance 是让 diffusion 自己同时学会有条件和无条件预测，然后用二者差值当作条件引导方向。\n### 1. 传统 Classifier Guidance\n传统的 **Classifier Guidance** 需要两个模型：\n1. 一个无条件 diffusion model；\n2. 一个额外训练的 classifier 分类器。\n无条件 diffusion model 负责建模图像分布 $p(x)$，也就是“如何生成自然图像”。\nclassifier 负责建模条件概率 $p(y\\mid x)$，也就是“给定图像 $x$，它属于类别 $y$ 的概率是多少”。\n根据贝叶斯公式：\n\n$$  \np(x\\mid y)=\\frac{p(y\\mid x)p(x)}{p(y)}  \n$$\n\n两边取 $\\log$：\n\n$$  \n\\log p(x\\mid y)=\\log p(x)+\\log p(y\\mid x)-\\log p(y)  \n$$\n\n由于 $p(y)$ 和 $x$ 无关，所以对 $x$ 求梯度时：\n\n$$  \n\\nabla_x \\log p(y)=0  \n$$\n\n因此得到：\n$$  \n\\nabla_x \\log p(x\\mid y)\n=\n\\nabla_x \\log p(x)  \n+  \n\\nabla_x \\log p(y\\mid x)  \n$$\n\n在实际 guidance 中，会把条件项乘上一个 guidance scale $\\gamma$：\n\n$$  \n\\nabla_x \\log p_\\gamma(x\\mid y)\n=\n\\nabla_x \\log p(x)  \n+  \n\\gamma \\nabla_x \\log p(y\\mid x)  \n$$\n\n这里需要注意：这个式子不是 logits，而是 **guided score**，也就是指导采样时 $x$ 应该往哪个方向移动的梯度。\n\n其中：\n\n- $\\nabla_x \\log p(x)$：无条件 diffusion model 提供的方向，让样本变得更像真实图像；\n- $\\nabla_x \\log p(y\\mid x)$：classifier 提供的方向，让样本更像目标类别 $y$；\n- $\\gamma$：guidance scale，用来放大条件引导强度。\n    \n更准确地说，在 diffusion 采样过程中，$x$ 通常是某个时间步的带噪样本 $x_t$，所以公式也可以写成：\n\n$$  \n\\nabla_{x_t} \\log p_\\gamma(x_t\\mid y)\n\n\\nabla_{x_t} \\log p(x_t)  \n+  \n\\gamma \\nabla_{x_t} \\log p(y\\mid x_t)  \n$$\n\n直观理解：\n\n$$  \n\\text{生成符合条件的图像}\n=\n\\text{生成自然图像}  \n+  \n\\gamma \\times \\text{让图像更像类别 } y  \n$$\n\n当 $\\gamma$ 越大时，生成结果越倾向于符合类别 $y$，但如果 $\\gamma$ 太大，也可能导致图像失真或不自然。\n\n---\n\n### 2. Classifier-Free Guidance\n\n**Classifier-Free Guidance，CFG** 不需要额外训练一个 classifier。\n它的做法是：训练一个 conditional diffusion model，让同一个 diffusion model 同时学会两种模式：\n1. 有条件生成：输入条件 $y$，学习 $p(x\\mid y)$；\n2. 无条件生成：不输入条件，学习 $p(x)$。\n训练时，模型大多数时候会看到正常条件 $y$，例如类别标签或文本 prompt；但在一部分训练步骤中，比如 10% 到 20%，条件 $y$ 会被随机移除，替换成空条件 $\\emptyset$。\n因此，同一个模型既能在有条件时运行：\n$$  \ns_\\text{cond}(x_t,t,y) \\approx \\nabla_{x_t}\\log p(x_t\\mid y)  \n$$\n也能在无条件时运行：\n$$  \ns_\\text{uncond}(x_t,t) \\approx \\nabla_{x_t}\\log p(x_t)  \n$$\n其中 $s$ 表示 score，也就是对数概率对 $x_t$ 的梯度方向。\nCFG 的核心公式是：\n$$  \ns_\\text{guided}\n=\ns_\\text{uncond}  \n+  \n\\gamma\\left(s_\\text{cond}-s_\\text{uncond}\\right)  \n$$\n\n展开后得到：\n$$  \ns_\\text{guided}\n=\n(1-\\gamma)s_\\text{uncond}  \n+  \n\\gamma s_\\text{cond}  \n$$\n\n如果写成概率梯度形式，就是：\n$$  \n\\nabla_x \\log p_\\gamma(x\\mid y)\n=\n(1-\\gamma)\\nabla_x \\log p(x)  \n+  \n\\gamma \\nabla_x \\log p(x\\mid y)  \n$$\n\n其中：\n- 当 $\\gamma=0$ 时，只使用无条件模型，相当于从 $p(x)$ 采样；\n- 当 $\\gamma=1$ 时，只使用标准条件模型，相当于从 $p(x\\mid y)$ 采样；\n- 当 $\\gamma>1$ 时，模型会把条件方向进一步放大，这就是 CFG 的主要效果来源。\n\nCFG 中最关键的部分是：\n$$  \ns_\\text{cond}-s_\\text{uncond}  \n$$\n\n这个差值可以理解为“条件 $y$ 带来的额外方向”。\n也就是说：\n\n$$  \n\\text{条件引导方向}\n=\n\\text{有条件预测}\n-\n\\text{无条件预测}  \n$$\n\n所以 CFG 可以写成：\n\n$$  \ns_\\text{guided}\n=\n\\text{自然图像方向}  \n+  \n\\gamma \\times \\text{条件引导方向}  \n$$\n\n这就是为什么它叫 **Classifier-Free Guidance**：它不需要额外的 classifier，而是用同一个 diffusion model 的有条件预测和无条件预测之间的差值，来构造类似 classifier guidance 的条件引导方向。\n\n![](../../../../pic/Pasted%20image%2020260613040346.png)",
+    "sourcePath": "计算机/人工智能/06_技术博客/diffusion/Guidance a cheat code for diffusion models.md",
+    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/06_%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/diffusion/Guidance%20a%20cheat%20code%20for%20diffusion%20models.md"
   },
   {
     "slug": "fadce7c7e5-club-3090",
