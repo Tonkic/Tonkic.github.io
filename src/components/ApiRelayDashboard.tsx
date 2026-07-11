@@ -73,6 +73,14 @@ export function ApiRelayDashboard() {
   const [health, setHealth] = useState<RelayHealth>(snapshotHealth);
 
   useEffect(() => {
+    if (!siteProfile.relayBrowserProbeEnabled) {
+      setHealth({
+        ...snapshotHealth(),
+        reason: `${snapshotHealth().reason}；实时探测等待接口开放 CORS`,
+      });
+      return;
+    }
+
     if (window.location.protocol === "https:" && liveHealthUrl.startsWith("http://")) {
       setHealth({
         ...snapshotHealth(),

@@ -38,7 +38,7 @@ Blog 页面不再按标签分类，而是使用 Fumadocs `loader()` 从 `sourceP
 
 Dashboard 只展示对外售卖中转：
 
-- 服务地址：`http://8.134.127.63:3000`
+- 服务地址：`https://tonkic.opik.net`
 - 类型：New API 网关
 
 已确认能力：
@@ -49,13 +49,13 @@ Dashboard 只展示对外售卖中转：
 - `/v1/models` 存在，但需要 token，不在公开网站中调用。
 - 用户信息、模型管理等接口需要登录或 access token。
 
-Dashboard 是浏览器端 React client component。当前中转站只有 HTTP，同时实际 `GET` 响应没有 `Access-Control-Allow-Origin`，因此 HTTPS 的 GitHub Pages 会先被混合内容策略拦截，也不能跨域读取响应。
+Dashboard 是浏览器端 React client component。中转站已经使用 HTTPS，但实际 `GET` 响应没有 `Access-Control-Allow-Origin`，因此 GitHub Pages 仍不能跨域读取响应。
 
 `scripts/sync-relay-snapshot.mjs` 在 GitHub Actions 构建环境中请求公开接口，将经过筛选的数据写入 `src/data/relay-snapshot.json`。Pages 部署工作流每 15 分钟刷新快照并重新部署，因此不依赖浏览器 CORS，也不需要 API Key。
 
-客户端仍保留实时探测能力：当服务地址升级为 HTTPS 且开放 CORS 后，会每 60 秒读取 `/api/status`；否则展示自动快照和检测时间。网站不保存、不输入、不展示任何 API Key。
+客户端保留实时探测能力，但当前通过 `relayBrowserProbeEnabled` 关闭，避免产生浏览器 CORS 错误。接口开放 CORS 后可启用，并每 60 秒读取 `/api/status`；当前展示自动快照和检测时间。网站不保存、不输入、不展示任何 API Key。
 
-如果以后要启用浏览器实时读取，需要先为服务绑定 HTTPS 域名，再在 `GET /api/status` 响应上添加仅允许本站的 CORS 头，例如：
+如果以后要启用浏览器实时读取，需要在 `GET /api/status` 响应上添加仅允许本站的 CORS 头，例如：
 
 ```nginx
 add_header Access-Control-Allow-Origin https://tonkic.github.io always;

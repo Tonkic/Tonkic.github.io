@@ -1,20 +1,30 @@
 {
   "health": {
     "reachable": true,
-    "checkedAt": "2026-07-11T22:52:27.279Z",
-    "lastSuccessAt": "2026-07-11T22:52:27.279Z",
+    "checkedAt": "2026-07-11T23:35:08.574Z",
+    "lastSuccessAt": "2026-07-11T23:35:08.574Z",
     "detail": "公开状态接口响应正常"
   },
   "status": {
     "systemName": "TonkicAPI中转",
     "version": "v0.0.0",
     "docsLink": "https://my.feishu.cn/wiki/PRSaw0rEFiKEcqkE0qScnwf2n6f?from=from_copylink",
-    "serverAddress": "http://8.134.127.63:3000",
+    "serverAddress": "https://tonkic.opik.net",
     "endpointPath": "/v1/chat/completions",
     "endpointMethod": "POST",
     "priceCurrency": "USD"
   },
   "models": [
+    {
+      "modelName": "claude-opus-4-6",
+      "vendor": "Anthropic",
+      "inputPrice": 2.5,
+      "outputPrice": 5,
+      "cachePrice": 0.1,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
     {
       "modelName": "gpt-5.5",
       "vendor": "OpenAI",
@@ -81,16 +91,6 @@
       "inputPrice": 0.589971,
       "outputPrice": 3.5,
       "cachePrice": 0.25,
-      "endpointTypes": [
-        "openai"
-      ]
-    },
-    {
-      "modelName": "claude-opus-4-6",
-      "vendor": "Anthropic",
-      "inputPrice": 2.5,
-      "outputPrice": 5,
-      "cachePrice": 0.1,
       "endpointTypes": [
         "openai"
       ]
