@@ -33,8 +33,8 @@ export function EntryDetail({
         ) : null}
         {entry.sourceUrl ? (
           <div className="inline-actions">
-            <Link className="button" href={entry.sourceUrl} target="_blank">
-              查看 Obsidian 源文件
+            <Link className="button" href={entry.sourceUrl} target="_blank" rel="noreferrer">
+              {entry.type === "Blog" ? "查看 Obsidian 源文件" : "查看 GitHub 仓库"}
             </Link>
           </div>
         ) : null}

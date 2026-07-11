@@ -18,6 +18,7 @@ const mimeTypes = new Map([
   [".png", "image/png"],
   [".jpg", "image/jpeg"],
   [".jpeg", "image/jpeg"],
+  [".webmanifest", "application/manifest+json; charset=utf-8"],
   [".svg", "image/svg+xml"],
   [".webp", "image/webp"],
 ]);
@@ -68,6 +69,7 @@ const internalLinks = (html) => {
     .map((match) => match[1])
     .filter((href) => href.startsWith("/") && !href.startsWith("/_next/"))
     .map((href) => new URL(href, "http://example.test").pathname)
+    .filter((pathname) => !extname(pathname))
     .map((pathname) => (pathname.endsWith("/") ? pathname : `${pathname}/`));
 
   return [...new Set(links)];

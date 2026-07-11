@@ -27,9 +27,9 @@
 
 ## 模型 API 中转
 
-当前统一展示对外售卖中转：
+当前统一展示模型 API 中转：
 
-- 服务地址：`http://8.134.220.84:8020/`
+- 服务地址：`http://8.134.127.63:3000/`
 - 类型：New API 网关
 - 公开入口：中转站首页和文档链接
 
@@ -41,7 +41,9 @@
 
 本站不保存、不输入、不展示任何 API Key。真正调用模型、充值、token 管理都在 New API 中转站内完成。
 
-由于当前 New API 的 `GET /api/status` 和 `GET /api/pricing` 响应没有 `Access-Control-Allow-Origin`，GitHub Pages 这类静态站不能在浏览器中直接读取接口。当前页面使用最近公开信息快照展示模型与价格，并提供中转站跳转。
+由于当前 New API 只提供 HTTP，且 `GET /api/status` 和 `GET /api/pricing` 响应没有 `Access-Control-Allow-Origin`，HTTPS 的 GitHub Pages 不能在浏览器中直接读取接口。
+
+部署工作流每 15 分钟在服务端构建环境中读取公开接口，生成 `src/data/relay-snapshot.json` 并重新部署静态页面。页面展示最近一次自动探测结果、模型和价格。如果中转站以后启用 HTTPS 并开放 CORS，浏览器会自动启用每分钟实时探测。
 
 ## 技术栈
 
@@ -52,6 +54,7 @@
 - 静态导出，适配 GitHub Pages
 - Blog 同步脚本：`scripts/sync-obsidian-blog.mjs`
 - Blog 知识库目录树：Fumadocs source/page tree
+- API 中转公开快照：`scripts/sync-relay-snapshot.mjs`
 
 ## 决策
 
@@ -63,3 +66,6 @@
 - Publications / Talks 当前没有真实条目，所以只保留列表页和空状态；等有真实内容后再恢复对应详情路由。
 - Blog 内容通过 GitHub Actions 每日同步 Obsidian vault，并提交生成后的 `src/data/obsidian-blog.ts`。
 - Blog 浏览体验采用“知识库目录树优先，时间流为辅”：目录树来自 Obsidian 的 `sourcePath`，由 Fumadocs 构建；右侧显示当前选中笔记预览。
+- 首页承担访客总览功能；`/overview` 只作为旧链接兼容页，不在主导航中展示。
+- 主导航只保留 Blog、模型 API 中转、Portfolio 和 CV；学术内容通过首页与页脚进入，等有真实成果后再评估恢复主导航。
+- Portfolio 只公开精选项目，不将课程作业、旧站和描述不明确的实验仓库作为主要能力证明。

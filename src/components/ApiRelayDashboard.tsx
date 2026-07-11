@@ -1,8 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
-import { siteProfile } from "@/data/site";
+import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
+import relaySnapshotData from "@/data/relay-snapshot.json";
+import { siteProfile } from "@/data/site-config";
 
 type PricingModel = {
   modelName: string;
@@ -13,188 +14,206 @@ type PricingModel = {
   endpointTypes: string[];
 };
 
-const relayInfo = {
-  baseUrl: "http://8.134.127.63:3000",
-  systemName: "New API",
-  version: "v0.0.0",
-  docsLink: "https://my.feishu.cn/wiki/PRSaw0rEFiKEcqkE0qScnwf2n6f?from=from_copylink",
-  endpointPath: "/v1/chat/completions",
-  endpointMethod: "POST",
-  quotaDisplayType: "USD",
+type RelaySnapshot = {
+  health: {
+    reachable: boolean;
+    checkedAt: string;
+    lastSuccessAt: string | null;
+    detail: string;
+  };
+  status: {
+    systemName: string;
+    version: string;
+    docsLink: string;
+    serverAddress: string;
+    endpointPath: string;
+    endpointMethod: string;
+    priceCurrency: string;
+  };
+  models: PricingModel[];
 };
 
-type RelayHealth =
-  | { label: string; tone: "checking" | "offline" | "online" }
-  | { label: string; reason: string; tone: "unknown" };
+type RelayHealth = {
+  label: string;
+  reason: string;
+  tone: "checking" | "offline" | "online" | "unknown";
+};
 
-const pricingModels: PricingModel[] = [
-  {
-    modelName: "claude-opus-4-6",
-    vendor: "Anthropic",
-    inputPrice: 2.5,
-    outputPrice: 5,
-    cachePrice: 0.1,
-    endpointTypes: ["openai"],
-  },
-  {
-    modelName: "gpt-5.5",
-    vendor: "OpenAI",
-    inputPrice: 2.5,
-    outputPrice: 6,
-    cachePrice: 0.1,
-    endpointTypes: ["openai"],
-  },
-  {
-    modelName: "gpt-5.3-codex",
-    vendor: "OpenAI",
-    inputPrice: 0.875,
-    outputPrice: 8,
-    cachePrice: 0.1,
-    endpointTypes: ["openai"],
-  },
-  {
-    modelName: "gpt-5.4",
-    vendor: "OpenAI",
-    inputPrice: 1.25,
-    outputPrice: 6,
-    cachePrice: 0.1,
-    endpointTypes: ["openai"],
-  },
-  {
-    modelName: "deepseek-v4-flash-free",
-    vendor: "DeepSeek",
-    inputPrice: 0.07,
-    outputPrice: 2,
-    cachePrice: 0.02,
-    endpointTypes: ["openai"],
-  },
-  {
-    modelName: "mimo-v2.5",
-    vendor: "New API",
-    inputPrice: 0.2,
-    outputPrice: 5,
-    cachePrice: 0.2,
-    endpointTypes: ["openai"],
-  },
-  {
-    modelName: "mimo-v2.5-pro",
-    vendor: "New API",
-    inputPrice: 0.5,
-    outputPrice: 3,
-    cachePrice: 0.2,
-    endpointTypes: ["openai"],
-  },
-];
+const relaySnapshot = relaySnapshotData as RelaySnapshot;
+const relayOrigin = siteProfile.publicRelayUrl.replace(/\/$/, "");
+const liveHealthUrl = `${relayOrigin}${siteProfile.relayHealthPath}`;
+
+const formatCheckedAt = (value: string | null) => {
+  if (!value) return "暂无成功记录";
+  return new Intl.DateTimeFormat("zh-CN", {
+    timeZone: "Asia/Shanghai",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(new Date(value));
+};
+
+const snapshotHealth = (): RelayHealth =>
+  relaySnapshot.health.reachable
+    ? {
+        label: "服务在线（自动快照）",
+        reason: `最近探测：${formatCheckedAt(relaySnapshot.health.checkedAt)}`,
+        tone: "online",
+      }
+    : {
+        label: "最近探测未连接",
+        reason: `上次在线：${formatCheckedAt(relaySnapshot.health.lastSuccessAt)}`,
+        tone: "offline",
+      };
 
 export function ApiRelayDashboard() {
-  const relayOrigin = useMemo(() => relayInfo.baseUrl.replace(/\/$/, ""), []);
-  const [health, setHealth] = useState<RelayHealth>({ label: "中转站：检测中", tone: "checking" });
+  const reduceMotion = useReducedMotion();
+  const [health, setHealth] = useState<RelayHealth>(snapshotHealth);
 
   useEffect(() => {
-    if (window.location.protocol === "https:" && relayOrigin.startsWith("http://")) {
+    if (window.location.protocol === "https:" && liveHealthUrl.startsWith("http://")) {
       setHealth({
-        label: "中转站：需打开确认",
-        reason: "HTTPS 页面不能直接探测 HTTP 服务",
-        tone: "unknown",
+        ...snapshotHealth(),
+        reason: `${snapshotHealth().reason}；实时探测等待中转站启用 HTTPS`,
       });
       return;
     }
 
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 5000);
+    let active = true;
+    let currentController: AbortController | null = null;
 
-    fetch(`${relayOrigin}/`, {
-      cache: "no-store",
-      mode: "no-cors",
-      signal: controller.signal,
-    })
-      .then(() => setHealth({ label: "中转站：可访问", tone: "online" }))
-      .catch(() => setHealth({ label: "中转站：未连接", tone: "offline" }))
-      .finally(() => window.clearTimeout(timeout));
+    const probe = async () => {
+      currentController?.abort();
+      const controller = new AbortController();
+      currentController = controller;
+      const timeout = window.setTimeout(() => controller.abort(), 5000);
+
+      try {
+        const response = await fetch(liveHealthUrl, {
+          cache: "no-store",
+          headers: { Accept: "application/json" },
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const payload = (await response.json()) as { success?: boolean };
+        if (payload.success === false) throw new Error("状态接口返回失败");
+        if (active) {
+          setHealth({
+            label: "服务在线（实时）",
+            reason: `刚刚通过 ${siteProfile.relayHealthPath} 探测`,
+            tone: "online",
+          });
+        }
+      } catch {
+        if (active) {
+          setHealth({
+            ...snapshotHealth(),
+            reason: `${snapshotHealth().reason}；浏览器实时接口暂不可读`,
+          });
+        }
+      } finally {
+        window.clearTimeout(timeout);
+      }
+    };
+
+    void probe();
+    const interval = window.setInterval(() => {
+      if (document.visibilityState === "visible") void probe();
+    }, 60000);
 
     return () => {
-      controller.abort();
-      window.clearTimeout(timeout);
+      active = false;
+      currentController?.abort();
+      window.clearInterval(interval);
     };
-  }, [relayOrigin]);
+  }, []);
+
+  const { models, status } = relaySnapshot;
 
   return (
     <div className="dashboard-shell">
       <section className="dashboard-hero">
         <motion.div
           className="hero-panel"
-          initial={{ opacity: 0, y: 32 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: reduceMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           <p className="eyebrow">API Relay</p>
           <h1 className="hero-title">
             模型 API
             <span>中转</span>
           </h1>
-          <p className="hero-copy">
-            模型 API 中转站入口。进入中转站后可以登录、充值、创建 token，并按 OpenAI 兼容格式调用模型。
-          </p>
+          <p className="hero-copy">OpenAI compatible 模型中转服务。模型调用、充值和 token 管理均在中转站内完成。</p>
           <div className="hero-actions">
             <a className="button primary" href={siteProfile.publicRelayUrl} target="_blank" rel="noreferrer">
               打开中转站
             </a>
-            <a className="button" href={relayInfo.docsLink} target="_blank" rel="noreferrer">
-              查看文档
-            </a>
+            {status.docsLink ? (
+              <a className="button" href={status.docsLink} target="_blank" rel="noreferrer">
+                查看文档
+              </a>
+            ) : null}
           </div>
         </motion.div>
 
         <motion.aside
-          className="glass-panel"
-          initial={{ opacity: 0, x: 28 }}
+          className="glass-panel relay-status-panel"
+          initial={reduceMotion ? false : { opacity: 0, x: 28 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: reduceMotion ? 0 : 0.75, delay: reduceMotion ? 0 : 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="eyebrow">Public Snapshot</p>
-          <p className={`status-dot ${health.tone}`}>{health.label}</p>
-          {"reason" in health ? <p>{health.reason}</p> : null}
-          <p>服务地址：{relayInfo.baseUrl}</p>
-          <p>接口格式：OpenAI compatible</p>
-          <p>价格单位：USD</p>
+          <p className="eyebrow">Service Status</p>
+          <p aria-live="polite" className={`status-dot ${health.tone}`} role="status">
+            {health.label}
+          </p>
+          <p>{health.reason}</p>
+          <div className="relay-address">
+            <span>服务地址</span>
+            <strong>{relayOrigin}</strong>
+          </div>
+          <div className="relay-address">
+            <span>接口格式</span>
+            <strong>OpenAI compatible</strong>
+          </div>
         </motion.aside>
       </section>
 
       <section className="stats-grid">
-        <StatCard label="系统名" value={relayInfo.systemName} meta="New API" />
-        <StatCard label="版本" value={relayInfo.version} meta="服务版本" />
-        <StatCard label="公开模型" value={String(pricingModels.length)} meta="当前展示" />
-        <StatCard label="接口格式" value="OpenAI" meta={relayInfo.endpointPath} />
+        <StatCard label="系统名" value={status.systemName} meta="New API" />
+        <StatCard label="版本" value={status.version} meta="公开状态" />
+        <StatCard label="公开模型" value={String(models.length)} meta="自动同步" />
+        <StatCard label="快照时间" value={formatCheckedAt(relaySnapshot.health.checkedAt)} meta="北京时间" />
       </section>
 
       <section className="glass-panel split-panel">
         <div>
           <p className="eyebrow">Gateway</p>
-          <h2>对外售卖中转</h2>
-          <p>这里保留入口和模型价格概览；实际调用、充值和 token 管理都在中转站完成。</p>
+          <h2>调用入口</h2>
+          <p>本站只展示公开信息，不保存 API Key。账户、额度和 token 均由中转站管理。</p>
           <div className="inline-actions">
             <a className="button primary" href={siteProfile.publicRelayUrl} target="_blank" rel="noreferrer">
               进入中转站
             </a>
-            <a className="button" href={relayInfo.docsLink} target="_blank" rel="noreferrer">
-              文档
-            </a>
           </div>
         </div>
         <div className="entry-list">
-          <InfoRow label="服务地址" value={relayInfo.baseUrl} />
-          <InfoRow label="额度显示" value={relayInfo.quotaDisplayType} />
-          <InfoRow label="OpenAI endpoint" value={relayInfo.endpointPath} />
-          <InfoRow label="请求方法" value={relayInfo.endpointMethod} />
+          <InfoRow label="服务地址" value={status.serverAddress || relayOrigin} />
+          <InfoRow label="OpenAI endpoint" value={status.endpointPath} />
+          <InfoRow label="请求方法" value={status.endpointMethod} />
+          <InfoRow label="价格单位" value={status.priceCurrency} />
         </div>
       </section>
 
       <section className="glass-panel" id="models">
         <p className="eyebrow">Pricing Models</p>
         <h2>公开模型与价格</h2>
+        <p className="snapshot-note">价格来自公开接口构建快照，实际计费以中转站内显示为准。</p>
         <div className="model-grid">
-          {pricingModels.map((model, index) => (
-            <PricingModelCard index={index} key={model.modelName} model={model} />
+          {models.map((model, index) => (
+            <PricingModelCard index={index} key={model.modelName} model={model} reduceMotion={Boolean(reduceMotion)} />
           ))}
         </div>
       </section>
@@ -221,14 +240,25 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-function PricingModelCard({ model, index }: { model: PricingModel; index: number }) {
+const formatPrice = (price: number) =>
+  new Intl.NumberFormat("en-US", { maximumFractionDigits: 6 }).format(price);
+
+function PricingModelCard({
+  model,
+  index,
+  reduceMotion,
+}: {
+  model: PricingModel;
+  index: number;
+  reduceMotion: boolean;
+}) {
   return (
     <motion.article
       className="model-card"
-      initial={{ opacity: 0, y: 22 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.035, duration: 0.42 }}
+      transition={{ delay: reduceMotion ? 0 : index * 0.035, duration: reduceMotion ? 0 : 0.42 }}
     >
       <div className="model-card-head">
         <h3>{model.modelName}</h3>
@@ -236,15 +266,13 @@ function PricingModelCard({ model, index }: { model: PricingModel; index: number
       </div>
       <p>provider: {model.vendor}</p>
       <div className="price-stack">
-        <span>输入价格 ${model.inputPrice}</span>
-        <span>输出价格 ${model.outputPrice}</span>
-        <span>缓存价格 ${model.cachePrice}</span>
+        <span>输入价格 ${formatPrice(model.inputPrice)}</span>
+        <span>输出价格 ${formatPrice(model.outputPrice)}</span>
+        <span>缓存价格 ${formatPrice(model.cachePrice)}</span>
       </div>
       <div className="tag-row">
         {model.endpointTypes.map((type) => (
-          <span className="tag" key={type}>
-            {type}
-          </span>
+          <span className="tag" key={type}>{type}</span>
         ))}
       </div>
     </motion.article>

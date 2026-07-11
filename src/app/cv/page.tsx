@@ -10,6 +10,8 @@ import {
 
 export const metadata = {
   title: "CV",
+  description: "张庭毓的教育、实习、项目与专业技能简历。",
+  alternates: { canonical: "/cv/" },
 };
 
 export default function CvPage() {
@@ -37,6 +39,25 @@ export default function CvPage() {
           </div>
         </header>
 
+        <ResumeSection title="教育经历">
+          {resumeEducation.map((item) => (
+            <div className="resume-line-item" key={`${item.school}-${item.degree}`}>
+              <div>
+                <strong>{item.school}</strong>
+                {item.tags.map((tag) => (
+                  <span className="resume-badge" key={tag}>
+                    {tag}
+                  </span>
+                ))}
+                <p>
+                  {item.detail} {item.degree}
+                </p>
+              </div>
+              <time>{item.period}</time>
+            </div>
+          ))}
+        </ResumeSection>
+
         <ResumeSection title="实习经历">
           {resumeExperiences.map((item) => (
             <div className="resume-internship" key={`${item.company}-${item.role}`}>
@@ -61,25 +82,6 @@ export default function CvPage() {
                 <span>{project.description}</span>
               </strong>
               <BulletList items={project.bullets} />
-            </div>
-          ))}
-        </ResumeSection>
-
-        <ResumeSection title="教育经历">
-          {resumeEducation.map((item) => (
-            <div className="resume-line-item" key={`${item.school}-${item.degree}`}>
-              <div>
-                <strong>{item.school}</strong>
-                {item.tags.map((tag) => (
-                  <span className="resume-badge" key={tag}>
-                    {tag}
-                  </span>
-                ))}
-                <p>
-                  {item.detail} {item.degree}
-                </p>
-              </div>
-              <time>{item.period}</time>
             </div>
           ))}
         </ResumeSection>

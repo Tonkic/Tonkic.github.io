@@ -1,0 +1,99 @@
+{
+  "health": {
+    "reachable": true,
+    "checkedAt": "2026-07-11T22:52:27.279Z",
+    "lastSuccessAt": "2026-07-11T22:52:27.279Z",
+    "detail": "公开状态接口响应正常"
+  },
+  "status": {
+    "systemName": "TonkicAPI中转",
+    "version": "v0.0.0",
+    "docsLink": "https://my.feishu.cn/wiki/PRSaw0rEFiKEcqkE0qScnwf2n6f?from=from_copylink",
+    "serverAddress": "http://8.134.127.63:3000",
+    "endpointPath": "/v1/chat/completions",
+    "endpointMethod": "POST",
+    "priceCurrency": "USD"
+  },
+  "models": [
+    {
+      "modelName": "gpt-5.5",
+      "vendor": "OpenAI",
+      "inputPrice": 2.5,
+      "outputPrice": 6,
+      "cachePrice": 0.1,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "gpt-5.3-codex",
+      "vendor": "OpenAI",
+      "inputPrice": 0.875,
+      "outputPrice": 8,
+      "cachePrice": 0.1,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "gpt-5.4",
+      "vendor": "OpenAI",
+      "inputPrice": 1.25,
+      "outputPrice": 6,
+      "cachePrice": 0.1,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "gpt-5.6-sol",
+      "vendor": "OpenAI",
+      "inputPrice": 5,
+      "outputPrice": 6,
+      "cachePrice": 0.1,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "gpt-5.6-terra",
+      "vendor": "OpenAI",
+      "inputPrice": 2.5,
+      "outputPrice": 6,
+      "cachePrice": 0.1,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "gpt-5.6-luna",
+      "vendor": "OpenAI",
+      "inputPrice": 1,
+      "outputPrice": 6,
+      "cachePrice": 0.1,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "glm-5.2",
+      "vendor": "智谱",
+      "inputPrice": 0.589971,
+      "outputPrice": 3.5,
+      "cachePrice": 0.25,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "claude-opus-4-6",
+      "vendor": "Anthropic",
+      "inputPrice": 2.5,
+      "outputPrice": 5,
+      "cachePrice": 0.1,
+      "endpointTypes": [
+        "openai"
+      ]
+    }
+  ]
+}

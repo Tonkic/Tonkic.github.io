@@ -1,10 +1,6 @@
 import { obsidianBlogEntries } from "./obsidian-blog";
-
-export type NavItem = {
-  href: string;
-  label: string;
-  tone: "primary" | "secondary";
-};
+export { navItems, siteProfile } from "./site-config";
+export type { NavItem } from "./site-config";
 
 export type LinkCard = {
   href: string;
@@ -26,37 +22,18 @@ export type ContentEntry = {
   sourceUrl?: string;
 };
 
-export const siteProfile = {
-  name: "Tonkic",
-  realName: "Zhang Tingyu",
-  role: "Master's student in Artificial Intelligence",
-  affiliation: "School of Artificial Intelligence, SCNU",
-  email: "tonkic@qq.com",
-  github: "https://github.com/Tonkic",
-  publicRelayUrl: "http://8.134.127.63:3000/",
-};
-
-export const navItems: NavItem[] = [
-  { href: "/overview", label: "总览", tone: "primary" },
-  { href: "/blog", label: "Blog", tone: "primary" },
-  { href: "/api-relay", label: "模型 API 中转", tone: "primary" },
-  { href: "/portfolio", label: "Portfolio", tone: "secondary" },
-  { href: "/cv", label: "CV", tone: "secondary" },
-  { href: "/academic", label: "学术内容", tone: "secondary" },
-];
-
 export const firstTierCards: LinkCard[] = [
   {
     href: "/blog",
     label: "Blog",
-    eyebrow: "技术 / 学习 / 知识库",
-    description: "以技术类、知识类和学习类内容为主，来自 Obsidian vault 的 Markdown 笔记会每日同步。",
+    eyebrow: "Knowledge Base",
+    description: "人工智能、计算机与学习笔记。按知识库目录浏览，也可以直接搜索。",
   },
   {
     href: "/api-relay",
     label: "模型 API 中转",
-    eyebrow: "对外中转 / New API",
-    description: "模型 API 中转站入口，提供可用模型和美元价格概览。",
+    eyebrow: "API Relay",
+    description: "New API 中转站入口、公开模型价格与服务状态。",
   },
 ];
 
@@ -64,20 +41,20 @@ export const secondTierCards: LinkCard[] = [
   {
     href: "/portfolio",
     label: "Portfolio",
-    eyebrow: "项目与能力",
-    description: "稳定项目和阶段性成果，用来展示方向、能力与做过的东西。",
+    eyebrow: "Selected Work",
+    description: "挑选能够说明工程能力、研究方向和持续投入的项目。",
   },
   {
     href: "/cv",
     label: "CV",
-    eyebrow: "求职 / 工作",
-    description: "求职和工作相关信息，包括教育背景、技能、项目经历与联系方式。",
+    eyebrow: "Resume",
+    description: "教育、实习、项目和技能，可直接导出为 PDF。",
   },
   {
     href: "/academic",
     label: "学术内容",
-    eyebrow: "科研 / 学术",
-    description: "科研与学术相关内容，包含 Publications 和 Talks。",
+    eyebrow: "Research",
+    description: "研究兴趣、Publications 与 Talks。",
   },
 ];
 
@@ -109,91 +86,55 @@ export const portfolioEntries: ContentEntry[] = [
     tags: ["Next.js", "TypeScript", "Motion"],
     sourceUrl: "https://github.com/Tonkic/Tonkic.github.io",
     content:
-      "这是目前的主站项目。它负责把 Blog、模型 API 中转、CV、Portfolio 和学术内容串成一个清晰的访客导航页，并且已经适配 GitHub Pages 静态部署。",
+      "使用 Next.js App Router 与 TypeScript 构建并静态导出到 GitHub Pages。站点整合 Obsidian 知识库同步、Markdown 与公式渲染、模型 API 公开状态快照、项目展示和可打印简历，并通过自动化工作流持续部署。",
   },
   {
     slug: "cliproxyapiplus",
     title: "CLIProxyAPIPlus",
     date: "2026-04-20",
     type: "Portfolio",
-    summary: "Plus version of CLIProxyAPI，用来做模型 API 中转与相关能力扩展。",
+    summary: "面向模型 API 中转与能力扩展的 Go 服务，承担网关和调用链路相关工作。",
     href: "/portfolio/cliproxyapiplus",
     tags: ["Go", "API Gateway", "Relay"],
     sourceUrl: "https://github.com/Tonkic/CLIProxyAPIPlus",
     content:
-      "这是你的模型 API 中转相关仓库之一，和当前网站里的 API Relay 页面强相关。它更像后端能力层，负责承接实际调用和中转逻辑。",
+      "模型 API 中转相关的后端项目，使用 Go 承接实际调用和网关逻辑，并与本站的 API Relay 状态页形成前后端分层。",
   },
   {
     slug: "tonkic-obsidian-vault",
     title: "tonkic-obsidian-vault",
     date: "2026-04-20",
     type: "Portfolio",
-    summary: "个人知识库和 Blog 内容源，承载技术类、知识类和学习类笔记。",
+    summary: "个人知识库与 Blog 内容源，通过自动化同步形成可浏览的目录树。",
     href: "/portfolio/tonkic-obsidian-vault",
     tags: ["Obsidian", "Markdown", "Knowledge Base"],
     sourceUrl: "https://github.com/Tonkic/tonkic-obsidian-vault",
     content:
-      "这是 Blog 的内容来源。仓库中的 Markdown 笔记会被同步进站点，并构成 Blog 的知识库目录树与笔记预览。",
+      "仓库中的 Markdown、图片和目录结构会由 GitHub Actions 同步进本站，并通过 Fumadocs source 构建知识库目录树和笔记预览。",
   },
   {
     slug: "imagerag",
     title: "ImageRAG",
     date: "2026-03-15",
     type: "Portfolio",
-    summary: "图像检索增强生成方向的实验仓库，偏研究和原型验证。",
+    summary: "图像检索增强生成方向的研究原型，用于验证多模态检索与生成链路。",
     href: "/portfolio/imagerag",
     tags: ["Python", "RAG", "Research"],
     sourceUrl: "https://github.com/Tonkic/ImageRAG",
     content:
-      "这是一个偏研究实验的项目，适合放在 Portfolio 中展示你的研究兴趣、原型实现能力和对检索增强类方法的理解。",
+      "围绕图像检索增强生成进行原型验证，体现对 RAG、多模态检索和研究型代码实现的持续探索。",
   },
   {
     slug: "cn-rail-data-pagerank-viz",
     title: "cn-rail-data-pagerank-viz",
     date: "2025-11-02",
     type: "Portfolio",
-    summary: "中国铁路数据及 PageRank 可视化项目。",
+    summary: "将中国铁路数据处理、PageRank 图算法与交互可视化串成完整分析流程。",
     href: "/portfolio/cn-rail-data-pagerank-viz",
     tags: ["Python", "Visualization", "PageRank"],
     sourceUrl: "https://github.com/Tonkic/cn-rail-data-pagerank-viz",
     content:
-      "这是一个数据分析和可视化向的项目，适合用来展示你把数据处理、图算法和可视化串起来的能力。",
-  },
-  {
-    slug: "tonkic-blog",
-    title: "tonkic-blog",
-    date: "2025-10-10",
-    type: "Portfolio",
-    summary: "早期博客/内容站仓库，承载过一阶段的写作与展示。",
-    href: "/portfolio/tonkic-blog",
-    tags: ["Blog", "Static Site", "Legacy"],
-    sourceUrl: "https://github.com/Tonkic/tonkic-blog",
-    content:
-      "这是你的早期内容站或博客仓库，可以作为站点演化路径的一部分展示，说明你不是从零开始，而是持续迭代到现在这个版本。",
-  },
-  {
-    slug: "scnu-java-assignments",
-    title: "scnu-java-assignments",
-    date: "2025-09-01",
-    type: "Portfolio",
-    summary: "Java 课程作业和练习集合。",
-    href: "/portfolio/scnu-java-assignments",
-    tags: ["Java", "Course Work"],
-    sourceUrl: "https://github.com/Tonkic/scnu-java-assignments",
-    content:
-      "这是课程作业仓库，适合放在 Portfolio 中作为基础工程能力和早期实践记录。",
-  },
-  {
-    slug: "ok-end-field",
-    title: "ok-end-field",
-    date: "2025-08-18",
-    type: "Portfolio",
-    summary: "一个偏实验性或工具性的仓库。",
-    href: "/portfolio/ok-end-field",
-    tags: ["Experiment", "Tooling"],
-    sourceUrl: "https://github.com/Tonkic/ok-end-field",
-    content:
-      "这是一个适合放入 Portfolio 的实验/工具仓库。即使它不是最大项目，也可以帮助访客判断你的开发兴趣和技术广度。",
+      "围绕铁路网络构建数据分析与可视化流程，使用 PageRank 观察节点重要性，展示从数据整理、图算法到结果表达的完整能力。",
   },
 ];
 

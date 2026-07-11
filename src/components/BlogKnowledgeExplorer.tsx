@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { CSSProperties, WheelEvent } from "react";
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useRef, useState } from "react";
 import type { PageTree } from "fumadocs-core/server";
 import { MarkdownContent } from "@/components/MarkdownContent";
 import type { ContentEntry } from "@/data/site";
@@ -122,12 +122,28 @@ export function BlogKnowledgeExplorer({
   const entriesBySlug = useMemo(() => new Map(entries.map((entry) => [entry.slug, entry])), [entries]);
   const firstEntry = entries[0];
   const [activeSlug, setActiveSlug] = useState(firstEntry?.slug ?? "");
+  const [query, setQuery] = useState("");
+  const deferredQuery = useDeferredValue(query.trim().toLocaleLowerCase());
+  const previewRef = useRef<HTMLElement>(null);
   const activeEntry = entriesBySlug.get(activeSlug) ?? firstEntry;
   const normalizedActiveUrl = normalizeUrl(activeEntry?.href);
+  const searchResults = useMemo(() => {
+    if (!deferredQuery) return [];
+    return entries
+      .filter((entry) =>
+        [entry.title, entry.summary, entry.sourcePath]
+          .filter(Boolean)
+          .some((value) => value!.toLocaleLowerCase().includes(deferredQuery)),
+      )
+      .slice(0, 40);
+  }, [deferredQuery, entries]);
 
   const selectEntry = (url: string) => {
     const entry = entriesByHref.get(normalizeUrl(url));
-    if (entry) setActiveSlug(entry.slug);
+    if (entry) {
+      setActiveSlug(entry.slug);
+      previewRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
@@ -140,16 +156,46 @@ export function BlogKnowledgeExplorer({
           </div>
           <p>{countPages(pageTree.children)} 篇</p>
         </div>
+        <label className="knowledge-search">
+          <span className="sr-only">搜索知识库</span>
+          <input
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="搜索标题、路径或内容摘要"
+            type="search"
+            value={query}
+          />
+          {query ? <strong>{searchResults.length}</strong> : <kbd>⌕</kbd>}
+        </label>
         <div className="knowledge-tree-body" data-lenis-prevent onWheel={stopWheelPropagation}>
-          {pageTree.children.map((node) => (
-            <TreeNodeView
-              activeUrl={normalizedActiveUrl}
-              depth={0}
-              key={node.$id ?? `${node.type}-${getNodeText(node.name)}`}
-              node={node}
-              onSelect={selectEntry}
-            />
-          ))}
+          {deferredQuery ? (
+            searchResults.length ? (
+              <div className="knowledge-search-results">
+                {searchResults.map((entry) => (
+                  <button
+                    className={entry.slug === activeEntry?.slug ? "knowledge-search-result active" : "knowledge-search-result"}
+                    key={entry.slug}
+                    onClick={() => selectEntry(entry.href)}
+                    type="button"
+                  >
+                    <strong>{entry.title}</strong>
+                    <span>{entry.sourcePath}</span>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="empty-state compact">没有找到匹配笔记。</div>
+            )
+          ) : (
+            pageTree.children.map((node) => (
+              <TreeNodeView
+                activeUrl={normalizedActiveUrl}
+                depth={0}
+                key={node.$id ?? `${node.type}-${getNodeText(node.name)}`}
+                node={node}
+                onSelect={selectEntry}
+              />
+            ))
+          )}
         </div>
       </aside>
 
@@ -158,6 +204,7 @@ export function BlogKnowledgeExplorer({
         className="knowledge-preview"
         data-lenis-prevent
         onWheel={stopWheelPropagation}
+        ref={previewRef}
       >
         {activeEntry ? (
           <>

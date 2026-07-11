@@ -5,19 +5,21 @@ import { portfolioEntries } from "@/data/site";
 
 export const metadata = {
   title: "Portfolio",
+  description: "Tonkic 的精选工程与研究项目。",
+  alternates: { canonical: "/portfolio/" },
 };
 
 export default function PortfolioPage() {
   return (
     <div className="page-stack">
       <PageHero eyebrow="Projects" title="Portfolio" outline="work">
-        这里放能够代表方向、能力和阶段性成果的项目。
+        精选能够说明工程能力、研究方向与持续投入的项目。
       </PageHero>
       <Reveal className="glass-panel">
         <div className="portfolio-lead">
           <p className="eyebrow">Selected Projects</p>
           <h2>精选仓库</h2>
-          <p>按“最能说明你现在在做什么”来选，不追求全量堆仓库。</p>
+          <p>每个项目都对应一条可验证的代码、研究或内容生产链路。</p>
         </div>
         <div className="portfolio-grid">
           {portfolioEntries.map((entry) => (
