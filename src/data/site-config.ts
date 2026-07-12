@@ -14,7 +14,7 @@ export const siteProfile = {
   siteUrl: "https://tonkic.github.io",
   publicRelayUrl: "https://tonkic.opik.net/",
   relayHealthPath: "/api/status",
-  relayBrowserProbeEnabled: false,
+  relayBrowserProbeEnabled: true,
 };
 
 export const navItems: NavItem[] = [

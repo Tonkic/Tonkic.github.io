@@ -41,9 +41,9 @@
 
 本站不保存、不输入、不展示任何 API Key。真正调用模型、充值、token 管理都在 New API 中转站内完成。
 
-当前 New API 已通过 `https://tonkic.opik.net/` 提供 HTTPS，但 `GET /api/status` 和 `GET /api/pricing` 响应仍没有 `Access-Control-Allow-Origin`，GitHub Pages 不能在浏览器中直接读取接口。
+当前 New API 已通过 `https://tonkic.opik.net/` 提供 HTTPS。Nginx 为 `GET /api/status` 和 `GET /api/pricing` 添加受限 CORS，仅允许 `https://tonkic.github.io` 跨域读取。
 
-部署工作流每 15 分钟在服务端构建环境中读取公开接口，生成 `src/data/relay-snapshot.json` 并重新部署静态页面。页面展示最近一次自动探测结果、模型和价格。如果中转站以后开放 CORS，可启用浏览器每分钟实时探测。
+页面每 60 秒读取 `/api/status` 进行实时测活。部署工作流仍每 15 分钟在服务端构建环境中读取公开接口，生成 `src/data/relay-snapshot.json` 并重新部署静态页面，作为实时请求失败时的降级数据和价格快照。
 
 ## 技术栈
 
