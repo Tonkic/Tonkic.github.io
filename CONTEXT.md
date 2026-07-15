@@ -29,7 +29,7 @@
 
 当前统一展示模型 API 中转：
 
-- 服务地址：`https://tonkic.opik.net/`
+- 服务地址：`https://tonkicapi.xyz/`
 - 类型：New API 网关
 - 公开入口：中转站首页和文档链接
 
@@ -41,9 +41,9 @@
 
 本站不保存、不输入、不展示任何 API Key。真正调用模型、充值、token 管理都在 New API 中转站内完成。
 
-当前 New API 已通过 `https://tonkic.opik.net/` 提供 HTTPS。Nginx 为 `GET /api/status` 和 `GET /api/pricing` 添加受限 CORS，仅允许 `https://tonkic.github.io` 跨域读取。
+当前 New API 已通过 `https://tonkicapi.xyz/` 提供 HTTPS。`GET /api/status` 和 `GET /api/pricing` 暂未向 `https://tonkic.github.io` 开放 CORS，因此浏览器实时探测关闭。
 
-页面每 60 秒读取 `/api/status` 进行实时测活。部署工作流仍每 15 分钟在服务端构建环境中读取公开接口，生成 `src/data/relay-snapshot.json` 并重新部署静态页面，作为实时请求失败时的降级数据和价格快照。
+部署工作流每 15 分钟在服务端构建环境中读取公开接口，生成 `src/data/relay-snapshot.json` 并重新部署静态页面，用于服务测活和价格快照。接口开放受限 CORS 后可恢复浏览器每 60 秒实时探测。
 
 ## 技术栈
 

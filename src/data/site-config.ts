@@ -12,9 +12,9 @@ export const siteProfile = {
   email: "tonkic@qq.com",
   github: "https://github.com/Tonkic",
   siteUrl: "https://tonkic.github.io",
-  publicRelayUrl: "https://tonkic.opik.net/",
+  publicRelayUrl: "https://tonkicapi.xyz/",
   relayHealthPath: "/api/status",
-  relayBrowserProbeEnabled: true,
+  relayBrowserProbeEnabled: false,
 };
 
 export const navItems: NavItem[] = [

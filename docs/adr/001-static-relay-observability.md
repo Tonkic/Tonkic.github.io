@@ -6,19 +6,19 @@
 
 ## 背景
 
-网站部署在 HTTPS 的 GitHub Pages，中转站使用 `https://tonkic.opik.net/`。最初公开接口没有开放 CORS，因此设计了自动快照作为可靠降级；现在 Nginx 已仅向本站开放 `/api/status` 和 `/api/pricing`。任何情况下，将 API Key 放入前端都不可接受。
+网站部署在 HTTPS 的 GitHub Pages，中转站使用 `https://tonkicapi.xyz/`。公开接口当前没有向本站开放 CORS，因此自动快照承担服务测活和价格同步。任何情况下，将 API Key 放入前端都不可接受。
 
 ## 决策
 
 采用两层状态机制：
 
 1. GitHub Actions 每 15 分钟运行 `scripts/sync-relay-snapshot.mjs`，读取无需鉴权的公开接口并构建静态快照。
-2. 浏览器实时探测已启用。Nginx 仅允许 `https://tonkic.github.io` 跨域读取公开接口，页面每 60 秒探测一次。
+2. 浏览器实时探测逻辑保留但暂时关闭；接口向 `https://tonkic.github.io` 开放受限 CORS 后，可恢复每 60 秒探测一次。
 
 快照只保存公开字段：服务是否可达、探测时间、系统名、版本、公开模型、供应商、价格和 endpoint 类型。任何 API Key、用户信息、额度和请求记录都不得进入仓库或前端资源。
 
 ## 结果
 
 - 当前架构下可以提供约 15 分钟粒度的公开状态。
-- 中转站已开放受限 CORS，页面可以获得分钟级实时状态。
+- 当前页面提供约 15 分钟粒度的状态；开放受限 CORS 后可恢复分钟级实时状态。
 - 部署过程会依赖公开接口，但同步失败时脚本会保留最近模型数据并标记本次探测失败。

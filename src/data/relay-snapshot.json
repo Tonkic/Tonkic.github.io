@@ -1,45 +1,25 @@
 {
   "health": {
     "reachable": true,
-    "checkedAt": "2026-07-11T23:35:08.574Z",
-    "lastSuccessAt": "2026-07-11T23:35:08.574Z",
+    "checkedAt": "2026-07-15T19:06:23.122Z",
+    "lastSuccessAt": "2026-07-15T19:06:23.122Z",
     "detail": "公开状态接口响应正常"
   },
   "status": {
     "systemName": "TonkicAPI中转",
     "version": "v0.0.0",
     "docsLink": "https://my.feishu.cn/wiki/PRSaw0rEFiKEcqkE0qScnwf2n6f?from=from_copylink",
-    "serverAddress": "https://tonkic.opik.net",
+    "serverAddress": "https://tonkicapi.xyz",
     "endpointPath": "/v1/chat/completions",
     "endpointMethod": "POST",
     "priceCurrency": "USD"
   },
   "models": [
     {
-      "modelName": "claude-opus-4-6",
-      "vendor": "Anthropic",
-      "inputPrice": 2.5,
-      "outputPrice": 5,
-      "cachePrice": 0.1,
-      "endpointTypes": [
-        "openai"
-      ]
-    },
-    {
       "modelName": "gpt-5.5",
       "vendor": "OpenAI",
       "inputPrice": 2.5,
       "outputPrice": 6,
-      "cachePrice": 0.1,
-      "endpointTypes": [
-        "openai"
-      ]
-    },
-    {
-      "modelName": "gpt-5.3-codex",
-      "vendor": "OpenAI",
-      "inputPrice": 0.875,
-      "outputPrice": 8,
       "cachePrice": 0.1,
       "endpointTypes": [
         "openai"
@@ -58,16 +38,6 @@
     {
       "modelName": "gpt-5.6-sol",
       "vendor": "OpenAI",
-      "inputPrice": 5,
-      "outputPrice": 6,
-      "cachePrice": 0.1,
-      "endpointTypes": [
-        "openai"
-      ]
-    },
-    {
-      "modelName": "gpt-5.6-terra",
-      "vendor": "OpenAI",
       "inputPrice": 2.5,
       "outputPrice": 6,
       "cachePrice": 0.1,
@@ -78,7 +48,37 @@
     {
       "modelName": "gpt-5.6-luna",
       "vendor": "OpenAI",
-      "inputPrice": 1,
+      "inputPrice": 0.5,
+      "outputPrice": 6,
+      "cachePrice": 0.1,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "claude-opus-4-7",
+      "vendor": "Anthropic",
+      "inputPrice": 2.5,
+      "outputPrice": 5,
+      "cachePrice": 0.1,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "gpt-5.3-codex",
+      "vendor": "OpenAI",
+      "inputPrice": 0.875,
+      "outputPrice": 8,
+      "cachePrice": 0.1,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "gpt-5.6-terra",
+      "vendor": "OpenAI",
+      "inputPrice": 1.25,
       "outputPrice": 6,
       "cachePrice": 0.1,
       "endpointTypes": [
@@ -91,6 +91,76 @@
       "inputPrice": 0.589971,
       "outputPrice": 3.5,
       "cachePrice": 0.25,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "grok-4.20-0309-reasoning-console",
+      "vendor": "xAI",
+      "inputPrice": 0.625,
+      "outputPrice": 2,
+      "cachePrice": 0.16,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "claude-opus-4-8",
+      "vendor": "Anthropic",
+      "inputPrice": 2.5,
+      "outputPrice": 5,
+      "cachePrice": 0.1,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "grok-4.5",
+      "vendor": "xAI",
+      "inputPrice": 1,
+      "outputPrice": 3,
+      "cachePrice": 0.25,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "grok-4.3-fast",
+      "vendor": "xAI",
+      "inputPrice": 0.625,
+      "outputPrice": 2,
+      "cachePrice": 0.16,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "grok-4.20-multi-agent-high",
+      "vendor": "xAI",
+      "inputPrice": 0.625,
+      "outputPrice": 2,
+      "cachePrice": 0.16,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "claude-opus-4-6",
+      "vendor": "Anthropic",
+      "inputPrice": 2.5,
+      "outputPrice": 5,
+      "cachePrice": 0.1,
+      "endpointTypes": [
+        "openai"
+      ]
+    },
+    {
+      "modelName": "grok-4.20-multi-agent-xhigh",
+      "vendor": "xAI",
+      "inputPrice": 0.625,
+      "outputPrice": 2,
+      "cachePrice": 0.16,
       "endpointTypes": [
         "openai"
       ]

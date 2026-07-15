@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const baseUrl = (process.env.RELAY_BASE_URL || "https://tonkic.opik.net").replace(/\/$/, "");
+const baseUrl = (process.env.RELAY_BASE_URL || "https://tonkicapi.xyz").replace(/\/$/, "");
 const outputFile = path.join("src", "data", "relay-snapshot.json");
 const checkedAt = new Date().toISOString();
 

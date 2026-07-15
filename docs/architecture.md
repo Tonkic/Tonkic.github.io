@@ -38,7 +38,7 @@ Blog 页面不再按标签分类，而是使用 Fumadocs `loader()` 从 `sourceP
 
 Dashboard 只展示对外售卖中转：
 
-- 服务地址：`https://tonkic.opik.net`
+- 服务地址：`https://tonkicapi.xyz`
 - 类型：New API 网关
 
 已确认能力：
@@ -53,7 +53,7 @@ Dashboard 是浏览器端 React client component。中转站已经使用 HTTPS�
 
 `scripts/sync-relay-snapshot.mjs` 在 GitHub Actions 构建环境中请求公开接口，将经过筛选的数据写入 `src/data/relay-snapshot.json`。Pages 部署工作流每 15 分钟刷新快照并重新部署，因此不依赖浏览器 CORS，也不需要 API Key。
 
-客户端实时探测已经通过 `relayBrowserProbeEnabled` 启用，每 60 秒读取 `/api/status`。接口由 Nginx 仅向 `https://tonkic.github.io` 开放 CORS；自动快照继续作为实时请求失败时的降级数据。网站不保存、不输入、不展示任何 API Key。
+客户端实时探测当前通过 `relayBrowserProbeEnabled` 关闭，因为新域名尚未向 `https://tonkic.github.io` 开放 CORS。页面使用每 15 分钟刷新的自动快照；接口开放受限 CORS 后可恢复每 60 秒读取 `/api/status`。网站不保存、不输入、不展示任何 API Key。
 
 如果以后要启用浏览器实时读取，需要在 `GET /api/status` 响应上添加仅允许本站的 CORS 头，例如：
 
