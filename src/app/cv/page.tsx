@@ -69,6 +69,10 @@ export default function CvPage() {
                 <span>{item.role}</span>
                 <span>{item.location}</span>
               </div>
+              <p className="resume-tech-stack">
+                <strong>技术栈：</strong>
+                {item.techStack}
+              </p>
               <BulletList items={item.bullets} />
             </div>
           ))}

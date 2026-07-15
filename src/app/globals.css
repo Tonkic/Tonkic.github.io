@@ -1759,6 +1759,15 @@ p {
   color: #1f2937;
 }
 
+.resume-tech-stack {
+  margin: 1px 0 2px;
+  color: #1f2937;
+}
+
+.resume-tech-stack strong {
+  color: #111827;
+}
+
 .resume-badge {
   display: inline-flex;
   align-items: center;

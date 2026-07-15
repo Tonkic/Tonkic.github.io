@@ -11,6 +11,7 @@ export type ResumeExperience = {
   location: string;
   period: string;
   role: string;
+  techStack: string;
   bullets: string[];
 };
 
@@ -37,7 +38,7 @@ export const resumeEducation: ResumeEducation[] = [
   {
     school: "华南农业大学",
     degree: "本科",
-    detail: "数据科学与大数据技术 / 数学与信息学院 / 软件学院 / 全日制",
+    detail: "数据科学与大数据技术 / 数学与信息学院、软件学院 / 全日制",
     period: "2021年09月 - 2025年06月",
     tags: ["双一流"],
   },
@@ -89,14 +90,11 @@ export const resumeExperiences: ResumeExperience[] = [
     role: "大数据开发工程师",
     location: "广州",
     period: "2024年08月 - 2024年10月",
+    techStack: "Hive、Flink、Spark / Spark Streaming、Spark MLlib、Metabase、Avue-data、ECharts",
     bullets: [
-      "负责大数据平台建设和运维，编写 Hive SQL 满足业务需求。",
-      "提供分析组件技术支持，编写 Flink 代码。",
-      "使用 Spark MLlib 构建和训练小型机器学习模型。",
-      "参与离线数仓开发、数仓建模和数据清洗工作。",
-      "参与实时数仓开发，使用 Spark Streaming、Flink 等技术。",
-      "根据业务报表需求编写离线与实时 SQL，理解业务口径并完成数据交付。",
-      "使用 Metabase、Avue-data、ECharts 等工具进行大数据可视化。",
+      "参与企业大数据平台的离线与实时数仓开发，围绕业务报表和数据交付编写 Hive SQL、Flink 及 Spark Streaming 任务，完成数据清洗、加工与实时处理。",
+      "根据业务需求梳理指标口径、字段逻辑和数据模型，参与数仓建模、SQL 开发、结果校验与问题排查，并配合完成分析组件联调和交付验证。",
+      "使用 Spark MLlib 构建并训练小型机器学习模型，使用 Metabase、Avue-data、ECharts 完成数据可视化，同时参与平台运维与技术支持。",
     ],
   },
 ];
