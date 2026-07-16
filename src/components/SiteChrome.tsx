@@ -8,10 +8,11 @@ import { navItems, siteProfile } from "@/data/site-config";
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? "";
   const reduceMotion = useReducedMotion();
+  const isBlog = pathname === "/blog" || pathname.startsWith("/blog/");
 
   return (
-    <div className="site-frame">
-      <motion.header
+    <div className={`site-frame ${isBlog ? "site-frame-blog" : ""}`}>
+      {!isBlog ? <motion.header
         className="site-header"
         initial={reduceMotion ? false : { y: -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -35,16 +36,16 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             );
           })}
         </nav>
-      </motion.header>
+      </motion.header> : null}
       <main>{children}</main>
-      <footer className="site-footer">
+      {!isBlog ? <footer className="site-footer">
         <span>© {new Date().getFullYear()} {siteProfile.name}</span>
         <div>
           <Link href="/academic">学术内容</Link>
           <a href={siteProfile.github} target="_blank" rel="noreferrer">GitHub</a>
           <a href={`mailto:${siteProfile.email}`}>{siteProfile.email}</a>
         </div>
-      </footer>
+      </footer> : null}
     </div>
   );
 }

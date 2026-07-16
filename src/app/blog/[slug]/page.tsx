@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { EntryDetail } from "@/components/EntryDetail";
+import { BlogArticle } from "@/components/BlogArticle";
 import { blogLinkMap, blogPages, blogSource } from "@/lib/blog-source";
 
 export function generateStaticParams() {
@@ -34,5 +34,9 @@ export default async function BlogEntryPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  return <EntryDetail entry={blogSource.getPage([slug])?.data} linkMap={blogLinkMap} />;
+  const pageIndex = blogPages.findIndex((page) => page.slugs[0] === slug);
+  const entry = blogSource.getPage([slug])?.data;
+  const previous = pageIndex > 0 ? blogPages[pageIndex - 1]?.data : undefined;
+  const next = pageIndex >= 0 ? blogPages[pageIndex + 1]?.data : undefined;
+  return <BlogArticle entry={entry} linkMap={blogLinkMap} previous={previous} next={next} />;
 }

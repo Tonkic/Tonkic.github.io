@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { createHeadingId } from "@/lib/markdown";
 
 const inlinePattern = /(!?\[[^\]]*]\([^)]+\)|`[^`]+`|\*\*[^*]+\*\*|\$[^$\n]+\$)/g;
 
@@ -422,6 +423,7 @@ export function MarkdownContent({
   sourcePath?: string;
 }) {
   const blocks = useMemo(() => parseBlocks(content), [content]);
+  const headingIds = new Map<string, number>();
 
   return (
     <div className="markdown-content">
@@ -482,7 +484,7 @@ export function MarkdownContent({
 
         if (block.type === "heading") {
           const Heading = `h${Math.min(block.depth + 1, 6)}` as "h2" | "h3" | "h4" | "h5" | "h6";
-          return <Heading key={index}>{renderInline(block.content, sourcePath, linkMap)}</Heading>;
+          return <Heading id={createHeadingId(block.content, headingIds)} key={index}>{renderInline(block.content, sourcePath, linkMap)}</Heading>;
         }
 
         return <p key={index}>{renderInline(block.content, sourcePath, linkMap)}</p>;
