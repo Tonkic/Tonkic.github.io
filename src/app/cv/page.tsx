@@ -10,7 +10,7 @@ import {
 
 export const metadata = {
   title: "CV",
-  description: "张庭毓的教育、实习、项目与专业技能简历。",
+  description: "Tonkic 的教育、实习、项目与专业技能简历。",
   alternates: { canonical: "/cv/" },
 };
 
@@ -24,7 +24,7 @@ export default function CvPage() {
         <span>打印目标选择“另存为 PDF”即可导出</span>
       </div>
 
-      <article className="resume-a4" aria-label="张庭毓的求职简历">
+      <article className="resume-a4" aria-label="Tonkic 的求职简历">
         <header className="resume-a4-header">
           <div className="resume-identity">
             <h1>{resumeProfile.name}</h1>

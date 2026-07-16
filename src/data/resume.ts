@@ -23,7 +23,7 @@ export type ResumeProject = {
 };
 
 export const resumeProfile = {
-  name: "张庭毓",
+  name: "Tonkic",
   handle: "Tonkic",
   phone: "",
   location: "广州",
@@ -53,12 +53,12 @@ export const resumeEducation: ResumeEducation[] = [
 
 export const resumeProjects: ResumeProject[] = [
   {
-    name: "基于 BERT 的中文情感分类系统",
-    description: "NLP / 深度学习项目",
+    name: "Tonkic API：多模型 API 聚合与中转平台",
+    description: "Go / API Gateway / Protocol Relay",
     bullets: [
-      "基于 Google BERT 完成中文情感分类任务，覆盖数据清洗、样本编码、模型训练、验证评估和结果记录流程。",
-      "在 ChnSentiCorp 数据集上进行实验，跟踪 accuracy、loss 等指标变化，积累文本分类任务调参和误差分析经验。",
-      "项目体现 PyTorch/Transformers 模型使用、NLP 数据处理和机器学习实验复现能力。",
+      "基于 New API 与 CLIProxyAPI 进行二次开发，构建多模型 API 聚合与中转平台，围绕模型接入、协议转换和统一调用提供服务。",
+      "参与 OpenAI Responses、Codex 与 GitHub Copilot 等调用链路的兼容性改造，处理 SSE/WebSocket 流式响应、工具调用结果和模型路由问题。",
+      "集成用量统计与 Keeper 服务，完善 Linux 更新脚本、GitHub Actions 发布流程、阿里云 OSS 分发和 Nginx HTTPS 反向代理部署。",
     ],
   },
   {
@@ -87,14 +87,14 @@ export const resumeSkills = [
 export const resumeExperiences: ResumeExperience[] = [
   {
     company: "中数通信信息有限公司",
-    role: "大数据开发工程师",
+    role: "Java 后端实习生",
     location: "广州",
     period: "2024年08月 - 2024年10月",
-    techStack: "Hive、Flink、Spark / Spark Streaming、Spark MLlib、Metabase、Avue-data、ECharts",
+    techStack: "Spring Boot、MyBatis、MySQL、jQuery",
     bullets: [
-      "参与企业大数据平台的离线与实时数仓开发，围绕业务报表和数据交付编写 Hive SQL、Flink 及 Spark Streaming 任务，完成数据清洗、加工与实时处理。",
-      "根据业务需求梳理指标口径、字段逻辑和数据模型，参与数仓建模、SQL 开发、结果校验与问题排查，并配合完成分析组件联调和交付验证。",
-      "使用 Spark MLlib 构建并训练小型机器学习模型，使用 Metabase、Avue-data、ECharts 完成数据可视化，同时参与平台运维与技术支持。",
+      "参与企业 OA 工作流模块开发，围绕申请、审核、流转和驳回等节点实现后端接口与页面交互。",
+      "根据审批规则梳理流程状态、字段校验和审批记录查询逻辑，配合前端完成接口联调、异常提示与数据回显。",
+      "参与需求理解、接口开发、联调测试和交付验证，积累企业级 Java Web 系统开发与团队协作经验。",
     ],
   },
 ];
