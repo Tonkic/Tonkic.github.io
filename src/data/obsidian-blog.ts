@@ -3558,6 +3558,22 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/CLIProxyAPIPlus/github_copilot_executor.go.md"
   },
   {
+    "slug": "eef9e97b4f-codex-cli",
+    "title": "快速安装codex cli",
+    "date": "",
+    "type": "Blog",
+    "summary": "Obsidian vault 同步笔记。",
+    "href": "/blog/eef9e97b4f-codex-cli",
+    "tags": [
+      "计算机",
+      "ai编程工具",
+      "codex cli"
+    ],
+    "content": "```bash\nsudo apt install nodejs npm\nnpm install -g @openai/codex\n```",
+    "sourcePath": "计算机/ai编程工具/codex cli/快速安装codex cli.md",
+    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/codex%20cli/%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85codex%20cli.md"
+  },
+  {
     "slug": "5fb937de85-deepseek-2026-5-25",
     "title": "DeepSeek V4 模型价格",
     "date": "",
