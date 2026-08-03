@@ -37,8 +37,8 @@
   --shadow-card: 0 18px 60px rgba(0, 0, 0, 0.24);
   --shadow-raised: 0 28px 90px rgba(0, 0, 0, 0.32);
   /* typography */
-  --font-display: "Space Grotesk", "Satoshi", "Aptos", "PingFang SC", "Microsoft YaHei", sans-serif;
-  --font-mono: "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  --font-display: var(--font-display-loaded), "Space Grotesk", "Satoshi", "Aptos", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: var(--font-mono-loaded), "JetBrains Mono", "Cascadia Code", Consolas, monospace;
   font-family: var(--font-display);
   font-synthesis-weight: none;
 }
@@ -275,6 +275,141 @@ p {
   background: radial-gradient(circle, rgba(255, 139, 72, 0.38), transparent 66%);
   filter: blur(2px);
 }
+/* ===== Landing hero (editorial engineering terminal) ===== */
+.landing-hero {
+  position: relative;
+  min-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 0 64px;
+  overflow: hidden;
+}
+
+.landing-ruler {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-strong) 8%, var(--line-strong) 92%, transparent);
+  transform-origin: left center;
+}
+
+.ruler-tick {
+  position: absolute;
+  top: -4px;
+  width: 1px;
+  height: 9px;
+  background: var(--line-strong);
+}
+
+.corner-mark {
+  position: absolute;
+  top: 90px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--subtle);
+  text-transform: uppercase;
+}
+
+.corner-tl { left: 4px; }
+.corner-tr { right: 4px; }
+
+.landing-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 26px;
+}
+
+.landing-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  color: var(--cyan);
+  text-transform: uppercase;
+}
+
+.landing-title {
+  display: flex;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 22vw, 18rem);
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.letter-wrap {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.letter {
+  display: inline-block;
+  will-change: transform;
+}
+
+.landing-title .letter-wrap:nth-child(1) .letter,
+.landing-title .letter-wrap:nth-child(4) .letter {
+  color: var(--cyan);
+}
+
+.landing-tagline {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: clamp(0.78rem, 1.6vw, 1.05rem);
+  letter-spacing: 0.28em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.landing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.status-bar {
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 4px 0;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--subtle);
+  text-transform: uppercase;
+}
+
+.status-bar span:nth-child(2) {
+  color: var(--amber);
+}
+
+@media (max-width: 620px) {
+  .corner-mark { font-size: 0.62rem; }
+  .landing-hero { padding: 100px 0 56px; }
+  .status-bar { font-size: 0.6rem; gap: 10px; }
+}
+
+@media (max-width: 420px) {
+  .corner-tl, .corner-tr { display: none; }
+}
+
 
 .eyebrow,
 .card-eyebrow {
@@ -291,9 +426,10 @@ p {
 .hero-title {
   max-width: 860px;
   margin-bottom: 22px;
-  font-size: clamp(3.8rem, 11vw, 9.5rem);
-  line-height: 0.86;
-  letter-spacing: -0.08em;
+  font-size: clamp(3.8rem, 13vw, 11rem);
+  line-height: 0.82;
+  letter-spacing: -0.085em;
+  font-weight: 700;
 }
 
 .hero-title span {

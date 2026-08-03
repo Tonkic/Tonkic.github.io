@@ -1,8 +1,23 @@
 import type { Metadata, Viewport } from "next";
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { SiteChrome } from "@/components/SiteChrome";
 import { siteProfile } from "@/data/site-config";
 import "./globals.css";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-mono-loaded",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteProfile.siteUrl),
@@ -41,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" className={`${spaceGrotesk.variable} ${jetBrainsMono.variable}`}>
       <body>
         <SmoothScroll />
         <SiteChrome>{children}</SiteChrome>
