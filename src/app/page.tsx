@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { HoverCard } from "@/components/HoverCard";
 import { Reveal } from "@/components/Reveal";
-import { blogEntries, firstTierCards, portfolioEntries, siteProfile } from "@/data/site";
+import { blogEntries, firstTierCards, portfolioEntries, secondTierCards, siteProfile } from "@/data/site";
 
 const featuredNoteSlugs = ["0d01619aaa-attention-mask", "9185bf3a6c-sigmoid", "10ce7af36f"];
 
@@ -73,6 +73,20 @@ export default function HomePage() {
         </Reveal>
         <div className="card-grid two-up">
           {firstTierCards.map((card, index) => (
+            <HoverCard card={card} index={index} key={card.href} />
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <Reveal className="section-heading section-heading-row">
+          <div>
+            <p className="eyebrow">Explore</p>
+            <h2>更多栏目</h2>
+          </div>
+        </Reveal>
+        <div className="card-grid">
+          {secondTierCards.map((card, index) => (
             <HoverCard card={card} index={index} key={card.href} />
           ))}
         </div>
