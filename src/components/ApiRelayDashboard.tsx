@@ -43,6 +43,8 @@ const relaySnapshot = relaySnapshotData as RelaySnapshot;
 const relayOrigin = siteProfile.publicRelayUrl.replace(/\/$/, "");
 const liveHealthUrl = `${relayOrigin}${siteProfile.relayHealthPath}`;
 
+const EASE = [0.22, 1, 0.36, 1] as const;
+
 const formatCheckedAt = (value: string | null) => {
   if (!value) return "暂无成功记录";
   return new Intl.DateTimeFormat("zh-CN", {
@@ -147,14 +149,14 @@ export function ApiRelayDashboard() {
           className="hero-panel"
           initial={reduceMotion ? false : { opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: reduceMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: reduceMotion ? 0 : 0.7, ease: EASE }}
         >
-          <p className="eyebrow">API Relay</p>
+          <p className="eyebrow">01 — API Relay</p>
           <h1 className="hero-title">
             模型 API
             <span>中转</span>
           </h1>
-          <p className="hero-copy">OpenAI compatible 模型中转服务。模型调用、充值和 token 管理均在中转站内完成。</p>
+          <p className="hero-copy">OpenAI compatible 模型中转服务。调用、充值与 token 管理均在中转站内完成。</p>
           <div className="hero-actions">
             <a className="button primary" href={siteProfile.publicRelayUrl} target="_blank" rel="noreferrer">
               打开中转站
@@ -171,13 +173,13 @@ export function ApiRelayDashboard() {
           className="glass-panel relay-status-panel"
           initial={reduceMotion ? false : { opacity: 0, x: 28 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: reduceMotion ? 0 : 0.75, delay: reduceMotion ? 0 : 0.1, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: reduceMotion ? 0 : 0.75, delay: reduceMotion ? 0 : 0.1, ease: EASE }}
         >
-          <p className="eyebrow">Service Status</p>
+          <p className="eyebrow">Status</p>
           <p aria-live="polite" className={`status-dot ${health.tone}`} role="status">
             {health.label}
           </p>
-          <p>{health.reason}</p>
+          <p className="status-reason">{health.reason}</p>
           <div className="relay-address">
             <span>服务地址</span>
             <strong>{relayOrigin}</strong>
@@ -196,9 +198,9 @@ export function ApiRelayDashboard() {
         <StatCard label="快照时间" value={formatCheckedAt(relaySnapshot.health.checkedAt)} meta="北京时间" />
       </section>
 
-      <section className="glass-panel split-panel">
-        <div>
-          <p className="eyebrow">Gateway</p>
+      <section className="glass-panel split-panel" id="gateway">
+        <div className="split-panel-info">
+          <p className="eyebrow">02 — Gateway</p>
           <h2>调用入口</h2>
           <p>本站只展示公开信息，不保存 API Key。账户、额度和 token 均由中转站管理。</p>
           <div className="inline-actions">
@@ -216,9 +218,13 @@ export function ApiRelayDashboard() {
       </section>
 
       <section className="glass-panel" id="models">
-        <p className="eyebrow">Pricing Models</p>
-        <h2>公开模型与价格</h2>
-        <p className="snapshot-note">价格来自公开接口构建快照，实际计费以中转站内显示为准。</p>
+        <div className="section-heading section-heading-row">
+          <div>
+            <p className="eyebrow">03 — Pricing</p>
+            <h2>公开模型与价格</h2>
+          </div>
+          <span className="snapshot-note">价格来自公开接口构建快照，实际计费以中转站内显示为准。</span>
+        </div>
         <div className="model-grid">
           {models.map((model, index) => (
             <PricingModelCard index={index} key={model.modelName} model={model} reduceMotion={Boolean(reduceMotion)} />
@@ -232,9 +238,9 @@ export function ApiRelayDashboard() {
 function StatCard({ label, value, meta }: { label: string; value: string; meta: string }) {
   return (
     <article className="stat-card">
-      <p>{label}</p>
+      <span className="stat-index">{label}</span>
       <strong>{value}</strong>
-      <span>{meta}</span>
+      <span className="stat-meta">{meta}</span>
     </article>
   );
 }
@@ -266,17 +272,17 @@ function PricingModelCard({
       initial={reduceMotion ? false : { opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: reduceMotion ? 0 : index * 0.035, duration: reduceMotion ? 0 : 0.42 }}
+      transition={{ delay: reduceMotion ? 0 : index * 0.035, duration: reduceMotion ? 0 : 0.42, ease: EASE }}
     >
       <div className="model-card-head">
         <h3>{model.modelName}</h3>
         <span className="model-status available">公开</span>
       </div>
-      <p>provider: {model.vendor}</p>
+      <p className="model-vendor">{model.vendor}</p>
       <div className="price-stack">
-        <span>输入价格 ${formatPrice(model.inputPrice)}</span>
-        <span>输出价格 ${formatPrice(model.outputPrice)}</span>
-        <span>缓存价格 ${formatPrice(model.cachePrice)}</span>
+        <span>输入 ${formatPrice(model.inputPrice)}</span>
+        <span>输出 ${formatPrice(model.outputPrice)}</span>
+        <span>缓存 ${formatPrice(model.cachePrice)}</span>
       </div>
       <div className="tag-row">
         {model.endpointTypes.map((type) => (

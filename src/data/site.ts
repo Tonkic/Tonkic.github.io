@@ -112,18 +112,7 @@ export const portfolioEntries: ContentEntry[] = [
     content:
       "仓库中的 Markdown、图片和目录结构会由 GitHub Actions 同步进本站，并通过 Fumadocs source 构建知识库目录树和笔记预览。",
   },
-  {
-    slug: "imagerag",
-    title: "ImageRAG",
-    date: "2026-03-15",
-    type: "Portfolio",
-    summary: "图像检索增强生成方向的研究原型，用于验证多模态检索与生成链路。",
-    href: "/portfolio/imagerag",
-    tags: ["Python", "RAG", "Research"],
-    sourceUrl: "https://github.com/Tonkic/ImageRAG",
-    content:
-      "围绕图像检索增强生成进行原型验证，体现对 RAG、多模态检索和研究型代码实现的持续探索。",
-  },
+
   {
     slug: "cn-rail-data-pagerank-viz",
     title: "cn-rail-data-pagerank-viz",

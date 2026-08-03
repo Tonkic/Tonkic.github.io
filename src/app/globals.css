@@ -1300,6 +1300,68 @@ div.portfolio-grid > .portfolio-card {
   margin-bottom: 20px;
 }
 
+/* dashboard redesign — unified engineering-catalog style */
+.status-reason {
+  margin-bottom: 18px;
+  font-size: 0.88rem;
+}
+
+.stat-card {
+  display: grid;
+  gap: 6px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: linear-gradient(145deg, rgba(244, 240, 232, 0.1), rgba(244, 240, 232, 0.04));
+  box-shadow: var(--shadow-card);
+  transition: border-color var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
+}
+
+.stat-card:hover {
+  border-color: rgba(139, 232, 255, 0.38);
+  transform: translateY(-3px);
+}
+
+.stat-index {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--subtle);
+  text-transform: uppercase;
+}
+
+.stat-meta {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--cyan);
+  letter-spacing: 0.08em;
+}
+
+.split-panel-info {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+#models .section-heading {
+  margin-bottom: 24px;
+}
+
+.model-vendor {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--cyan);
+  margin: 0 0 8px;
+}
+
+.model-card-head h3 {
+  overflow-wrap: anywhere;
+}
+
+.relay-status-panel .relay-address {
+  margin-top: 12px;
+}
+
 .status-dot {
   display: inline-flex;
   align-items: center;
