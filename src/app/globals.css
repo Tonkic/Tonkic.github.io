@@ -704,6 +704,35 @@ p {
   transform: translateY(-4px);
 }
 
+.portfolio-card:hover {
+  border-color: rgba(139, 232, 255, 0.42);
+  transform: translateY(-4px);
+  background: linear-gradient(145deg, rgba(139, 232, 255, 0.09), rgba(244, 240, 232, 0.04));
+}
+
+.portfolio-index {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--subtle);
+  margin-bottom: 4px;
+}
+
+.portfolio-card .portfolio-card-main {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.portfolio-card:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+div.portfolio-grid > .portfolio-card {
+  text-decoration: none;
+  color: inherit;
+}
+
 .portfolio-card-main {
   display: grid;
   gap: 8px;

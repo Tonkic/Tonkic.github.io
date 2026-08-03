@@ -9,7 +9,7 @@ export function PageHero({
   eyebrow: string;
   title: string;
   outline: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   return (
     <Reveal className="hero-panel">
@@ -18,7 +18,7 @@ export function PageHero({
         {title}
         <span>{outline}</span>
       </h1>
-      <p className="hero-copy">{children}</p>
+      {children ? <p className="hero-copy">{children}</p> : null}
     </Reveal>
   );
 }
