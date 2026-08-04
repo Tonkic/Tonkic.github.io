@@ -142,45 +142,48 @@ export function ApiRelayDashboard() {
 
   return (
     <div className="dashboard-shell">
-      <section className="relay-landing">
-        <motion.div
-          className="relay-landing-panel"
-          initial={reduceMotion ? false : { opacity: 0, y: 32 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: reduceMotion ? 0 : 0.7, ease: EASE }}
-        >
+      <motion.section
+        className="relay-gateway-frame"
+        initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: reduceMotion ? 0 : 0.65, ease: EASE }}
+      >
+        <header className="relay-gateway-topline">
           <p className="eyebrow">01 — API Relay / Gateway</p>
-          <h1 className="hero-title">
-            模型 API
-            <span>中转</span>
+          <div aria-live="polite" className={`relay-health ${health.tone}`} role="status">
+            <span className="relay-health-dot" aria-hidden />
+            <span>
+              <strong>{health.label}</strong>
+              <small>{health.reason}</small>
+            </span>
+          </div>
+        </header>
+
+        <div className="relay-gateway-body">
+          <h1 className="relay-gateway-title" aria-label="Model API Relay">
+            <span>MODEL API</span>
+            <span>RELAY</span>
           </h1>
           <div className="relay-landing-meta">
             <span>OPENAI COMPATIBLE</span>
             <span>PUBLIC ACCESS</span>
           </div>
-          <a className="relay-launch" href={siteProfile.publicRelayUrl} target="_blank" rel="noreferrer">
-            <span>打开中转站</span>
-            <span aria-hidden>↗</span>
-          </a>
-        </motion.div>
+        </div>
 
-        <motion.aside
-          className="relay-landing-status"
-          initial={reduceMotion ? false : { opacity: 0, x: 28 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: reduceMotion ? 0 : 0.75, delay: reduceMotion ? 0 : 0.1, ease: EASE }}
-        >
-          <p className="eyebrow">02 — Live Status</p>
-          <p aria-live="polite" className={`status-dot ${health.tone}`} role="status">
-            {health.label}
-          </p>
-          <p className="status-reason">{health.reason}</p>
+        <footer className="relay-gateway-footer">
+          <a className="relay-launch" href={siteProfile.publicRelayUrl} target="_blank" rel="noreferrer">
+            <span className="relay-launch-copy">
+              <small>EXTERNAL GATEWAY</small>
+              <strong>打开中转站</strong>
+            </span>
+            <span className="relay-launch-arrow" aria-hidden>↗</span>
+          </a>
           <div className="relay-address">
             <span>服务地址</span>
             <strong>{relayOrigin}</strong>
           </div>
-        </motion.aside>
-      </section>
+        </footer>
+      </motion.section>
       <p className="relay-landing-footnote">服务详情、模型列表与价格以中转站内实时信息为准。</p>
     </div>
   );
