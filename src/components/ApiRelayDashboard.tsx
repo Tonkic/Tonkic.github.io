@@ -140,42 +140,37 @@ export function ApiRelayDashboard() {
     };
   }, []);
 
-  const { models, status } = relaySnapshot;
-
   return (
     <div className="dashboard-shell">
-      <section className="dashboard-hero">
+      <section className="relay-landing">
         <motion.div
-          className="hero-panel"
+          className="relay-landing-panel"
           initial={reduceMotion ? false : { opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduceMotion ? 0 : 0.7, ease: EASE }}
         >
-          <p className="eyebrow">01 — API Relay</p>
+          <p className="eyebrow">01 — API Relay / Gateway</p>
           <h1 className="hero-title">
             模型 API
             <span>中转</span>
           </h1>
-          <p className="hero-copy">OpenAI compatible 模型中转服务。调用、充值与 token 管理均在中转站内完成。</p>
-          <div className="hero-actions">
-            <a className="button primary" href={siteProfile.publicRelayUrl} target="_blank" rel="noreferrer">
-              打开中转站
-            </a>
-            {status.docsLink ? (
-              <a className="button" href={status.docsLink} target="_blank" rel="noreferrer">
-                查看文档
-              </a>
-            ) : null}
+          <div className="relay-landing-meta">
+            <span>OPENAI COMPATIBLE</span>
+            <span>PUBLIC ACCESS</span>
           </div>
+          <a className="relay-launch" href={siteProfile.publicRelayUrl} target="_blank" rel="noreferrer">
+            <span>打开中转站</span>
+            <span aria-hidden>↗</span>
+          </a>
         </motion.div>
 
         <motion.aside
-          className="glass-panel relay-status-panel"
+          className="relay-landing-status"
           initial={reduceMotion ? false : { opacity: 0, x: 28 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: reduceMotion ? 0 : 0.75, delay: reduceMotion ? 0 : 0.1, ease: EASE }}
         >
-          <p className="eyebrow">Status</p>
+          <p className="eyebrow">02 — Live Status</p>
           <p aria-live="polite" className={`status-dot ${health.tone}`} role="status">
             {health.label}
           </p>
@@ -184,111 +179,9 @@ export function ApiRelayDashboard() {
             <span>服务地址</span>
             <strong>{relayOrigin}</strong>
           </div>
-          <div className="relay-address">
-            <span>接口格式</span>
-            <strong>OpenAI compatible</strong>
-          </div>
         </motion.aside>
       </section>
-
-      <section className="stats-grid">
-        <StatCard label="系统名" value={status.systemName} meta="New API" />
-        <StatCard label="版本" value={status.version} meta="公开状态" />
-        <StatCard label="公开模型" value={String(models.length)} meta="自动同步" />
-        <StatCard label="快照时间" value={formatCheckedAt(relaySnapshot.health.checkedAt)} meta="北京时间" />
-      </section>
-
-      <section className="glass-panel split-panel" id="gateway">
-        <div className="split-panel-info">
-          <p className="eyebrow">02 — Gateway</p>
-          <h2>调用入口</h2>
-          <p>本站只展示公开信息，不保存 API Key。账户、额度和 token 均由中转站管理。</p>
-          <div className="inline-actions">
-            <a className="button primary" href={siteProfile.publicRelayUrl} target="_blank" rel="noreferrer">
-              进入中转站
-            </a>
-          </div>
-        </div>
-        <div className="entry-list">
-          <InfoRow label="服务地址" value={status.serverAddress || relayOrigin} />
-          <InfoRow label="OpenAI endpoint" value={status.endpointPath} />
-          <InfoRow label="请求方法" value={status.endpointMethod} />
-          <InfoRow label="价格单位" value={status.priceCurrency} />
-        </div>
-      </section>
-
-      <section className="glass-panel" id="models">
-        <div className="section-heading section-heading-row">
-          <div>
-            <p className="eyebrow">03 — Pricing</p>
-            <h2>公开模型与价格</h2>
-          </div>
-          <span className="snapshot-note">价格来自公开接口构建快照，实际计费以中转站内显示为准。</span>
-        </div>
-        <div className="model-grid">
-          {models.map((model, index) => (
-            <PricingModelCard index={index} key={model.modelName} model={model} reduceMotion={Boolean(reduceMotion)} />
-          ))}
-        </div>
-      </section>
+      <p className="relay-landing-footnote">服务详情、模型列表与价格以中转站内实时信息为准。</p>
     </div>
-  );
-}
-
-function StatCard({ label, value, meta }: { label: string; value: string; meta: string }) {
-  return (
-    <article className="stat-card">
-      <span className="stat-index">{label}</span>
-      <strong>{value}</strong>
-      <span className="stat-meta">{meta}</span>
-    </article>
-  );
-}
-
-function InfoRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="entry-row">
-      <span className="entry-meta">{label}</span>
-      <strong>{value}</strong>
-    </div>
-  );
-}
-
-const formatPrice = (price: number) =>
-  new Intl.NumberFormat("en-US", { maximumFractionDigits: 6 }).format(price);
-
-function PricingModelCard({
-  model,
-  index,
-  reduceMotion,
-}: {
-  model: PricingModel;
-  index: number;
-  reduceMotion: boolean;
-}) {
-  return (
-    <motion.article
-      className="model-card"
-      initial={reduceMotion ? false : { opacity: 0, y: 22 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: reduceMotion ? 0 : index * 0.035, duration: reduceMotion ? 0 : 0.42, ease: EASE }}
-    >
-      <div className="model-card-head">
-        <h3>{model.modelName}</h3>
-        <span className="model-status available">公开</span>
-      </div>
-      <p className="model-vendor">{model.vendor}</p>
-      <div className="price-stack">
-        <span>输入 ${formatPrice(model.inputPrice)}</span>
-        <span>输出 ${formatPrice(model.outputPrice)}</span>
-        <span>缓存 ${formatPrice(model.cachePrice)}</span>
-      </div>
-      <div className="tag-row">
-        {model.endpointTypes.map((type) => (
-          <span className="tag" key={type}>{type}</span>
-        ))}
-      </div>
-    </motion.article>
   );
 }

@@ -21,7 +21,6 @@ export default function CvPage() {
     <div className="resume-export-page">
       <div className="resume-toolbar">
         <PrintResumeButton />
-        <span>打印目标选择“另存为 PDF”即可导出</span>
       </div>
 
       <article className="resume-a4" aria-label="Tonkic 的求职简历">
