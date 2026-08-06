@@ -92,7 +92,7 @@ function TreeContent({ pageTree, activeUrl, searchResults, query }: {
         {searchResults.map((entry) => (
           <Link className={`blog-search-result ${activeUrl === normalizeUrl(entry.href) ? "active" : ""}`} href={entry.href} key={entry.slug}>
             <strong>{entry.title}</strong>
-            <small>{entry.sourcePath ?? "Blog"}</small>
+            <small>{entry.type}</small>
           </Link>
         ))}
       </div>

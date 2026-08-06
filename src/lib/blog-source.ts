@@ -47,10 +47,8 @@ export const blogListEntries = blogPages.map(({ data }) => {
   return entry;
 });
 
-export const blogPreviewEntries = blogPages.map(({ data }) => data);
-
 export const blogLinkMap = Object.fromEntries(
-  blogPreviewEntries
+  blogListEntries
     .filter((entry) => entry.sourcePath)
     .map((entry) => [entry.sourcePath!.replace(/\\/g, "/"), entry.href]),
 );

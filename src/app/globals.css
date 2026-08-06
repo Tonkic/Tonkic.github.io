@@ -1787,69 +1787,52 @@ div.portfolio-grid > .portfolio-card {
 }
 
 .math-inline {
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
+  max-width: 100%;
   color: var(--ink);
-  font-family: "Times New Roman", "Cambria Math", serif;
+  font-family: inherit;
   line-height: 1;
   padding: 0 0.08em;
-  vertical-align: middle;
+  vertical-align: -0.06em;
   white-space: nowrap;
 }
 
-.math-inline sub,
-.math-inline sup,
-.math-block-content sub,
-.math-block-content sup {
-  line-height: 0;
+.math-inline > .katex {
+  font-size: 1em;
 }
 
-.math-cal {
-  font-family: "Brush Script MT", "Times New Roman", serif;
-  font-style: italic;
-  letter-spacing: 0.02em;
-}
-
-.math-frac {
-  display: inline-flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 0.14em;
-  line-height: 1.08;
+.math-inline-display {
+  display: block;
+  margin: 0.3rem 0;
+  overflow-x: auto;
+  padding: 0.2rem 0 0.35rem;
   text-align: center;
-  transform: translateY(-0.04em);
-  vertical-align: middle;
+  vertical-align: baseline;
 }
 
-.math-frac > span:first-child {
-  border-bottom: 1px solid currentColor;
-  padding: 0 0.18em 0.04em;
+.math-inline-display > .katex {
+  display: block;
+  min-width: 100%;
+  width: max-content;
 }
 
-.math-frac > span:last-child {
-  padding: 0.04em 0.18em 0;
+.math-fallback {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
-.math-sqrt {
-  display: inline-flex;
-  align-items: flex-start;
-  gap: 0.04em;
-  vertical-align: middle;
+.math-block-content > span {
+  display: block;
+  min-width: 0;
 }
 
-.math-sqrt::before {
-  content: "√";
-  font-size: 1.12em;
-  line-height: 1;
-  transform: translateY(0.04em);
+.math-block-content .katex-display {
+  margin: 0;
+  min-width: max-content;
 }
 
-.math-sqrt > span {
-  display: inline-block;
-  border-top: 1px solid currentColor;
-  line-height: 1.08;
-  padding: 0.02em 0.12em 0;
+.math-block-content .katex {
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
 }
 
 .code-block {
@@ -1902,9 +1885,7 @@ div.portfolio-grid > .portfolio-card {
   overflow: hidden;
   border: 1px solid rgba(139, 232, 255, 0.28);
   border-radius: 18px;
-  background:
-    radial-gradient(circle at 10% 0%, rgba(139, 232, 255, 0.16), transparent 30%),
-    rgba(8, 9, 8, 0.56);
+  background: rgba(8, 9, 8, 0.56);
 }
 
 .math-block button {
@@ -1929,20 +1910,10 @@ div.portfolio-grid > .portfolio-card {
 
 .math-block-content {
   color: var(--ink);
-  font-family: "Times New Roman", "Cambria Math", serif;
-  font-size: clamp(1.05rem, 2vw, 1.35rem);
-  line-height: 1.45;
+  font-family: inherit;
   overflow-x: auto;
-  padding: 30px 22px 24px;
+  padding: 42px 22px 24px;
   text-align: center;
-  white-space: pre-wrap;
-}
-
-.math-block-content > div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.4em;
 }
 
 .markdown-image {
@@ -2837,6 +2808,16 @@ div.portfolio-grid > .portfolio-card {
   font-size: clamp(2.5rem, 6vw, 5.7rem);
   line-height: 0.94;
   letter-spacing: -0.075em;
+}
+
+.blog-article-tags {
+  margin: 0 0 20px;
+}
+
+.blog-article-tags .tag {
+  color: var(--cyan);
+  border-color: rgba(139, 232, 255, 0.28);
+  background: rgba(139, 232, 255, 0.07);
 }
 
 .blog-article-meta {

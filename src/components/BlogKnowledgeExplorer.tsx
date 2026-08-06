@@ -178,7 +178,7 @@ export function BlogKnowledgeExplorer({
                     type="button"
                   >
                     <strong>{entry.title}</strong>
-                    <span>{entry.sourcePath}</span>
+                    <span>{entry.type}</span>
                   </button>
                 ))}
               </div>
@@ -210,8 +210,13 @@ export function BlogKnowledgeExplorer({
           <>
             <div className="blog-explorer-head compact">
               <div>
-                <span className="entry-meta">{activeEntry.sourcePath ?? activeEntry.type}</span>
+                <span className="entry-meta">{activeEntry.type}</span>
                 <h2>{activeEntry.title}</h2>
+                {activeEntry.tags?.length ? (
+                  <div className="tag-row" aria-label="Tags">
+                    {activeEntry.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}
+                  </div>
+                ) : null}
               </div>
               <Link className="button ghost" href={activeEntry.href}>
                 打开完整页面

@@ -3,6 +3,7 @@ import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { SiteChrome } from "@/components/SiteChrome";
 import { siteProfile } from "@/data/site-config";
+import "katex/dist/katex.min.css";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({

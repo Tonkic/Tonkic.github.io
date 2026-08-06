@@ -1,9 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import katex from "katex";
 import { createHeadingId } from "@/lib/markdown";
 
-const inlinePattern = /(!?\[[^\]]*]\([^)]+\)|`[^`]+`|\*\*[^*]+\*\*|\$[^$\n]+\$)/g;
+const inlinePattern =
+  /(!?\[[^\]]*]\([^)]+\)|`[^`]+`|\*\*[^*]+\*\*|\\\[[\s\S]*?\\\]|(?<!\\)\$\$[\s\S]*?(?<!\\)\$\$|\\\([^\\\n]*?\\\)|(?<![\\$\\])\$(?!\$)(?:\\.|[^$\\\n])*?(?<!\\)\$(?!\$))/g;
 
 type Block =
   | { type: "code"; content: string; language: string }
@@ -25,119 +27,28 @@ const splitTableRow = (line: string) =>
 const isTableDivider = (line: string) =>
   /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line);
 
-const latexSymbols: Record<string, string> = {
-  alpha: "α",
-  beta: "β",
-  theta: "θ",
-  Theta: "Θ",
-  Sigma: "Σ",
-  sigma: "σ",
-  sum: "∑",
-  top: "⊤",
-  times: "×",
-  cdot: "·",
-};
+const escapeHtml = (value: string) =>
+  value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character] ?? character);
 
-const latexSizingCommands = new Set(["big", "bigl", "bigr", "Big", "Bigl", "Bigr", "left", "right"]);
+const renderLatex = (value: string, displayMode = false) => {
+  const source = value.replace(/\u00a0/g, " ").replace(/%5C/gi, "\\").replace(/%20/g, " ").trim();
+  if (!source) return "";
 
-const readLatexGroup = (value: string, start: number) => {
-  if (value[start] === "{") {
-    let depth = 1;
-    let index = start + 1;
-    while (index < value.length && depth > 0) {
-      if (value[index] === "{") depth += 1;
-      if (value[index] === "}") depth -= 1;
-      index += 1;
-    }
-    return { content: value.slice(start + 1, index - 1), end: index };
+  try {
+    const rendered = katex.renderToString(source, {
+      displayMode,
+      errorColor: "inherit",
+      output: "htmlAndMathml",
+      strict: "ignore",
+      throwOnError: false,
+      trust: false,
+    });
+    return rendered.includes("katex-error")
+      ? `<span class="math-fallback">${escapeHtml(source)}</span>`
+      : rendered;
+  } catch {
+    return `<span class="math-fallback">${escapeHtml(source)}</span>`;
   }
-
-  return { content: value[start] ?? "", end: start + 1 };
-};
-
-const renderLatex = (value: string): React.ReactNode[] => {
-  const nodes: React.ReactNode[] = [];
-  let buffer = "";
-  let index = 0;
-
-  const flush = () => {
-    if (buffer) {
-      nodes.push(buffer);
-      buffer = "";
-    }
-  };
-
-  while (index < value.length) {
-    const char = value[index];
-
-    if ((char === "_" || char === "^") && index + 1 < value.length) {
-      flush();
-      const group = readLatexGroup(value, index + 1);
-      const Tag = char === "_" ? "sub" : "sup";
-      nodes.push(<Tag key={`${char}-${index}`}>{renderLatex(group.content)}</Tag>);
-      index = group.end;
-      continue;
-    }
-
-    if (char === "\\") {
-      const command = value.slice(index + 1).match(/^[a-zA-Z]+/);
-      if (command) {
-        const name = command[0];
-        index += name.length + 1;
-
-        if (name === "frac" && value[index] === "{") {
-          flush();
-          const numerator = readLatexGroup(value, index);
-          const denominator = readLatexGroup(value, numerator.end);
-          nodes.push(
-            <span className="math-frac" key={`frac-${index}`}>
-              <span>{renderLatex(numerator.content)}</span>
-              <span>{renderLatex(denominator.content)}</span>
-            </span>,
-          );
-          index = denominator.end;
-          continue;
-        }
-
-        if (name === "sqrt" && value[index] === "{") {
-          flush();
-          const group = readLatexGroup(value, index);
-          nodes.push(
-            <span className="math-sqrt" key={`sqrt-${index}`}>
-              <span>{renderLatex(group.content)}</span>
-            </span>,
-          );
-          index = group.end;
-          continue;
-        }
-
-        if ((name === "text" || name === "mathcal") && value[index] === "{") {
-          flush();
-          const group = readLatexGroup(value, index);
-          nodes.push(
-            <span className={name === "mathcal" ? "math-cal" : undefined} key={`${name}-${index}`}>
-              {renderLatex(group.content)}
-            </span>,
-          );
-          index = group.end;
-          continue;
-        }
-
-        if (latexSizingCommands.has(name)) {
-          continue;
-        }
-
-        buffer += latexSymbols[name] ?? name;
-        continue;
-      }
-    }
-
-    buffer += char;
-    index += 1;
-  }
-
-  flush();
-  return nodes;
 };
 
 const resolveImageSource = (src: string, sourcePath?: string) => {
@@ -202,8 +113,32 @@ const resolveLinkHref = (href: string, sourcePath?: string, linkMap?: Record<str
   return target ? `${target}${resolved.hash}` : href;
 };
 
+const readDisplayMathBlock = (lines: string[], start: number, delimiter: "$$" | "\\[", firstContent: string) => {
+  const math: string[] = [];
+  const closingDelimiter = delimiter === "$$" ? "$$" : "\\]";
+  const firstClose = firstContent.indexOf(closingDelimiter);
+  if (firstClose >= 0) {
+    return { content: firstContent.slice(0, firstClose).trim(), end: start + 1 };
+  }
+
+  if (firstContent.trim()) math.push(firstContent);
+  let index = start + 1;
+  while (index < lines.length) {
+    const close = lines[index].indexOf(closingDelimiter);
+    if (close >= 0) {
+      math.push(lines[index].slice(0, close));
+      return { content: math.join("\n").trim(), end: index + 1 };
+    }
+    math.push(lines[index]);
+    index += 1;
+  }
+
+  return { content: math.join("\n").trim(), end: index };
+};
+
 const parseBlocks = (content: string): Block[] => {
-  const lines = content.replace(/\r\n/g, "\n").split("\n");
+  const withoutFrontmatter = content.replace(/^\uFEFF?---\s*\n[\s\S]*?\n---\s*(?:\n|$)/, "");
+  const lines = withoutFrontmatter.replace(/\$\$\$\$/g, "$$\n$$").replace(/\r\n/g, "\n").split("\n");
   const blocks: Block[] = [];
   let index = 0;
 
@@ -228,27 +163,20 @@ const parseBlocks = (content: string): Block[] => {
       continue;
     }
 
-    if (trimmed.startsWith("$$")) {
-      const math: string[] = [];
-      const firstLine = trimmed.slice(2);
+    const listMath = trimmed.match(/^(?:[-*]|\d+[.)])\s+(\$\$|\\\[)(.*)$/);
+    if (listMath) {
+      const delimiter = listMath[1] as "$$" | "\\[";
+      const math = readDisplayMathBlock(lines, index, delimiter, listMath[2]);
+      if (math.content) blocks.push({ type: "math", content: math.content });
+      index = math.end;
+      continue;
+    }
 
-      if (firstLine.endsWith("$$") && firstLine.length > 2) {
-        blocks.push({ type: "math", content: firstLine.slice(0, -2).trim() });
-        index += 1;
-        continue;
-      }
-
-      if (firstLine.trim()) math.push(firstLine);
-      index += 1;
-      while (index < lines.length && !lines[index].trim().endsWith("$$")) {
-        math.push(lines[index]);
-        index += 1;
-      }
-      if (index < lines.length) {
-        math.push(lines[index].trim().replace(/\$\$$/, ""));
-        index += 1;
-      }
-      blocks.push({ type: "math", content: math.join("\n").trim() });
+    const displayDelimiter = trimmed.startsWith("$$") ? "$$" : trimmed.startsWith("\\[") ? "\\[" : null;
+    if (displayDelimiter) {
+      const math = readDisplayMathBlock(lines, index, displayDelimiter, trimmed.slice(displayDelimiter.length));
+      if (math.content) blocks.push({ type: "math", content: math.content });
+      index = math.end;
       continue;
     }
 
@@ -283,7 +211,11 @@ const parseBlocks = (content: string): Block[] => {
 
     if (/^[-*]\s+/.test(trimmed)) {
       const items: string[] = [];
-      while (index < lines.length && /^[-*]\s+/.test(lines[index].trim())) {
+      while (
+        index < lines.length &&
+        /^[-*]\s+/.test(lines[index].trim()) &&
+        !/^[-*]\s+(?:\$\$|\\\[)/.test(lines[index].trim())
+      ) {
         items.push(lines[index].trim().replace(/^[-*]\s+/, ""));
         index += 1;
       }
@@ -293,7 +225,11 @@ const parseBlocks = (content: string): Block[] => {
 
     if (/^\d+[.)]\s+/.test(trimmed)) {
       const items: string[] = [];
-      while (index < lines.length && /^\d+[.)]\s+/.test(lines[index].trim())) {
+      while (
+        index < lines.length &&
+        /^\d+[.)]\s+/.test(lines[index].trim()) &&
+        !/^\d+[.)]\s+(?:\$\$|\\\[)/.test(lines[index].trim())
+      ) {
         items.push(lines[index].trim().replace(/^\d+[.)]\s+/, ""));
         index += 1;
       }
@@ -305,7 +241,14 @@ const parseBlocks = (content: string): Block[] => {
     index += 1;
     while (index < lines.length && lines[index].trim() && !/^(#{1,6})\s+/.test(lines[index].trim())) {
       const next = lines[index].trim();
-      if (next.startsWith("```") || next.startsWith("$$") || /^[-*]\s+/.test(next) || /^\d+[.)]\s+/.test(next)) break;
+      if (
+        next.startsWith("```") ||
+        next.startsWith("$$") ||
+        next.startsWith("\\[") ||
+        /^(?:[-*]|\d+[.)])\s+(?:\$\$|\\\[)/.test(next) ||
+        /^[-*]\s+/.test(next) ||
+        /^\d+[.)]\s+/.test(next)
+      ) break;
       if (next.includes("|") && index + 1 < lines.length && isTableDivider(lines[index + 1])) break;
       paragraph.push(next);
       index += 1;
@@ -351,10 +294,12 @@ const renderInline = (text: string, sourcePath?: string, linkMap?: Record<string
       nodes.push(<code key={match.index}>{token.slice(1, -1)}</code>);
     } else if (token.startsWith("**")) {
       nodes.push(<strong key={match.index}>{token.slice(2, -2)}</strong>);
-    } else if (token.startsWith("$")) {
+    } else if (token.startsWith("$") || token.startsWith("\\(") || token.startsWith("\\[")) {
+      const display = token.startsWith("$$") || token.startsWith("\\[");
+      const delimiterLength = token.startsWith("$") ? (display ? 2 : 1) : 2;
       nodes.push(
-        <span className="math-inline" key={match.index}>
-          {renderLatex(token.slice(1, -1))}
+        <span className={display ? "math-inline math-inline-display" : "math-inline"} key={match.index}>
+          <span dangerouslySetInnerHTML={{ __html: renderLatex(token.slice(delimiterLength, -delimiterLength), display) }} />
         </span>,
       );
     }
@@ -405,9 +350,7 @@ function MathBlock({ content }: { content: string }) {
         {copied ? "已复制" : "复制公式"}
       </button>
       <div aria-label="LaTeX 公式" className="math-block-content">
-        {content.split("\n").map((line, index) => (
-          <div key={index}>{renderLatex(line)}</div>
-        ))}
+        <span dangerouslySetInnerHTML={{ __html: renderLatex(content, true) }} />
       </div>
     </figure>
   );

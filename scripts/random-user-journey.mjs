@@ -8,6 +8,9 @@ const root = fileURLToPath(new URL("../out", import.meta.url));
 const requiredRoutes = ["/", "/overview/", "/blog/", "/api-relay/", "/portfolio/", "/cv/", "/academic/"];
 const mathRegressionRoute = "/blog/9185bf3a6c-sigmoid/";
 const attentionMaskRoute = "/blog/0d01619aaa-attention-mask/";
+const delimiterRegressionRoute = "/blog/68d90729b9-transformer/";
+const complexMathRoute = "/blog/b42deb2ee5/";
+const adjacentMathRoute = "/blog/6c6ec480ee/";
 const walkSteps = 48;
 
 const mimeTypes = new Map([
@@ -109,16 +112,40 @@ const run = async () => {
       .map((match) => match[0])
       .join("\n");
     assert.ok(renderedMathBlocks, "No rendered math blocks found on sigmoid page");
-    assert.ok(!renderedMathBlocks.includes("big("), "LaTeX sizing command rendered as visible text: big(");
-    assert.ok(!renderedMathBlocks.includes("big)"), "LaTeX sizing command rendered as visible text: big)");
+    assert.ok(renderedMathBlocks.includes('class="katex'), "Sigmoid formulas are not rendered by KaTeX");
+    assert.ok(renderedMathBlocks.includes("<mfrac>"), "Fraction structure is missing from sigmoid formulas");
+    assert.ok(!sigmoidHtml.includes('class="blog-article-summary"'), "Generated summary still duplicates the article body");
+    assert.ok(Buffer.byteLength(sigmoidHtml, "utf8") < 1_000_000, "Blog article HTML still contains the full knowledge base payload");
 
     const attentionHtml = await fetchPage(baseUrl, attentionMaskRoute);
     const attentionMathBlocks = [...attentionHtml.matchAll(/class="math-block-content"[\s\S]*?<\/figure>/g)]
       .map((match) => match[0])
       .join("\n");
     assert.ok(attentionMathBlocks, "No rendered math blocks found on attention mask page");
-    assert.ok(attentionMathBlocks.includes("math-sqrt"), "Square root formula did not render with math-sqrt");
-    assert.ok(!/>\s*sqrt\s*</.test(attentionMathBlocks), "Square root command rendered as visible text");
+    assert.ok(attentionMathBlocks.includes('class="katex'), "Attention formula is not rendered by KaTeX");
+    assert.ok(attentionMathBlocks.includes("<msqrt>"), "Square root structure is missing from attention formula");
+
+    const complexMathHtml = await fetchPage(baseUrl, complexMathRoute);
+    const complexMathBlocks = [...complexMathHtml.matchAll(/class="math-block-content"[\s\S]*?<\/figure>/g)]
+      .map((match) => match[0])
+      .join("\n");
+    assert.ok(complexMathBlocks.includes("<mfrac>"), "Complex fraction structure is missing");
+    assert.ok(complexMathBlocks.includes("⌊"), "Floor command did not render as a mathematical operator");
+    assert.ok(!complexMathBlocks.includes("katex-error"), "Complex formula exposes a KaTeX parser error");
+
+    const adjacentMathHtml = await fetchPage(baseUrl, adjacentMathRoute);
+    const adjacentMathBlocks = [...adjacentMathHtml.matchAll(/class="math-block-content"[\s\S]*?<\/figure>/g)]
+      .map((match) => match[0])
+      .join("\n");
+    assert.ok(adjacentMathBlocks.includes("<mfrac>") || adjacentMathBlocks.includes('class="katex'), "Adjacent display formulas were not separated");
+    assert.ok(!adjacentMathBlocks.includes("katex-error"), "Adjacent display formulas expose a KaTeX parser error");
+
+    const delimiterHtml = await fetchPage(baseUrl, delimiterRegressionRoute);
+    const delimiterStart = delimiterHtml.indexOf('<div class="blog-article-body">');
+    const delimiterEnd = delimiterHtml.indexOf('<nav class="blog-article-pagination"', delimiterStart);
+    const delimiterBody = delimiterStart >= 0 && delimiterEnd > delimiterStart ? delimiterHtml.slice(delimiterStart, delimiterEnd) : "";
+    assert.ok(delimiterBody.includes('class="math-inline math-inline-display"'), "Delimiter regression page has no display math");
+    assert.ok(!delimiterBody.includes("\\[1.0"), "\\[...\\] delimiter leaked into article text");
 
     const cssPaths = stylesheetLinks(sigmoidHtml);
     assert.ok(cssPaths.length > 0, "No stylesheet found on sigmoid page");

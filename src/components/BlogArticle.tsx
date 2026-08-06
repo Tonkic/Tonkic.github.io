@@ -20,14 +20,18 @@ export function BlogArticle({ entry, linkMap, previous, next }: {
           <div className="blog-breadcrumb">
             <Link href="/blog/">Blog</Link>
             <span>/</span>
-            <span>{entry.sourcePath?.replace(/\.md$/, "") ?? "Note"}</span>
+            <span>Note</span>
           </div>
           <h1>{entry.title}</h1>
+          {entry.tags?.length ? (
+            <div className="tag-row blog-article-tags" aria-label="Tags">
+              {entry.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}
+            </div>
+          ) : null}
           <div className="blog-article-meta">
-            <span>{entry.date ?? "未注明日期"}</span>
+            {entry.date ? <span>{entry.date}</span> : null}
             {entry.sourceUrl ? <Link href={entry.sourceUrl} target="_blank" rel="noreferrer">查看原始笔记 ↗</Link> : null}
           </div>
-          <p className="blog-article-summary">{entry.summary}</p>
         </header>
         {entry.content ? (
           <div className="blog-article-body">
