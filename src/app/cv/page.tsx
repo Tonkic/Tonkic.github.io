@@ -1,4 +1,5 @@
 import { PrintResumeButton } from "@/components/PrintResumeButton";
+import Link from "next/link";
 import type { ReactNode } from "react";
 import {
   resumeEducation,
@@ -82,6 +83,11 @@ export default function CvPage() {
             <div className="resume-block-item" key={project.name}>
               <strong>
                 {project.name}
+                {project.url ? (
+                  <Link className="resume-project-link" href={project.url} target="_blank" rel="noreferrer">
+                    {project.urlLabel ?? project.url}
+                  </Link>
+                ) : null}
                 <span>{project.description}</span>
               </strong>
               <BulletList items={project.bullets} />

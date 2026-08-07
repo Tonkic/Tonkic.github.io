@@ -2306,6 +2306,20 @@ div.portfolio-grid > .portfolio-card {
   font-weight: 700;
 }
 
+.resume-project-link {
+  margin-left: 8px;
+  color: #2563eb;
+  font-size: 0.9em;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: #93c5fd;
+  text-underline-offset: 2px;
+}
+
+.resume-project-link:hover {
+  color: #1d4ed8;
+}
+
 .resume-bullets {
   display: grid;
   gap: 4px;

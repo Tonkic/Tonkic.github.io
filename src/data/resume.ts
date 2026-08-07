@@ -19,6 +19,8 @@ export type ResumeProject = {
   description: string;
   name: string;
   role?: string;
+  url?: string;
+  urlLabel?: string;
   bullets: string[];
 };
 
@@ -58,8 +60,10 @@ export const resumeEducation: ResumeEducation[] = [
 
 export const resumeProjects: ResumeProject[] = [
   {
-    name: "Tonkic API：多模型 API 聚合与中转平台",
+    name: "多模型 API 聚合与中转平台",
     description: "Go / API Gateway / Protocol Relay",
+    url: "https://tonkicapi.xyz/",
+    urlLabel: "tonkicapi.xyz",
     bullets: [
       "基于 New API 与 CLIProxyAPI 进行二次开发，构建多模型 API 聚合与中转平台，围绕模型接入、协议转换和统一调用提供服务；累计处理 105,911 次请求、94 亿 Token。",
       "参与 OpenAI Responses、Codex 与 GitHub Copilot 等调用链路的兼容性改造，处理 SSE/WebSocket 流式响应、工具调用结果和模型路由问题。",
@@ -67,8 +71,10 @@ export const resumeProjects: ResumeProject[] = [
     ],
   },
   {
-    name: "Tonkic.github.io：个人网站与知识库",
+    name: "个人网站与知识库",
     description: "Next.js / TypeScript / GitHub Pages",
+    url: "https://tonkic.github.io/",
+    urlLabel: "tonkic.github.io",
     bullets: [
       "基于 Next.js App Router 与 TypeScript 构建个人网站，统一承载知识库、项目展示、在线简历与模型 API 中转状态页，并通过静态导出适配 GitHub Pages。",
       "设计 Obsidian 笔记同步与目录树生成链路，完成 Markdown、KaTeX 数学公式、内部链接和图片资源渲染；针对 300+ 静态页面优化数据载荷与移动端长公式展示。",
