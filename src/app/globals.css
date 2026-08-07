@@ -2322,34 +2322,6 @@ div.portfolio-grid > .portfolio-card {
   gap: 4px;
 }
 
-.resume-skill-matrix {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 7px 22px;
-}
-
-.resume-skill-item {
-  display: grid;
-  grid-template-columns: 7.2em minmax(0, 1fr);
-  gap: 8px;
-  align-items: baseline;
-}
-
-.resume-skill-item strong {
-  color: #1d4ed8;
-  font-size: 0.9em;
-  font-weight: 800;
-  white-space: nowrap;
-}
-
-.resume-skill-item p {
-  margin: 0;
-}
-
-.resume-skill-item:last-child {
-  grid-column: 1 / -1;
-}
-
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -2519,16 +2491,6 @@ div.portfolio-grid > .portfolio-card {
     display: none;
   }
 
-  .resume-skill-matrix {
-    grid-template-columns: 1fr;
-  }
-
-  .resume-skill-item,
-  .resume-skill-item:last-child {
-    grid-column: auto;
-    grid-template-columns: 1fr;
-    gap: 2px;
-  }
 
   .blog-reading-panel {
     padding: 12px;
@@ -3148,8 +3110,7 @@ div.portfolio-grid > .portfolio-card {
   .resume-a4-section,
   .resume-line-item,
   .resume-block-item,
-  .resume-internship,
-  .resume-skill-item {
+  .resume-internship {
     break-inside: avoid;
   }
 

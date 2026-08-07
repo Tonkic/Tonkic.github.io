@@ -90,14 +90,14 @@ export default function CvPage() {
         </ResumeSection>
 
         <ResumeSection title="专业技能">
-          <div className="resume-skill-matrix">
-            {resumeSkills.map((skill) => (
-              <div className="resume-skill-item" key={skill.category}>
-                <strong>{skill.category}</strong>
-                <p>{skill.detail}</p>
-              </div>
-            ))}
-          </div>
+          {resumeSkills.map((skill) => (
+            <div className="resume-block-item" key={skill.category}>
+              <strong>{skill.category}</strong>
+              <ul className="resume-bullets">
+                <li>{skill.detail}</li>
+              </ul>
+            </div>
+          ))}
         </ResumeSection>
       </article>
     </div>
