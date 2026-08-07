@@ -108,7 +108,7 @@ export const resumeSkills: ResumeSkill[] = [
 
 export const resumeExperiences: ResumeExperience[] = [
   {
-    company: "中数通信信息有限公司",
+    company: "中数通信息有限公司",
     role: "Java 后端实习生",
     location: "广州",
     period: "2024年08月 - 2024年10月",
