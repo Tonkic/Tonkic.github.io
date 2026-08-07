@@ -22,6 +22,11 @@ export type ResumeProject = {
   bullets: string[];
 };
 
+export type ResumeSkill = {
+  category: string;
+  detail: string;
+};
+
 export const resumeProfile = {
   name: "Tonkic",
   handle: "Tonkic",
@@ -56,32 +61,43 @@ export const resumeProjects: ResumeProject[] = [
     name: "Tonkic API：多模型 API 聚合与中转平台",
     description: "Go / API Gateway / Protocol Relay",
     bullets: [
-      "基于 New API 与 CLIProxyAPI 进行二次开发，构建多模型 API 聚合与中转平台，围绕模型接入、协议转换和统一调用提供服务。",
+      "基于 New API 与 CLIProxyAPI 进行二次开发，构建多模型 API 聚合与中转平台，围绕模型接入、协议转换和统一调用提供服务；累计处理 105,911 次请求、94 亿 Token。",
       "参与 OpenAI Responses、Codex 与 GitHub Copilot 等调用链路的兼容性改造，处理 SSE/WebSocket 流式响应、工具调用结果和模型路由问题。",
       "集成用量统计与 Keeper 服务，完善 Linux 更新脚本、GitHub Actions 发布流程、阿里云 OSS 分发和 Nginx HTTPS 反向代理部署。",
     ],
   },
   {
-    name: "面向工业异常检测的轻量化 PatchCore 模型研究",
-    description: "计算机视觉 / 毕业设计",
+    name: "Tonkic.github.io：个人网站与知识库",
+    description: "Next.js / TypeScript / GitHub Pages",
     bullets: [
-      "围绕工业质检中的异常检测场景，研究 PatchCore 的特征提取、特征库构建和最近邻检索流程。",
-      "尝试从特征压缩、采样策略和推理开销角度进行轻量化实验，关注精度、内存占用和推理效率之间的平衡。",
-      "整理多场景工业缺陷检测实验结果并形成毕业设计文档，体现计算机视觉论文阅读、实验设计和结果分析能力。",
+      "基于 Next.js App Router 与 TypeScript 构建个人网站，统一承载知识库、项目展示、在线简历与模型 API 中转状态页，并通过静态导出适配 GitHub Pages。",
+      "设计 Obsidian 笔记同步与目录树生成链路，完成 Markdown、KaTeX 数学公式、内部链接和图片资源渲染；针对 300+ 静态页面优化数据载荷与移动端长公式展示。",
+      "建立 GitHub Actions 自动同步、类型检查、生产构建和 Pages 发布流程，并编写随机用户访问脚本覆盖路由、链接、公式渲染与页面体积回归。",
     ],
   },
 ];
 
-export const resumeSkills = [
-  "熟悉大数据组件 Spark、Hive、Flink、Kafka，具备离线数仓和实时数据处理实践经验。",
-  "熟悉 Python、Java、C++，了解 Scala、R 语言。",
-  "具备深度学习基础，了解 CUDA、神经网络和模型训练基本流程。",
-  "熟悉 Git 版本控制，常用 GitHub / Gitee 协作开发。",
-  "有前端基础，了解 CSS 和 JavaScript，能使用 ECharts、Metabase、Avue-data 做数据可视化。",
-  "熟悉 Linux 常用命令和日志排查，能使用 Shell 搭建测试环境、编写简单自动化脚本。",
-  "熟悉 MySQL 基本操作、慢查询排查、索引优化和 Explain 分析；能使用 Navicat 完成日常数据库操作。",
-  "熟悉 Docker 容器化技术，能构建镜像、运行实例并完成基础部署。",
-  "熟悉 Navicat、Xshell、PyCharm、Git、Docker 等常用开发工具。",
+export const resumeSkills: ResumeSkill[] = [
+  {
+    category: "编程与软件工程",
+    detail: "以 Python、Java、Go、TypeScript 为主要开发语言，具备面向对象设计、接口抽象、异步与并发编程、异常处理及可测试代码组织能力；使用 Git 进行分支协作与版本管理。",
+  },
+  {
+    category: "后端与数据系统",
+    detail: "具备 Spring Boot、MyBatis、REST API 与模型网关开发实践；掌握 MySQL 索引设计、执行计划分析和慢查询定位，理解缓存、消息队列、流式响应与协议适配。",
+  },
+  {
+    category: "大数据与机器学习",
+    detail: "掌握 Spark、Hive、Flink、Kafka 等批流处理组件及离线数仓基本范式；具备 PyTorch、深度学习训练评估、计算机视觉与异常检测基础，理解 CUDA 加速与模型推理流程。",
+  },
+  {
+    category: "前端与可视化",
+    detail: "能够使用 Next.js、React、TypeScript、CSS 构建响应式静态站点与数据界面，处理 Markdown、KaTeX 和复杂内容排版；具备 ECharts、Metabase 等数据可视化实践。",
+  },
+  {
+    category: "云原生与交付",
+    detail: "熟悉 Linux、Shell、Docker、Nginx 与 HTTPS 部署，能够配置 GitHub Actions 持续集成、静态发布和自动化脚本，并基于日志、网络与进程状态定位部署问题。",
+  },
 ];
 
 export const resumeExperiences: ResumeExperience[] = [
