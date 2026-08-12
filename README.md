@@ -1,6 +1,8 @@
 # Tonkic.github.io
 
-Tonkic 的个人网站，使用 Next.js App Router、React 和 TypeScript 构建，并静态导出到 GitHub Pages。
+Tonkic 的中英文个人网站，使用 Next.js App Router、React 和 TypeScript 构建，并静态导出到 GitHub Pages。
+
+站点右上角提供 `中 / EN` 切换。语言偏好保存在浏览器 `localStorage`，在同一 URL 上即时切换，不复制 Blog 路由。
 
 ## 页面
 
@@ -19,7 +21,16 @@ Tonkic 的个人网站，使用 Next.js App Router、React 和 TypeScript 构建
 - Framer Motion、Lenis
 - Fumadocs Core
 - KaTeX
+- 轻量 typed dictionaries + React Context 国际化
 - GitHub Actions、GitHub Pages
+
+## 中英文内容约定
+
+- 新增或修改用户可见的界面文案时，必须同时更新 `src/i18n/messages.ts` 的 `zh` 与 `en`。
+- 新增 Portfolio 等结构化内容时，必须同时提供 `summary` / `summaryEn` 与 `content` / `contentEn`。
+- CV 使用 `src/data/resume.ts` 与 `src/data/resume-en.ts` 两套完整模板，字段结构必须保持一致。
+- Blog 笔记正文保留源仓库中的原始语言；导航、搜索、操作提示和空状态仍需中英双语。
+- 当前采用同 URL 客户端切换，因此英文界面不会形成独立的 `/en` SEO 页面。需要独立英文收录时，可沿用现有字典迁移到静态 locale 路由。
 
 ## 本地开发
 
@@ -32,7 +43,7 @@ npm run dev
 
 ```bash
 npm run check       # TypeScript
-npm run test:unit   # 快照数据契约
+npm run test:unit   # Relay 与中英文数据契约
 npm run build       # 静态导出到 out/
 npm run test:static # 检查已导出的路由、链接和公式
 npm test            # 完整验证
@@ -52,7 +63,7 @@ API Relay 快照由 `scripts/sync-relay-snapshot.mjs` 请求公开的 `/api/stat
 npm run sync:relay
 ```
 
-Relay 同步不使用任何 API Key。Blog 同步可使用 GitHub Token 读取源仓库，但不会将 Token 写入生成文件。本站不保存中转服务的用户数据、额度或请求记录。
+Relay 同步只请求无需鉴权的公开状态接口，不使用 API Key。Blog 同步可使用 GitHub Token 读取源仓库，但不会将 Token 写入生成文件。本站不保存中转服务的用户数据、额度或请求记录。
 
 ## 部署
 

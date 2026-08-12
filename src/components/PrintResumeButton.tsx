@@ -1,9 +1,12 @@
 "use client";
 
+import { useLanguage } from "@/components/LanguageProvider";
+
 export function PrintResumeButton() {
+  const { t } = useLanguage();
   return (
     <button className="resume-print-button" onClick={() => window.print()} type="button">
-      导出 PDF
+      {t("common.exportPdf")}
     </button>
   );
 }

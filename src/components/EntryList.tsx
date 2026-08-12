@@ -1,15 +1,16 @@
 import Link from "next/link";
 import type { ContentEntry } from "@/data/site";
+import { LocalizedText } from "@/components/LocalizedText";
 
 export function EntryList({
   entries,
-  emptyMessage = "暂时没有可展示的条目。",
+  emptyMessage,
 }: {
   entries: ContentEntry[];
   emptyMessage?: string;
 }) {
   if (!entries.length) {
-    return <p className="empty-state">{emptyMessage}</p>;
+    return <p className="empty-state">{emptyMessage ?? <LocalizedText text={{ zh: "暂时没有可展示的条目。", en: "Nothing to show yet." }} />}</p>;
   }
 
   return (
@@ -21,7 +22,7 @@ export function EntryList({
             {entry.date ? ` / ${entry.date}` : ""}
           </span>
           <h3>{entry.title}</h3>
-          <p>{entry.summary}</p>
+          <p><LocalizedText text={{ zh: entry.summary, en: entry.summaryEn ?? entry.summary }} /></p>
           {entry.tags ? (
             <span className="tag-row">
               {entry.tags.map((tag) => (

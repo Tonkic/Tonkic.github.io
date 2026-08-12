@@ -12,6 +12,8 @@
 - `src/data/site.ts`：Blog fallback、Portfolio 和学术列表数据。
 - `src/data/obsidian-blog.ts`：同步生成的 Blog 内容，不手工编辑。
 - `src/data/relay-snapshot.json`：同步生成的最小健康快照。
+- `src/i18n/`：locale 类型、持久化键与中英文 typed dictionaries。
+- `src/components/LanguageProvider.tsx`：客户端语言状态、DOM `lang` 属性与持久化。
 - `src/lib/blog-source.ts`：将 Blog 条目适配为 Fumadocs page tree，并为列表移除正文。
 - `scripts/`：Blog 同步、Relay 快照、快照契约测试与静态访问回归。
 
@@ -56,7 +58,7 @@ https://tonkicapi.xyz/api/status
 ## 验证
 
 - `npm run check`：TypeScript Interface 检查。
-- `npm run test:unit`：Relay 快照 schema 与失败回退语义。
+- `npm run test:unit`：Relay 快照 schema、失败回退语义与中英文字典/模板契约。
 - `npm run build`：生成全部静态页面。
 - `npm run test:static`：从 `out/` 启动本地静态服务器，检查主要路由、内部链接、KaTeX 回归、文章体积和历史 CSS 不回归。
 - `npm test`：依次执行以上验证。
@@ -67,3 +69,17 @@ https://tonkicapi.xyz/api/status
 - 公开站点不得依赖浏览器跨域读取 Relay 才能显示基本状态。
 - `obsidian-blog.ts` 和 `relay-snapshot.json` 是生成数据，修改逻辑应发生在对应脚本。
 - 新栏目或详情路由只有在存在真实内容时才引入。
+- 新增或修改用户可见功能时，中英文消息与结构化内容模板必须在同一个变更中更新。
+
+## 国际化数据流
+
+```text
+pre-hydration bootstrap
+  -> localStorage / browser language
+  -> html[data-locale] + html[lang]
+  -> LanguageProvider
+  -> typed messages / bilingual content templates
+  -> shared static routes
+```
+
+该模型不依赖 Next.js middleware、cookies 或服务端运行时，兼容 `output: "export"`。同 URL 切换避免为 300+ Blog 页面重复生成英文副本，代价是英文 UI 没有独立可索引 URL。

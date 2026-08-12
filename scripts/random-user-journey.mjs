@@ -107,6 +107,13 @@ const run = async () => {
       await fetchPage(baseUrl, link);
     }
 
+    const homeHtml = await fetchPage(baseUrl, "/");
+    const blogHtml = await fetchPage(baseUrl, "/blog/");
+    assert.ok(homeHtml.includes("language-toggle"), "Homepage has no language switcher");
+    assert.ok(homeHtml.includes("切换到英文"), "Homepage has no Chinese language-switch label");
+    assert.ok(homeHtml.includes("tonkic-locale"), "Locale preference bootstrap is missing");
+    assert.ok(blogHtml.includes('data-lang="zh"') && blogHtml.includes('data-lang="en"'), "Blog index does not contain both language templates");
+
     const sigmoidHtml = await fetchPage(baseUrl, mathRegressionRoute);
     const renderedMathBlocks = [...sigmoidHtml.matchAll(/class="math-block-content"[\s\S]*?<\/figure>/g)]
       .map((match) => match[0])
@@ -150,6 +157,8 @@ const run = async () => {
     const cssPaths = stylesheetLinks(sigmoidHtml);
     assert.ok(cssPaths.length > 0, "No stylesheet found on sigmoid page");
     const cssText = (await Promise.all(cssPaths.map((path) => fetchPage(baseUrl, path)))).join("\n");
+    assert.ok(cssText.includes(".language-toggle"), "Language switcher styles are missing");
+    assert.match(cssText, /html\[data-locale=(?:"en"|en)]\s*\[data-lang=(?:"zh"|zh)]/, "Locale visibility styles are missing");
     assert.ok(!cssText.includes("vertical-align:-.42em"), "Math fractions still use negative vertical alignment");
     assert.ok(!cssText.includes("vertical-align: -0.42em"), "Math fractions still use negative vertical alignment");
     for (const obsoleteSelector of [

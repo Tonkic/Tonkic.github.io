@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
 import katex from "katex";
 import { createHeadingId } from "@/lib/markdown";
 
@@ -313,6 +314,7 @@ const renderInline = (text: string, sourcePath?: string, linkMap?: Record<string
 
 function CodeBlock({ content, language }: { content: string; language: string }) {
   const [copied, setCopied] = useState(false);
+  const { t } = useLanguage();
 
   const copy = async () => {
     await navigator.clipboard.writeText(content);
@@ -325,7 +327,7 @@ function CodeBlock({ content, language }: { content: string; language: string })
       <div className="code-block-bar">
         <span>{language || "code"}</span>
         <button onClick={copy} type="button">
-          {copied ? "已复制" : "复制"}
+          {copied ? t("blog.copied") : t("blog.copy")}
         </button>
       </div>
       <pre>
@@ -337,6 +339,7 @@ function CodeBlock({ content, language }: { content: string; language: string })
 
 function MathBlock({ content }: { content: string }) {
   const [copied, setCopied] = useState(false);
+  const { t } = useLanguage();
 
   const copy = async () => {
     await navigator.clipboard.writeText(`$$\n${content}\n$$`);
@@ -347,9 +350,9 @@ function MathBlock({ content }: { content: string }) {
   return (
     <figure className="math-block">
       <button onClick={copy} type="button">
-        {copied ? "已复制" : "复制公式"}
+        {copied ? t("blog.copied") : t("blog.copyFormula")}
       </button>
-      <div aria-label="LaTeX 公式" className="math-block-content">
+      <div aria-label={t("blog.formula")} className="math-block-content">
         <span dangerouslySetInnerHTML={{ __html: renderLatex(content, true) }} />
       </div>
     </figure>
@@ -358,14 +361,18 @@ function MathBlock({ content }: { content: string }) {
 
 export function MarkdownContent({
   content,
+  contentEn,
   linkMap,
   sourcePath,
 }: {
   content: string;
+  contentEn?: string;
   linkMap?: Record<string, string>;
   sourcePath?: string;
 }) {
-  const blocks = useMemo(() => parseBlocks(content), [content]);
+  const { locale } = useLanguage();
+  const localizedContent = locale === "en" && contentEn ? contentEn : content;
+  const blocks = useMemo(() => parseBlocks(localizedContent), [localizedContent]);
   const headingIds = new Map<string, number>();
 
   return (

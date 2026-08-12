@@ -6,6 +6,8 @@ import type { CSSProperties, ReactNode } from "react";
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import type { PageTree } from "fumadocs-core/server";
 import type { ContentEntry } from "@/data/site";
+import { LanguageToggle } from "@/components/LanguageToggle";
+import { useLanguage } from "@/components/LanguageProvider";
 
 type TreeNode = PageTree.Node;
 type FolderNode = PageTree.Folder;
@@ -16,7 +18,7 @@ const normalizeUrl = (url?: string) => {
 };
 
 const nodeText = (value: PageTree.Node["name"]) =>
-  typeof value === "string" || typeof value === "number" ? String(value).replace(/_$/, "") : "未命名";
+  typeof value === "string" || typeof value === "number" ? String(value).replace(/_$/, "") : "Untitled";
 
 const countPages = (nodes: TreeNode[]): number =>
   nodes.reduce((total, node) => {
@@ -86,6 +88,7 @@ function TreeContent({ pageTree, activeUrl, searchResults, query }: {
   searchResults: ContentEntry[];
   query: string;
 }) {
+  const { t } = useLanguage();
   if (query) {
     return searchResults.length ? (
       <div className="blog-search-results">
@@ -97,7 +100,7 @@ function TreeContent({ pageTree, activeUrl, searchResults, query }: {
         ))}
       </div>
     ) : (
-      <p className="blog-sidebar-empty">没有找到匹配笔记。</p>
+      <p className="blog-sidebar-empty">{t("blog.noResults")}</p>
     );
   }
 
@@ -112,6 +115,7 @@ function TreeContent({ pageTree, activeUrl, searchResults, query }: {
 
 export function BlogSidebar({ pageTree, entries }: { pageTree: PageTree.Root; entries: ContentEntry[] }) {
   const pathname = usePathname() ?? "/blog/";
+  const { locale, t } = useLanguage();
   const activeUrl = normalizeUrl(pathname);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query.trim().toLocaleLowerCase());
@@ -124,22 +128,23 @@ export function BlogSidebar({ pageTree, entries }: { pageTree: PageTree.Root; en
     <>
       <div className="blog-sidebar-brand">
         <Link href="/" className="blog-sidebar-logo">Tonkic</Link>
-        <span>Knowledge Base</span>
+        <span>{locale === "zh" ? "知识库" : "Knowledge Base"}</span>
       </div>
       <div className="blog-sidebar-actions">
-        <Link href="/" className="blog-sidebar-home">← 返回首页</Link>
-        <span>{countPages(pageTree.children)} 篇笔记</span>
+        <Link href="/" className="blog-sidebar-home">{t("blog.backHome")}</Link>
+        <span>{countPages(pageTree.children)} {t("blog.noteCount")}</span>
+        <LanguageToggle compact />
       </div>
       <label className="blog-sidebar-search">
-        <span className="sr-only">搜索知识库</span>
-        <input value={query} onChange={(event) => setQuery(event.target.value)} type="search" placeholder="搜索笔记..." />
+        <span className="sr-only">{t("blog.searchLabel")}</span>
+        <input value={query} onChange={(event) => setQuery(event.target.value)} type="search" placeholder={t("blog.searchPlaceholder")} />
         <kbd>⌘ K</kbd>
       </label>
       <div className="blog-sidebar-tree" data-lenis-prevent>
         <TreeContent pageTree={pageTree} activeUrl={activeUrl} searchResults={searchResults} query={deferredQuery} />
       </div>
       {!mobile ? (
-        <nav className="blog-sidebar-nav" aria-label="站点导航">
+        <nav className="blog-sidebar-nav" aria-label={t("blog.navigation")}>
           <Link href="/portfolio">Portfolio</Link>
           <Link href="/cv">CV</Link>
           <Link href="/api-relay">API Relay</Link>
@@ -150,11 +155,11 @@ export function BlogSidebar({ pageTree, entries }: { pageTree: PageTree.Root; en
 
   return (
     <>
-      <aside className="blog-sidebar" aria-label="Blog 知识库目录">
+      <aside className="blog-sidebar" aria-label={t("blog.directory")}>
         {content()}
       </aside>
       <details className="blog-sidebar-mobile">
-        <summary><span>☰</span><strong>Blog 知识库</strong><small>{countPages(pageTree.children)} 篇笔记</small></summary>
+        <summary><span>☰</span><strong>{t("blog.mobileTitle")}</strong><small>{countPages(pageTree.children)} {t("blog.noteCount")}</small></summary>
         <div className="blog-sidebar-mobile-content">{content(true)}</div>
       </details>
     </>

@@ -47,6 +47,14 @@ Fumadocs Core 只负责从 `sourcePath` 构建目录树；本站不使用 Fumado
 - 静态导出、GitHub Pages
 - GitHub Actions 内容同步与部署
 
+## 语言
+
+- 站点支持中文 `zh` 与英文 `en`，默认中文；切换入口位于全站导航和 Blog 侧栏。
+- 当前使用 typed dictionaries、React Context 与 `localStorage`，在同一 URL 上切换，不使用中间件或服务端 locale 协商。
+- 所有新界面文案必须同时提供中英文消息；Portfolio 和 CV 等自有内容必须维护结构一致的中英文模板。
+- Blog 正文保留 Obsidian 源笔记的原始语言，站点外壳与操作控件保持双语。
+- 当前方案优先控制 300+ 静态 Blog 页面数量；若未来需要英文独立 SEO，再引入 `/en` 静态路由并复用现有字典。
+
 ## 决策
 
 - 首页保持简洁，只承担身份展示和主要入口，不复制各栏目的内容。

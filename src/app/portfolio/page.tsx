@@ -1,10 +1,11 @@
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { portfolioEntries } from "@/data/site";
+import { LocalizedText } from "@/components/LocalizedText";
 
 export const metadata = {
   title: "Portfolio",
-  description: "Tonkic 的工程项目集合。",
+  description: "Tonkic 的工程项目集合。 Selected engineering and content projects by Tonkic.",
   alternates: { canonical: "/portfolio/" },
 };
 
@@ -25,7 +26,7 @@ export default function PortfolioPage() {
             <div className="portfolio-card-main">
               <span className="card-eyebrow">{entry.tags?.slice(0, 2).join(" / ")}</span>
               <h3>{entry.title}</h3>
-              <p>{entry.summary}</p>
+              <p><LocalizedText text={{ zh: entry.summary, en: entry.summaryEn ?? entry.summary }} /></p>
               <div className="tag-row">
                 {entry.tags?.map((tag) => (
                   <span className="tag" key={tag}>
@@ -34,7 +35,7 @@ export default function PortfolioPage() {
                 ))}
               </div>
               <span className="card-arrow">
-                {entry.sourceUrl ? "GitHub ↗" : "查看详情"}
+                {entry.sourceUrl ? "GitHub ↗" : <LocalizedText text={{ zh: "查看详情", en: "View details" }} />}
               </span>
             </div>
           </a>

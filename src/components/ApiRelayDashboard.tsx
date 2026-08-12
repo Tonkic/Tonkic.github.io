@@ -4,6 +4,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import relaySnapshotData from "@/data/relay-snapshot.json";
 import { siteProfile } from "@/data/site-config";
+import { useLanguage } from "@/components/LanguageProvider";
+import type { Locale } from "@/i18n/config";
+import type { MessagePath } from "@/i18n/messages";
 
 type RelaySnapshot = {
   health: {
@@ -26,9 +29,9 @@ const liveHealthUrl = `${relayOrigin}${siteProfile.relayHealthPath}`;
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const formatCheckedAt = (value: string | null) => {
-  if (!value) return "暂无成功记录";
-  return new Intl.DateTimeFormat("zh-CN", {
+const formatCheckedAt = (value: string | null, locale: Locale, fallback: string) => {
+  if (!value) return fallback;
+  return new Intl.DateTimeFormat(locale === "zh" ? "zh-CN" : "en-US", {
     timeZone: "Asia/Shanghai",
     month: "2-digit",
     day: "2-digit",
@@ -38,36 +41,37 @@ const formatCheckedAt = (value: string | null) => {
   }).format(new Date(value));
 };
 
-const snapshotHealth = (): RelayHealth =>
+const snapshotHealth = (locale: Locale, t: (path: MessagePath) => string): RelayHealth =>
   relaySnapshot.health.reachable
     ? {
-        label: "服务在线（自动快照）",
-        reason: `最近探测：${formatCheckedAt(relaySnapshot.health.checkedAt)}`,
+        label: t("relay.onlineSnapshot"),
+        reason: `${t("relay.latest")}: ${formatCheckedAt(relaySnapshot.health.checkedAt, locale, t("relay.noSuccess"))}`,
         tone: "online",
       }
     : {
-        label: "最近探测未连接",
-        reason: `上次在线：${formatCheckedAt(relaySnapshot.health.lastSuccessAt)}`,
+        label: t("relay.offline"),
+        reason: `${t("relay.lastOnline")}: ${formatCheckedAt(relaySnapshot.health.lastSuccessAt, locale, t("relay.noSuccess"))}`,
         tone: "offline",
       };
 
 export function ApiRelayDashboard() {
   const reduceMotion = useReducedMotion();
-  const [health, setHealth] = useState<RelayHealth>(snapshotHealth);
+  const { locale, t } = useLanguage();
+  const [health, setHealth] = useState<RelayHealth>(() => snapshotHealth(locale, t));
 
   useEffect(() => {
     if (!siteProfile.relayBrowserProbeEnabled) {
       setHealth({
-        ...snapshotHealth(),
-        reason: `${snapshotHealth().reason}；实时探测等待接口开放 CORS`,
+        ...snapshotHealth(locale, t),
+        reason: `${snapshotHealth(locale, t).reason}; ${t("relay.corsPending")}`,
       });
       return;
     }
 
     if (window.location.protocol === "https:" && liveHealthUrl.startsWith("http://")) {
       setHealth({
-        ...snapshotHealth(),
-        reason: `${snapshotHealth().reason}；实时探测等待中转站启用 HTTPS`,
+        ...snapshotHealth(locale, t),
+        reason: `${snapshotHealth(locale, t).reason}; ${t("relay.httpsPending")}`,
       });
       return;
     }
@@ -89,19 +93,19 @@ export function ApiRelayDashboard() {
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const payload = (await response.json()) as { success?: boolean };
-        if (payload.success === false) throw new Error("状态接口返回失败");
+        if (payload.success === false) throw new Error("status failed");
         if (active) {
           setHealth({
-            label: "服务在线（实时）",
-            reason: `刚刚通过 ${siteProfile.relayHealthPath} 探测`,
+            label: t("relay.liveOnline"),
+            reason: t("relay.justProbed"),
             tone: "online",
           });
         }
       } catch {
         if (active) {
           setHealth({
-            ...snapshotHealth(),
-            reason: `${snapshotHealth().reason}；浏览器实时接口暂不可读`,
+            ...snapshotHealth(locale, t),
+            reason: `${snapshotHealth(locale, t).reason}; ${t("relay.unreadable")}`,
           });
         }
       } finally {
@@ -119,7 +123,7 @@ export function ApiRelayDashboard() {
       currentController?.abort();
       window.clearInterval(interval);
     };
-  }, []);
+  }, [locale, t]);
 
   return (
     <div className="dashboard-shell">
@@ -155,17 +159,17 @@ export function ApiRelayDashboard() {
           <a className="relay-launch" href={siteProfile.publicRelayUrl} target="_blank" rel="noreferrer">
             <span className="relay-launch-copy">
               <small>EXTERNAL GATEWAY</small>
-              <strong>打开中转站</strong>
+              <strong>{t("relay.open")}</strong>
             </span>
             <span className="relay-launch-arrow" aria-hidden>↗</span>
           </a>
           <div className="relay-address">
-            <span>服务地址</span>
+            <span>{t("relay.address")}</span>
             <strong>{relayOrigin}</strong>
           </div>
         </footer>
       </motion.section>
-      <p className="relay-landing-footnote">服务详情、模型列表与价格以中转站内实时信息为准。</p>
+      <p className="relay-landing-footnote">{t("relay.footnote")}</p>
     </div>
   );
 }

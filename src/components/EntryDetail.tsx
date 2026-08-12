@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { MarkdownContent } from "@/components/MarkdownContent";
 import { Reveal } from "@/components/Reveal";
 import type { ContentEntry } from "@/data/site";
+import { LocalizedText } from "@/components/LocalizedText";
 
 export function EntryDetail({
   entry,
@@ -20,8 +21,8 @@ export function EntryDetail({
       <Reveal className="glass-panel">
         <p className="eyebrow">{entry.type}</p>
         <h1>{entry.title}</h1>
-        <p className="entry-meta">{entry.date ?? "未注明日期"}</p>
-        <p>{entry.summary}</p>
+        <p className="entry-meta">{entry.date ?? <LocalizedText text={{ zh: "未注明日期", en: "Date not specified" }} />}</p>
+        <p><LocalizedText text={{ zh: entry.summary, en: entry.summaryEn ?? entry.summary }} /></p>
         {entry.tags ? (
           <div className="tag-row">
             {entry.tags.map((tag) => (
@@ -34,7 +35,7 @@ export function EntryDetail({
         {entry.sourceUrl ? (
           <div className="inline-actions">
             <Link className="button" href={entry.sourceUrl} target="_blank" rel="noreferrer">
-              {entry.type === "Blog" ? "查看 Obsidian 源文件" : "查看 GitHub 仓库"}
+              <LocalizedText text={entry.type === "Blog" ? { zh: "查看 Obsidian 源文件", en: "View Obsidian source" } : { zh: "查看 GitHub 仓库", en: "View GitHub repository" }} />
             </Link>
           </div>
         ) : null}
@@ -42,7 +43,7 @@ export function EntryDetail({
 
       {entry.content ? (
         <Reveal className="glass-panel article-body">
-          <MarkdownContent content={entry.content} linkMap={linkMap} sourcePath={entry.sourcePath} />
+          <MarkdownContent content={entry.content} contentEn={entry.contentEn} linkMap={linkMap} sourcePath={entry.sourcePath} />
         </Reveal>
       ) : null}
     </div>

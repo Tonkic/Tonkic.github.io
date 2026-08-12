@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { SiteChrome } from "@/components/SiteChrome";
+import { LanguageProvider } from "@/components/LanguageProvider";
 import { siteProfile } from "@/data/site-config";
 import "katex/dist/katex.min.css";
 import "./globals.css";
@@ -26,22 +27,23 @@ export const metadata: Metadata = {
     default: "Tonkic",
     template: "%s | Tonkic",
   },
-  description: "Tonkic 的个人网站：人工智能知识库、工程项目、模型 API 中转与求职简历。",
-  keywords: ["Tonkic", "人工智能", "计算机视觉", "RAG", "Next.js", "模型 API 中转"],
+  description: "Tonkic 的中英文个人网站：人工智能知识库、工程项目、模型 API 中转与简历。 Bilingual personal site for AI notes, projects, API relay, and CV.",
+  keywords: ["Tonkic", "人工智能", "Artificial Intelligence", "计算机视觉", "RAG", "Next.js", "模型 API 中转"],
   authors: [{ name: siteProfile.name, url: siteProfile.siteUrl }],
   creator: siteProfile.name,
   openGraph: {
     type: "website",
     locale: "zh_CN",
+    alternateLocale: ["en_US"],
     url: "/",
     siteName: "Tonkic",
     title: "Tonkic — AI, Systems & Knowledge",
-    description: "人工智能知识库、工程项目与模型 API 中转。",
+    description: "人工智能知识库、工程项目与模型 API 中转。 AI knowledge, engineering projects, and API relay.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Tonkic — AI, Systems & Knowledge",
-    description: "人工智能知识库、工程项目与模型 API 中转。",
+    description: "人工智能知识库、工程项目与模型 API 中转。 AI knowledge, engineering projects, and API relay.",
   },
   icons: { icon: "/icon.svg" },
 };
@@ -57,10 +59,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN" className={`${spaceGrotesk.variable} ${jetBrainsMono.variable}`}>
+    <html lang="zh-CN" className={`${spaceGrotesk.variable} ${jetBrainsMono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `try{var l=localStorage.getItem("tonkic-locale");if(l!=="zh"&&l!=="en")l=navigator.language.toLowerCase().startsWith("zh")?"zh":"en";document.documentElement.dataset.locale=l;document.documentElement.lang=l==="zh"?"zh-CN":"en"}catch(e){document.documentElement.dataset.locale="zh"}` }} />
+      </head>
       <body>
-        <SmoothScroll />
-        <SiteChrome>{children}</SiteChrome>
+        <LanguageProvider>
+          <SmoothScroll />
+          <SiteChrome>{children}</SiteChrome>
+        </LanguageProvider>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 export type NavItem = {
   href: string;
-  label: string;
+  labelKey: "nav.blog" | "nav.relay" | "nav.portfolio" | "nav.cv";
   tone: "primary" | "secondary";
 };
 
@@ -18,8 +18,8 @@ export const siteProfile = {
 };
 
 export const navItems: NavItem[] = [
-  { href: "/blog", label: "Blog", tone: "primary" },
-  { href: "/api-relay", label: "模型 API 中转", tone: "primary" },
-  { href: "/portfolio", label: "Portfolio", tone: "secondary" },
-  { href: "/cv", label: "CV", tone: "secondary" },
+  { href: "/blog", labelKey: "nav.blog", tone: "primary" },
+  { href: "/api-relay", labelKey: "nav.relay", tone: "primary" },
+  { href: "/portfolio", labelKey: "nav.portfolio", tone: "secondary" },
+  { href: "/cv", labelKey: "nav.cv", tone: "secondary" },
 ];

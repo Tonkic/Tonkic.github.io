@@ -171,9 +171,76 @@ p {
 
 .site-nav {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 8px;
+}
+
+[data-lang="en"] {
+  display: none;
+}
+
+html[data-locale="en"] [data-lang="zh"] {
+  display: none;
+}
+
+html[data-locale="en"] [data-lang="en"] {
+  display: revert;
+}
+
+i[data-lang] {
+  font-style: normal;
+}
+
+.language-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 82px;
+  min-height: 44px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(244, 240, 232, 0.045);
+  color: var(--subtle);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.language-toggle:hover {
+  border-color: rgba(139, 232, 255, 0.5);
+  background: rgba(139, 232, 255, 0.08);
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+
+.language-toggle span {
+  opacity: 0.42;
+  transition: opacity 180ms ease, color 180ms ease;
+}
+
+.language-toggle span.active {
+  color: var(--cyan);
+  opacity: 1;
+}
+
+.language-toggle i {
+  color: var(--subtle);
+  font-style: normal;
+  opacity: 0.55;
+}
+
+.language-toggle.compact {
+  min-width: 70px;
+  min-height: 32px;
+  padding-inline: 10px;
+  font-size: 0.7rem;
 }
 
 .site-footer {
@@ -2085,6 +2152,7 @@ div.portfolio-grid > .portfolio-card {
   .site-header,
   .smooth-scroll,
   .eyebrow,
+  .language-toggle,
   .resume-toolbar {
     display: none !important;
   }

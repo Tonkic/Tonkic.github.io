@@ -2,15 +2,17 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
+import { useLanguage } from "@/components/LanguageProvider";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const LETTERS = "Tonkic".split("");
 
 export function HomeHero() {
   const reduce = useReducedMotion();
+  const { t } = useLanguage();
 
   return (
-    <section className="landing-hero" aria-label="Tonkic landing">
+    <section className="landing-hero" aria-label={t("home.landing")}>
       <motion.div
         className="landing-ruler"
         aria-hidden
@@ -85,10 +87,10 @@ export function HomeHero() {
           transition={{ delay: reduce ? 0 : 1.15, duration: 0.7, ease: EASE }}
         >
           <Link className="button primary" href="/blog">
-            知识库
+            {t("home.knowledge")}
           </Link>
           <Link className="button" href="/portfolio">
-            项目
+            {t("home.projects")}
           </Link>
           <a className="button" href="/cv">
             CV
@@ -102,7 +104,7 @@ export function HomeHero() {
         animate={{ opacity: 1 }}
         transition={{ delay: reduce ? 0 : 1.4, duration: 0.6, ease: EASE }}
       >
-        <span>STATUS — ONLINE</span>
+        <span>{t("home.online")}</span>
         <span>STATIC / GITHUB PAGES</span>
         <span>© 2026 TONKIC</span>
       </motion.div>
