@@ -1,13 +1,4 @@
 import { obsidianBlogEntries } from "./obsidian-blog";
-export { navItems, siteProfile } from "./site-config";
-export type { NavItem } from "./site-config";
-
-export type LinkCard = {
-  href: string;
-  label: string;
-  eyebrow: string;
-  description: string;
-};
 
 export type ContentEntry = {
   slug: string;
@@ -21,42 +12,6 @@ export type ContentEntry = {
   sourcePath?: string;
   sourceUrl?: string;
 };
-
-export const firstTierCards: LinkCard[] = [
-  {
-    href: "/blog",
-    label: "Blog",
-    eyebrow: "Knowledge Base",
-    description: "人工智能、计算机与学习笔记。按知识库目录浏览，也可以直接搜索。",
-  },
-  {
-    href: "/api-relay",
-    label: "模型 API 中转",
-    eyebrow: "API Relay",
-    description: "New API 中转站入口、公开模型价格与服务状态。",
-  },
-];
-
-export const secondTierCards: LinkCard[] = [
-  {
-    href: "/portfolio",
-    label: "Portfolio",
-    eyebrow: "Selected Work",
-    description: "挑选能够说明工程能力、研究方向和持续投入的项目。",
-  },
-  {
-    href: "/cv",
-    label: "CV",
-    eyebrow: "Resume",
-    description: "教育、实习、项目和技能，可直接导出为 PDF。",
-  },
-  {
-    href: "/academic",
-    label: "学术内容",
-    eyebrow: "Research",
-    description: "研究兴趣、Publications 与 Talks。",
-  },
-];
 
 export const fallbackBlogEntries: ContentEntry[] = [
   {
@@ -110,7 +65,7 @@ export const portfolioEntries: ContentEntry[] = [
     tags: ["Obsidian", "Markdown", "Knowledge Base"],
     sourceUrl: "https://github.com/Tonkic/tonkic-obsidian-vault",
     content:
-      "仓库中的 Markdown、图片和目录结构会由 GitHub Actions 同步进本站，并通过 Fumadocs source 构建知识库目录树和笔记预览。",
+      "仓库中的 Markdown、图片和目录结构会由 GitHub Actions 同步进本站，并通过 Fumadocs source 构建知识库目录树与独立笔记页面。",
   },
 
   {
@@ -130,10 +85,3 @@ export const portfolioEntries: ContentEntry[] = [
 export const publicationEntries: ContentEntry[] = [];
 
 export const talkEntries: ContentEntry[] = [];
-
-export const allEntries = [
-  ...blogEntries,
-  ...portfolioEntries,
-  ...publicationEntries,
-  ...talkEntries,
-];

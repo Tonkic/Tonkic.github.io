@@ -1,78 +1,69 @@
-# 项目架构说明
+# 项目架构
 
-本站当前使用 Next.js + TypeScript。
+## 运行模型
 
-## 核心结构
+本站是静态个人网站。Next.js 在构建时生成 `out/`，GitHub Pages 直接提供静态资源；项目没有 Next.js 服务端运行时、Route Handler 或数据库。
 
-- `src/app/`：Next.js App Router 页面入口。
-- `src/components/`：可复用 React 组件，包括动效、站点外壳、内容列表、Markdown 渲染和 API dashboard。
-- `src/data/site.ts`：站点导航、栏目、内容条目和站点级配置。
-- `src/data/site-config.ts`：可安全进入客户端 bundle 的轻量站点配置；与 Blog 正文数据隔离。
-- `src/data/relay-snapshot.json`：构建时生成的中转站公开状态与价格快照。
-- `src/lib/blog-source.ts`：使用 Fumadocs loader 将 Obsidian 同步数据构建为 Blog page tree。
-- `src/app/globals.css`：全站视觉系统与动效样式。
+## 目录
 
-## 已实现栏目
+- `src/app/`：App Router 路由、metadata、sitemap、robots、manifest 和全局样式。
+- `src/components/`：站点外壳、首页、Blog 导航与文章、Markdown、Relay、Portfolio/CV 共用视图。
+- `src/data/site-config.ts`：可以进入客户端 bundle 的轻量站点配置。
+- `src/data/site.ts`：Blog fallback、Portfolio 和学术列表数据。
+- `src/data/obsidian-blog.ts`：同步生成的 Blog 内容，不手工编辑。
+- `src/data/relay-snapshot.json`：同步生成的最小健康快照。
+- `src/lib/blog-source.ts`：将 Blog 条目适配为 Fumadocs page tree，并为列表移除正文。
+- `scripts/`：Blog 同步、Relay 快照、快照契约测试与静态访问回归。
 
-- `Blog`：第一梯队栏目，用于技术类、知识类、学习类文章。
-- `模型 API 中转`：第一梯队栏目，展示对外售卖中转入口和公开状态。
-- `Portfolio`：第二梯队栏目，展示项目。
-- `CV`：第二梯队栏目，面向求职和工作信息。
-- `学术内容`：研究兴趣页，包含 `Publications` 和 `Talks` 子内容；当前不占主导航。
+## 页面结构
 
-## Blog 知识库
+- 首页是独立的设计型 landing page，只链接知识库、项目和 CV。
+- Blog layout 使用 `BlogSidebar` 渲染目录树和搜索；`/blog/[slug]` 使用 `BlogArticle` 渲染独立文章、目录和上下篇导航。
+- Portfolio 列表直接跳转项目 GitHub；详情路由仍为已有外部链接提供页面。
+- CV 使用独立 A4 样式和打印媒体规则。
+- Academic 展示研究兴趣；Publications / Talks 当前使用空列表，没有动态详情路由。
+- API Relay 使用 `ApiRelayDashboard` 展示最近健康快照、服务地址和外部入口。
 
-Blog 内容来自每日同步的 `Tonkic/tonkic-obsidian-vault`。同步脚本生成 `src/data/obsidian-blog.ts`，其中 `sourcePath` 保留 Obsidian 原始文件路径。
+## Blog 数据流
 
-Blog 页面不再按标签分类，而是使用 Fumadocs `loader()` 从 `sourcePath` 构建 page tree。`/blog` 的主体体验是知识库目录树，右侧显示当前选中笔记预览。
-
-当前没有引入 Fumadocs UI/theme，避免和个人网站现有视觉系统冲突；Fumadocs 只负责内容 source 与目录树。
-
-## 学术内容
-
-`/academic` 是学术内容聚合页，`/publications` 和 `/talks` 是子内容列表页。
-
-当前没有真实 publication 或 talk，因此不保留 `/publications/[slug]` 与 `/talks/[slug]` 动态详情路由。`/academic` 展示现阶段研究兴趣，避免栏目只剩空入口。等真实条目进入 `src/data/site.ts` 后，再恢复对应详情路由。
-
-## API 中转 Dashboard
-
-Dashboard 只展示对外售卖中转：
-
-- 服务地址：`https://tonkicapi.xyz`
-- 类型：New API 网关
-
-已确认能力：
-
-- 根路径 `/` 返回 New API 前端页面。
-- `/api/status` 公开可读，可用于展示系统名、版本、服务地址、文档链接和公开价格字段。
-- `/api/pricing` 公开可读，可用于展示模型名、供应商、美元价格、分组和 endpoint 类型。
-- `/v1/models` 存在，但需要 token，不在公开网站中调用。
-- 用户信息、模型管理等接口需要登录或 access token。
-
-Dashboard 是浏览器端 React client component。中转站已经使用 HTTPS，但实际 `GET` 响应没有 `Access-Control-Allow-Origin`，因此 GitHub Pages 仍不能跨域读取响应。
-
-`scripts/sync-relay-snapshot.mjs` 在 GitHub Actions 构建环境中请求公开接口，将经过筛选的数据写入 `src/data/relay-snapshot.json`。Pages 部署工作流每 15 分钟刷新快照并重新部署，因此不依赖浏览器 CORS，也不需要 API Key。
-
-客户端实时探测当前通过 `relayBrowserProbeEnabled` 关闭，因为新域名尚未向 `https://tonkic.github.io` 开放 CORS。页面使用每 15 分钟刷新的自动快照；接口开放受限 CORS 后可恢复每 60 秒读取 `/api/status`。网站不保存、不输入、不展示任何 API Key。
-
-如果以后要启用浏览器实时读取，需要在 `GET /api/status` 响应上添加仅允许本站的 CORS 头，例如：
-
-```nginx
-add_header Access-Control-Allow-Origin https://tonkic.github.io always;
-add_header Access-Control-Allow-Methods "GET, OPTIONS" always;
-add_header Access-Control-Allow-Headers "Accept, Content-Type" always;
+```text
+Obsidian repository
+  -> scripts/sync-obsidian-blog.mjs
+  -> src/data/obsidian-blog.ts
+  -> src/data/site.ts
+  -> src/lib/blog-source.ts
+  -> BlogSidebar / BlogArticle / MarkdownContent
 ```
 
-因为本站需要保留 GitHub Pages 静态部署能力，Dashboard 不使用 Next.js route handler 代理接口。
+`sourcePath` 用于目录树和内部链接解析。`blogListEntries` 会移除正文，避免每篇文章把整个知识库序列化到页面 HTML。KaTeX 在构建时生成公式 HTML，长公式只在公式容器内滚动。
 
-## 首页与导航
+## Relay 数据流
 
-首页直接承担访客总览：展示身份和关注方向、Blog 与 API 中转、精选项目、推荐笔记以及 CV/学术入口。旧 `/overview` 页面只保留兼容提示，避免外部旧链接直接失效。
+```text
+https://tonkicapi.xyz/api/status
+  -> scripts/sync-relay-snapshot.mjs
+  -> src/data/relay-snapshot.json
+  -> ApiRelayDashboard
+```
 
-主导航保持四个高频入口：Blog、模型 API 中转、Portfolio 和 CV。学术内容放在首页次级入口与页脚，等 Publications 或 Talks 有真实条目后再提升导航权重。
+快照 Interface 只有 `health`。同步失败时记录本次失败并保留 `lastSuccessAt`；成功时更新 `lastSuccessAt`。浏览器探测代码保留为条件能力，但 `relayBrowserProbeEnabled` 当前为 `false`。
 
-## SEO 与可访问性
+## 自动化
 
-- `src/app/sitemap.ts`、`robots.ts` 和 `manifest.ts` 生成站点发现信息。
-- `src/app/opengraph-image.tsx` 生成社交分享图。
-- 全站支持键盘焦点样式和 `prefers-reduced-motion`；启用减少动态效果时不初始化 Lenis 平滑滚动。
+- `deploy-github-pages.yml`：推送、手动或每 15 分钟触发；同步 Relay、类型检查、快照单元测试、构建、静态访问测试、部署。
+- `sync-obsidian-blog.yml`：每日同步 Blog；验证后只提交 `src/data/obsidian-blog.ts`，提交会触发 Pages 部署。
+
+## 验证
+
+- `npm run check`：TypeScript Interface 检查。
+- `npm run test:unit`：Relay 快照 schema 与失败回退语义。
+- `npm run build`：生成全部静态页面。
+- `npm run test:static`：从 `out/` 启动本地静态服务器，检查主要路由、内部链接、KaTeX 回归、文章体积和历史 CSS 不回归。
+- `npm test`：依次执行以上验证。
+
+## 约束
+
+- 任何 API Key、用户信息、额度和请求记录不得进入仓库或前端资源。
+- 公开站点不得依赖浏览器跨域读取 Relay 才能显示基本状态。
+- `obsidian-blog.ts` 和 `relay-snapshot.json` 是生成数据，修改逻辑应发生在对应脚本。
+- 新栏目或详情路由只有在存在真实内容时才引入。

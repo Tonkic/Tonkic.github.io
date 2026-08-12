@@ -5,15 +5,6 @@ import { useEffect, useState } from "react";
 import relaySnapshotData from "@/data/relay-snapshot.json";
 import { siteProfile } from "@/data/site-config";
 
-type PricingModel = {
-  modelName: string;
-  vendor: string;
-  inputPrice: number;
-  outputPrice: number;
-  cachePrice: number;
-  endpointTypes: string[];
-};
-
 type RelaySnapshot = {
   health: {
     reachable: boolean;
@@ -21,16 +12,6 @@ type RelaySnapshot = {
     lastSuccessAt: string | null;
     detail: string;
   };
-  status: {
-    systemName: string;
-    version: string;
-    docsLink: string;
-    serverAddress: string;
-    endpointPath: string;
-    endpointMethod: string;
-    priceCurrency: string;
-  };
-  models: PricingModel[];
 };
 
 type RelayHealth = {

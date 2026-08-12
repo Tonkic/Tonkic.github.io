@@ -43,7 +43,9 @@ jobs:
       - name: Validate site
         run: |
           npm run check
+          npm run test:unit
           npm run build
+          npm run test:static
 
       - name: Upload static export
         uses: actions/upload-pages-artifact@v3

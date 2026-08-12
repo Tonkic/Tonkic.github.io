@@ -6,11 +6,11 @@
   "description": "Tonkic personal website rebuilt with Next.js and TypeScript.",
   "scripts": {
     "dev": "next dev",
-    "start": "next start",
     "build": "next build",
-    "lint": "next lint",
     "check": "tsc --noEmit",
-    "test:journey": "npm run build && node scripts/random-user-journey.mjs",
+    "test": "npm run check && npm run test:unit && npm run build && npm run test:static",
+    "test:unit": "node --test scripts/*.test.mjs",
+    "test:static": "node scripts/random-user-journey.mjs",
     "sync:blog": "node scripts/sync-obsidian-blog.mjs",
     "sync:relay": "node scripts/sync-relay-snapshot.mjs"
   },

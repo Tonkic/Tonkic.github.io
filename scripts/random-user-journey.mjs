@@ -152,6 +152,15 @@ const run = async () => {
     const cssText = (await Promise.all(cssPaths.map((path) => fetchPage(baseUrl, path)))).join("\n");
     assert.ok(!cssText.includes("vertical-align:-.42em"), "Math fractions still use negative vertical alignment");
     assert.ok(!cssText.includes("vertical-align: -0.42em"), "Math fractions still use negative vertical alignment");
+    for (const obsoleteSelector of [
+      ".knowledge-explorer",
+      ".category-chip",
+      ".relay-status-panel",
+      ".model-card",
+      ".resume-sheet",
+    ]) {
+      assert.ok(!cssText.includes(obsoleteSelector), `Obsolete selector returned: ${obsoleteSelector}`);
+    }
 
     const random = seededRandom();
     let current = "/";

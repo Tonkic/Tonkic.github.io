@@ -1,71 +1,58 @@
 # 个人网站上下文
 
-这是 Tonkic 的个人网站（Personal Website）。它面向第一次访问的陌生访客，用来回答两个问题：我是谁，以及这个站里有什么。
+这是 Tonkic 的个人网站（Personal Website）。它面向第一次访问的陌生访客，提供身份入口、知识笔记、项目、简历和研究兴趣。
 
-公开页面使用 `Tonkic` 作为主要身份标识；真实姓名只在 CV 等求职/工作语境中展示。
+公开页面使用 `Tonkic` 作为主要身份标识；真实姓名只在 CV 等求职语境中展示。
 
 ## 术语
 
-- `栏目（Section）`：站点中的顶层内容分区，例如 Blog、模型 API 中转、Portfolio、CV、学术内容。
-- `页面（Page）`：承载独立信息的页面，例如全站总览页、CV 页。
-- `条目（Entry）`：栏目中的单条内容记录，例如一篇 Blog、一项 Portfolio、一条 Publication。
-- `全站总览页`：访客导航页，不是 archive 或 sitemap。
-- `模型 API 中转`：稳定栏目，用于介绍并跳转到对外售卖的模型 API 中转站。
+- `栏目（Section）`：顶层内容分区，例如 Blog、模型 API 中转、Portfolio、CV、学术内容。
+- `页面（Page）`：承载独立内容的路由。
+- `条目（Entry）`：栏目中的单条内容，例如一篇 Blog 或一个 Portfolio 项目。
+- `健康快照（Health Snapshot）`：构建环境对模型 API 中转公开状态接口的一次探测结果。
+- `兼容路由（Compatibility Route）`：只为旧外部链接保留、不进入导航和搜索索引的页面；当前仅 `/overview`。
 
-## 内容优先级
+## 栏目
 
-第一梯队：
+- `Blog`：技术、知识和学习笔记，内容源来自 `Tonkic/tonkic-obsidian-vault`。
+- `模型 API 中转`：`https://tonkicapi.xyz/` 的公开入口与服务健康状态。
+- `Portfolio`：精选且可验证的项目。
+- `CV`：求职与工作信息，可打印为 PDF。
+- `学术内容`：研究兴趣，以及 Publications / Talks 子页面。
 
-- `Blog`：以技术类、知识类、学习类文章为主，也允许少量其他内容。内容源来自 `Tonkic/tonkic-obsidian-vault` 的 Markdown 笔记。
-- `模型 API 中转`：对外售卖的 New API 中转站入口和公开信息展示。
+主导航只包含 Blog、模型 API 中转、Portfolio 和 CV。学术内容从页脚进入；Publications 和 Talks 当前没有真实条目，因此只提供空列表，不提供详情路由。
 
-第二梯队：
+## Blog
 
-- `Portfolio`：稳定项目和能力展示。
-- `CV`：求职、工作相关信息，与学术内容分开。
-- `学术内容`：科研、学术相关信息，包含 `Publications` 和 `Talks` 子内容。
+GitHub Actions 每日运行 `scripts/sync-obsidian-blog.mjs`，将 Obsidian Markdown、目录路径和公开源链接生成到 `src/data/obsidian-blog.ts`。
+
+Fumadocs Core 只负责从 `sourcePath` 构建目录树；本站不使用 Fumadocs UI。用户从左侧目录进入独立笔记页面。正文由自定义 Markdown 渲染 Module 处理，并使用 KaTeX 渲染公式。
 
 ## 模型 API 中转
 
-当前统一展示模型 API 中转：
-
 - 服务地址：`https://tonkicapi.xyz/`
-- 类型：New API 网关
-- 公开入口：中转站首页和文档链接
+- 公开健康接口：`GET /api/status`
+- 浏览器实时探测：当前关闭，因为接口没有向 `https://tonkic.github.io` 开放 CORS。
+- 自动快照：GitHub Actions 每 15 分钟运行 `scripts/sync-relay-snapshot.mjs` 并重新部署。
 
-公开接口能力：
+`src/data/relay-snapshot.json` 只包含 `health`：服务是否可达、探测时间、上次成功时间和公开错误信息。模型列表、供应商和价格不进入本站快照；这些信息以中转站自身页面为准。
 
-- `/api/status`：公开状态信息。
-- `/api/pricing`：公开模型、供应商、价格、分组和 endpoint 类型。
-- `/v1/models`：需要 token，不在公开网站中调用。
-
-本站不保存、不输入、不展示任何 API Key。真正调用模型、充值、token 管理都在 New API 中转站内完成。
-
-当前 New API 已通过 `https://tonkicapi.xyz/` 提供 HTTPS。`GET /api/status` 和 `GET /api/pricing` 暂未向 `https://tonkic.github.io` 开放 CORS，因此浏览器实时探测关闭。
-
-部署工作流每 15 分钟在服务端构建环境中读取公开接口，生成 `src/data/relay-snapshot.json` 并重新部署静态页面，用于服务测活和价格快照。接口开放受限 CORS 后可恢复浏览器每 60 秒实时探测。
+本站不保存、不输入、不展示任何 API Key、用户信息、额度或请求记录。浏览器实时探测只有在公开接口启用受限 CORS 后才能重新打开。
 
 ## 技术栈
 
-- Next.js App Router
-- TypeScript
-- React client components
-- Framer Motion / Lenis 动效
-- 静态导出，适配 GitHub Pages
-- Blog 同步脚本：`scripts/sync-obsidian-blog.mjs`
-- Blog 知识库目录树：Fumadocs source/page tree
-- API 中转公开快照：`scripts/sync-relay-snapshot.mjs`
+- Next.js App Router、React、TypeScript
+- Framer Motion、Lenis
+- Fumadocs Core、KaTeX
+- 静态导出、GitHub Pages
+- GitHub Actions 内容同步与部署
 
 ## 决策
 
-- 站点保留 `Personal Website` 定位，不再沿用 Academic Pages/Jekyll 结构。
-- `docs/` 存放已实现功能、架构和说明，不作为需求 backlog。
-- Issue tracker 使用 GitHub Issues。
-- CV 与学术内容完全分开。
-- Publications / Talks 是学术内容的子内容，不作为主导航并列入口。
-- Publications / Talks 当前没有真实条目，所以只保留列表页和空状态；等有真实内容后再恢复对应详情路由。
-- Blog 内容通过 GitHub Actions 每日同步 Obsidian vault，并提交生成后的 `src/data/obsidian-blog.ts`。
-- Blog 浏览体验采用“知识库目录树优先，时间流为辅”：目录树来自 Obsidian 的 `sourcePath`，由 Fumadocs 构建；右侧显示当前选中笔记预览。
-- 首页承担访客总览功能；`/overview` 只作为旧链接兼容页，不在主导航中展示。
-- 主导航只保留 Blog、模型 API 中转、Portfolio 和 CV；学术内容通过首页与页脚进入，等有真实成果后再评估恢复主导航。
-- Portfolio 只公开精选项目，不将课程作业、旧站和描述不明确的实验仓库作为主要能力证明。
+- 首页保持简洁，只承担身份展示和主要入口，不复制各栏目的内容。
+- `/overview` 只作为兼容路由保留，设置 `noindex`。
+- CV 与学术内容分开。
+- Portfolio 只展示精选项目，并优先链接可验证的 GitHub 仓库。
+- Blog 使用“目录树 + 独立文章页”，不保留旧版右侧即时预览和标签筛选实现。
+- Relay 页面只展示健康状态和大入口，不在本站复制模型与价格目录。
+- `docs/` 记录已实现架构和约束，不作为需求 backlog；需求进入 GitHub Issues。

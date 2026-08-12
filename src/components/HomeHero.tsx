@@ -103,7 +103,7 @@ export function HomeHero() {
         transition={{ delay: reduce ? 0 : 1.4, duration: 0.6, ease: EASE }}
       >
         <span>STATUS — ONLINE</span>
-        <span>BUILD v1.2.0</span>
+        <span>STATIC / GITHUB PAGES</span>
         <span>© 2026 TONKIC</span>
       </motion.div>
     </section>
