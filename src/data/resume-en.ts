@@ -5,7 +5,8 @@ export const resumeProfileEn = {
   handle: "Tonkic",
   phone: "",
   location: "Guangzhou",
-  target: "Artificial Intelligence / Data Systems / Backend Engineering",
+  target: "Backend Engineering / AI Infrastructure",
+  summary: "Focused on AI API gateways and backend engineering, with hands-on experience from protocol adaptation and model routing to Linux production delivery.",
   email: "tonkic@qq.com",
   github: "https://github.com/Tonkic",
   website: "https://tonkic.github.io/",
@@ -32,18 +33,18 @@ export const resumeEducationEn: ResumeEducation[] = [
 export const resumeProjectsEn: ResumeProject[] = [
   {
     name: "Multi-model API Aggregation and Relay Platform",
-    description: "Go / API Gateway / Protocol Relay",
+    description: "Go · API Gateway · Protocol Relay",
     url: "https://tonkicapi.xyz/",
     urlLabel: "tonkicapi.xyz",
     bullets: [
-      "Extended New API and CLIProxyAPI into a multi-model aggregation and relay platform covering provider integration, protocol conversion, and unified access; processed 105,911 requests and 9.4 billion tokens.",
-      "Improved compatibility across OpenAI Responses, Codex, and GitHub Copilot request flows, including SSE/WebSocket streaming, tool-call results, and model routing.",
-      "Integrated usage statistics and Keeper services, and maintained Linux update scripts, GitHub Actions releases, Alibaba Cloud OSS distribution, and Nginx HTTPS reverse proxy deployment.",
+      "Extended New API and CLIProxyAPI into a multi-model aggregation and relay platform, connecting provider integration, unified access, and service operations; processed 136,034 requests and 11.82 billion tokens in the past month.",
+      "Contributed to compatibility work across OpenAI Responses, Codex, and GitHub Copilot flows, adapting model routing, SSE/WebSocket streaming, and tool-call results.",
+      "Contributed to usage-statistics and Keeper integration, while maintaining Linux update scripts, GitHub Actions releases, Alibaba Cloud OSS artifact distribution, and Nginx HTTPS reverse-proxy deployment.",
     ],
   },
   {
     name: "Personal Website and Knowledge Base",
-    description: "Next.js / TypeScript / GitHub Pages",
+    description: "Next.js · TypeScript · GitHub Pages",
     url: "https://tonkic.github.io/",
     urlLabel: "tonkic.github.io",
     bullets: [
@@ -55,24 +56,26 @@ export const resumeProjectsEn: ResumeProject[] = [
 ];
 
 export const resumeSkillsEn: ResumeSkill[] = [
-  { category: "Programming and Software Engineering", detail: "Primary languages: Python, Java, Go, and TypeScript. Experienced with object-oriented design, interface abstraction, asynchronous and concurrent programming, error handling, testable code organization, and Git-based collaboration." },
-  { category: "Backend and Data Systems", detail: "Hands-on experience with Spring Boot, MyBatis, REST APIs, and model gateways. Familiar with MySQL indexing, execution plans, slow-query diagnosis, caching, message queues, streaming responses, and protocol adaptation." },
-  { category: "Big Data and Machine Learning", detail: "Working knowledge of Spark, Hive, Flink, Kafka, batch/stream processing, and offline data warehouses; experienced with PyTorch, deep-learning evaluation, computer vision, anomaly detection, CUDA acceleration, and inference workflows." },
-  { category: "Frontend and Visualization", detail: "Able to build responsive static sites and data interfaces with Next.js, React, TypeScript, and CSS, including Markdown, KaTeX, complex content layout, ECharts, and Metabase." },
-  { category: "Infrastructure and Delivery", detail: "Experienced with Linux, Shell, Docker, Nginx, HTTPS deployment, GitHub Actions, static publishing, automation scripts, and troubleshooting through logs, networks, and process state." },
+  { category: "AI API Gateways and Backend Engineering", detail: "Backend experience with Go, Java, and Python, including REST APIs and multi-model gateways; familiar with model routing, OpenAI-compatible protocols, Responses/Codex flows, SSE/WebSocket streaming, and tool-call adaptation." },
+  { category: "Linux Production Delivery", detail: "Hands-on with Linux, Shell, Nginx, HTTPS, and Docker deployment; contributed to GitHub Actions releases, OSS artifact distribution, update scripts, and diagnosis through reverse-proxy, application logs, and process state." },
+  { category: "Programming and Data Systems", detail: "Primary languages include Go, Java, Python, and TypeScript. Familiar with object-oriented design, interface abstraction, asynchronous/concurrent programming, Spring Boot, MyBatis, MySQL indexing, execution plans, caching, and message queues." },
+  { category: "Big Data and Data Engineering Foundations", detail: "Familiar with Spark, Hive, Flink, and Kafka, including batch/stream processing, partitioning, message consumption, ETL, and basic offline data-warehouse patterns; also experienced with PyTorch, computer vision, and model inference foundations." },
+  { category: "Frontend and Content Engineering", detail: "Able to build responsive sites and data interfaces with Next.js, React, TypeScript, and CSS, including Markdown, KaTeX, static export, complex content layout, ECharts, and Metabase." },
 ];
 
 export const resumeExperiencesEn: ResumeExperience[] = [
   {
     company: "China DataCom Information Co., Ltd.",
+    projectName: "Enterprise OA Approval Workflow Backend",
+    projectDescription: "Spring Boot · MyBatis · MySQL · jQuery",
     role: "Java Backend Intern",
     location: "Guangzhou",
     period: "Aug 2024 – Oct 2024",
     techStack: "Spring Boot, MyBatis, MySQL, jQuery",
     bullets: [
-      "Contributed to an enterprise OA workflow module, implementing backend endpoints and page interactions for submission, approval, routing, rejection, and related states.",
-      "Mapped approval rules into workflow states, field validation, and approval-record queries, and collaborated on API integration, error feedback, and data rendering.",
-      "Participated in requirement analysis, interface development, integration testing, and delivery verification for an enterprise Java Web system.",
+      "Contributed backend endpoints for submission, approval, routing, and rejection, translating approval rules into workflow states, node validation, and traceable records.",
+      "Used Spring Boot, MyBatis, and MySQL for request validation, persistence, and approval-record queries, while collaborating on API integration, error feedback, and data rendering.",
+      "Participated in requirement analysis, interface design, integration testing, and delivery verification, building practical experience in enterprise Java backend development and diagnosis.",
     ],
   },
 ];

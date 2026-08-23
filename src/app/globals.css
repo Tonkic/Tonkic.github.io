@@ -1343,16 +1343,11 @@ div.portfolio-grid > .portfolio-card {
 
 .resume-a4-header {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr 88px;
-  gap: 24px;
-  align-items: start;
-  min-height: 112px;
+  display: block;
   margin-bottom: 18px;
 }
 
 .resume-identity {
-  padding-left: 92px;
   text-align: center;
 }
 
@@ -1374,19 +1369,25 @@ div.portfolio-grid > .portfolio-card {
   font-size: 0.88rem;
 }
 
-.resume-photo {
-  display: grid;
-  width: 78px;
-  height: 98px;
-  place-items: center;
-  border: 1px solid #d6e4ff;
-  background:
-    linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(255, 255, 255, 0.9)),
-    #f8fbff;
-  color: #60a5fa;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-align: center;
+.resume-links {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.resume-links a {
+  color: #1d4ed8;
+  text-decoration: underline;
+  text-decoration-color: #bfdbfe;
+  text-underline-offset: 2px;
+}
+
+.resume-summary {
+  max-width: 720px;
+  margin: 10px auto 0 !important;
+  color: #374151 !important;
+  font-size: 0.92rem;
+  line-height: 1.55;
 }
 
 .resume-a4-section {
@@ -1449,6 +1450,18 @@ div.portfolio-grid > .portfolio-card {
   color: #111827;
 }
 
+.resume-experience-project {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 3px 0 1px;
+}
+
+.resume-experience-project span {
+  color: #374151;
+  font-size: 0.92em;
+}
+
 .resume-badge {
   display: inline-flex;
   align-items: center;
@@ -1466,14 +1479,21 @@ div.portfolio-grid > .portfolio-card {
   gap: 4px;
 }
 
-.resume-block-item strong span {
-  margin-left: 4px;
+.resume-project-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.resume-project-heading > span {
   color: #111827;
-  font-weight: 700;
+  font-size: 0.92em;
+  font-weight: 600;
 }
 
 .resume-project-link {
-  margin-left: 8px;
+  margin-left: auto;
   color: #2563eb;
   font-size: 0.9em;
   font-weight: 600;
@@ -1582,16 +1602,36 @@ div.portfolio-grid > .portfolio-card {
   }
 
   .resume-a4-header {
-    grid-template-columns: 1fr;
+    display: block;
   }
 
   .resume-identity {
-    padding-left: 0;
     text-align: left;
   }
 
-  .resume-photo {
-    display: none;
+  .resume-links {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .resume-summary {
+    margin-left: 0 !important;
+  }
+
+  .resume-project-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .resume-experience-project {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .resume-project-link {
+    margin-left: 0;
   }
 
   .home-more,
@@ -2182,14 +2222,22 @@ div.portfolio-grid > .portfolio-card {
     font-size: 10.5pt;
   }
 
+  .resume-a4-section h2 {
+    color: #1d4ed8;
+    font-size: 12pt;
+  }
+
   .resume-a4::after {
     display: none;
   }
 
-  .resume-a4-section,
   .resume-line-item,
-  .resume-block-item,
   .resume-internship {
+    break-inside: avoid;
+  }
+
+  .resume-project-heading,
+  .resume-block-item li {
     break-inside: avoid;
   }
 

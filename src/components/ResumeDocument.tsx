@@ -16,6 +16,8 @@ export function ResumeDocument() {
   const projects = english ? resumeProjectsEn : resumeProjects;
   const skills = english ? resumeSkillsEn : resumeSkills;
   const contacts = [profile.phone, profile.email, profile.location].filter(Boolean);
+  const githubLabel = profile.github.replace(/^https?:\/\//, "");
+  const websiteLabel = profile.website.replace(/^https?:\/\//, "").replace(/\/$/, "");
 
   return (
     <div className="resume-export-page">
@@ -25,10 +27,14 @@ export function ResumeDocument() {
           <div className="resume-identity">
             <h1>{profile.name}</h1>
             <p>{contacts.join(" 丨 ")}</p>
-            <p className="resume-links">{profile.github} 丨 {profile.website}</p>
+            <p className="resume-links">
+              <Link href={profile.github} target="_blank" rel="noreferrer">GitHub: {githubLabel}</Link>
+              <span aria-hidden>·</span>
+              <Link href={profile.website} target="_blank" rel="noreferrer">{websiteLabel}</Link>
+            </p>
             <p className="resume-target-line">{english ? "Target: " : "求职方向："}{profile.target}</p>
+            <p className="resume-summary">{profile.summary}</p>
           </div>
-          <div className="resume-photo" aria-label={profile.photoAlt}>{english ? "PHOTO" : "证件照"}</div>
         </header>
 
         <ResumeSection title={english ? "Education" : "教育经历"}>
@@ -45,7 +51,10 @@ export function ResumeDocument() {
             <div className="resume-internship" key={`${item.company}-${item.role}`}>
               <div className="resume-line-item compact"><strong>{item.company}</strong><time>{item.period}</time></div>
               <div className="resume-line-item compact muted"><span>{item.role}</span><span>{item.location}</span></div>
-              <p className="resume-tech-stack"><strong>{english ? "Stack: " : "技术栈："}</strong>{item.techStack}</p>
+              <div className="resume-experience-project">
+                <strong>{item.projectName}</strong>
+                <span>{item.projectDescription}</span>
+              </div>
               <BulletList items={item.bullets} />
             </div>
           ))}
@@ -54,7 +63,11 @@ export function ResumeDocument() {
         <ResumeSection title={english ? "Projects" : "项目经历"}>
           {projects.map((project) => (
             <div className="resume-block-item" key={project.name}>
-              <strong>{project.name}{project.url ? <Link className="resume-project-link" href={project.url} target="_blank" rel="noreferrer">{project.urlLabel ?? project.url}</Link> : null}<span>{project.description}</span></strong>
+              <div className="resume-project-heading">
+                <strong>{project.name}</strong>
+                <span>{project.description}</span>
+                {project.url ? <Link className="resume-project-link" href={project.url} target="_blank" rel="noreferrer">{project.urlLabel ?? project.url}</Link> : null}
+              </div>
               <BulletList items={project.bullets} />
             </div>
           ))}

@@ -8,6 +8,8 @@ export type ResumeEducation = {
 
 export type ResumeExperience = {
   company: string;
+  projectName: string;
+  projectDescription: string;
   location: string;
   period: string;
   role: string;
@@ -34,7 +36,8 @@ export const resumeProfile = {
   handle: "Tonkic",
   phone: "",
   location: "广州",
-  target: "人工智能 / 大数据 / 后端开发方向",
+  target: "后端开发 / AI 基础设施",
+  summary: "聚焦 AI API 网关与后端工程，具备从协议适配、模型路由到 Linux 生产部署的真实项目实践。",
   email: "tonkic@qq.com",
   github: "https://github.com/Tonkic",
   website: "https://tonkic.github.io/",
@@ -61,18 +64,18 @@ export const resumeEducation: ResumeEducation[] = [
 export const resumeProjects: ResumeProject[] = [
   {
     name: "多模型 API 聚合与中转平台",
-    description: "Go / API Gateway / Protocol Relay",
+    description: "Go · API Gateway · Protocol Relay",
     url: "https://tonkicapi.xyz/",
     urlLabel: "tonkicapi.xyz",
     bullets: [
-      "基于 New API 与 CLIProxyAPI 进行二次开发，构建多模型 API 聚合与中转平台，围绕模型接入、协议转换和统一调用提供服务；累计处理 105,911 次请求、94 亿 Token。",
-      "参与 OpenAI Responses、Codex 与 GitHub Copilot 等调用链路的兼容性改造，处理 SSE/WebSocket 流式响应、工具调用结果和模型路由问题。",
-      "集成用量统计与 Keeper 服务，完善 Linux 更新脚本、GitHub Actions 发布流程、阿里云 OSS 分发和 Nginx HTTPS 反向代理部署。",
+      "基于 New API 与 CLIProxyAPI 进行二次开发，构建多模型 API 聚合与中转平台，打通模型接入、统一调用和服务运维链路；近一个月处理 136,034 次请求、118.2 亿 Token。",
+      "参与 OpenAI Responses、Codex 与 GitHub Copilot 调用链路的兼容性改造，围绕模型路由、SSE/WebSocket 流式响应和工具调用结果完成协议适配。",
+      "参与用量统计与 Keeper 服务集成，维护 Linux 更新脚本、GitHub Actions 发布流程、阿里云 OSS 制品分发和 Nginx HTTPS 反向代理部署。",
     ],
   },
   {
     name: "个人网站与知识库",
-    description: "Next.js / TypeScript / GitHub Pages",
+    description: "Next.js · TypeScript · GitHub Pages",
     url: "https://tonkic.github.io/",
     urlLabel: "tonkic.github.io",
     bullets: [
@@ -85,38 +88,40 @@ export const resumeProjects: ResumeProject[] = [
 
 export const resumeSkills: ResumeSkill[] = [
   {
-    category: "编程与软件工程",
-    detail: "以 Python、Java、Go、TypeScript 为主要开发语言，具备面向对象设计、接口抽象、异步与并发编程、异常处理及可测试代码组织能力；使用 Git 进行分支协作与版本管理。",
+    category: "AI API 网关与后端开发",
+    detail: "具备 Go、Java、Python 后端开发与 REST API 实践，参与多模型 API 网关建设；理解模型路由、OpenAI 兼容协议、Responses/Codex 调用链路、SSE/WebSocket 流式响应和工具调用适配。",
   },
   {
-    category: "后端与数据系统",
-    detail: "具备 Spring Boot、MyBatis、REST API 与模型网关开发实践；掌握 MySQL 索引设计、执行计划分析和慢查询定位，理解缓存、消息队列、流式响应与协议适配。",
+    category: "Linux 生产交付与运维",
+    detail: "具备 Linux、Shell、Nginx、HTTPS 与 Docker 部署实践，参与 GitHub Actions 自动发布、OSS 制品分发和更新脚本维护；能够结合反向代理、应用日志与进程状态定位线上问题。",
   },
   {
-    category: "大数据与机器学习",
-    detail: "掌握 Spark、Hive、Flink、Kafka 等批流处理组件及离线数仓基本范式；具备 PyTorch、深度学习训练评估、计算机视觉与异常检测基础，理解 CUDA 加速与模型推理流程。",
+    category: "编程与数据系统基础",
+    detail: "以 Go、Java、Python、TypeScript 为主要开发语言，掌握面向对象设计、接口抽象、异步与并发编程；具备 Spring Boot、MyBatis、MySQL 索引与执行计划分析实践，了解缓存、消息队列和流式数据处理。",
   },
   {
-    category: "前端与可视化",
-    detail: "能够使用 Next.js、React、TypeScript、CSS 构建响应式静态站点与数据界面，处理 Markdown、KaTeX 和复杂内容排版；具备 ECharts、Metabase 等数据可视化实践。",
+    category: "大数据与数据工程基础",
+    detail: "掌握 Spark、Hive、Flink、Kafka 等组件的基本使用，理解批流处理、数据分区、消息消费、ETL 与离线数仓基本范式；具备 PyTorch、计算机视觉与模型推理基础。",
   },
   {
-    category: "云原生与交付",
-    detail: "熟悉 Linux、Shell、Docker、Nginx 与 HTTPS 部署，能够配置 GitHub Actions 持续集成、静态发布和自动化脚本，并基于日志、网络与进程状态定位部署问题。",
+    category: "前端与内容工程",
+    detail: "能够使用 Next.js、React、TypeScript、CSS 构建响应式站点与数据界面，处理 Markdown、KaTeX、静态导出和复杂内容排版；具备 ECharts、Metabase 等可视化实践。",
   },
 ];
 
 export const resumeExperiences: ResumeExperience[] = [
   {
     company: "中数通信息有限公司",
+    projectName: "企业 OA 审批工作流后端",
+    projectDescription: "Spring Boot · MyBatis · MySQL · jQuery",
     role: "Java 后端实习生",
     location: "广州",
     period: "2024年08月 - 2024年10月",
     techStack: "Spring Boot、MyBatis、MySQL、jQuery",
     bullets: [
-      "参与企业 OA 工作流模块开发，围绕申请、审核、流转和驳回等节点实现后端接口与页面交互。",
-      "根据审批规则梳理流程状态、字段校验和审批记录查询逻辑，配合前端完成接口联调、异常提示与数据回显。",
-      "参与需求理解、接口开发、联调测试和交付验证，积累企业级 Java Web 系统开发与团队协作经验。",
+      "参与申请、审核、流转和驳回等核心节点的后端接口开发，将审批规则拆分为流程状态、节点校验和可追踪的审批记录。",
+      "使用 Spring Boot、MyBatis 和 MySQL 完成参数校验、数据持久化与审批记录查询，配合前端完成接口联调、异常提示和数据回显。",
+      "参与需求分析、接口设计、联调测试和交付验证，积累企业级 Java Web 项目的后端开发与问题定位经验。",
     ],
   },
 ];
