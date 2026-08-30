@@ -1293,9 +1293,9 @@ div.portfolio-grid > .portfolio-card {
 }
 
 .resume-print-button {
-  border: 1px solid rgba(139, 232, 255, 0.42);
+  border: 1px solid rgba(27, 54, 93, 0.35);
   border-radius: 999px;
-  background: rgba(139, 232, 255, 0.12);
+  background: #e8e6dc;
   color: var(--ink);
   cursor: pointer;
   font: inherit;
@@ -1308,8 +1308,8 @@ div.portfolio-grid > .portfolio-card {
 }
 
 .resume-print-button:hover {
-  border-color: rgba(139, 232, 255, 0.75);
-  background: rgba(139, 232, 255, 0.2);
+  border-color: #1b365d;
+  background: #dfe2df;
   transform: translateY(-1px);
 }
 
@@ -1319,26 +1319,17 @@ div.portfolio-grid > .portfolio-card {
   min-height: 1300px;
   margin: 0 auto;
   padding: 34px 42px 44px;
-  border: 1px solid rgba(12, 22, 38, 0.08);
-  background: #fff;
-  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.28);
-  color: #111827;
-  font-family: "Times New Roman", "Noto Serif SC", serif;
-  font-size: 15px;
+  border: 1px solid #e8e6dc;
+  background: #f5f4ed;
+  box-shadow: 0 20px 60px rgba(20, 20, 19, 0.18);
+  color: #141413;
+  font-family: Charter, "STSong", "Songti SC", "Noto Serif CJK SC", Georgia, serif;
+  font-size: 14px;
   line-height: 1.55;
 }
 
 .resume-a4::after {
-  position: absolute;
-  inset: 42% 10% auto;
-  color: rgba(38, 93, 180, 0.05);
-  content: "Tonkic Resume";
-  font-size: 4.8rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  pointer-events: none;
-  text-align: center;
-  transform: rotate(-12deg);
+  display: none;
 }
 
 .resume-a4-header {
@@ -1353,15 +1344,15 @@ div.portfolio-grid > .portfolio-card {
 
 .resume-identity h1 {
   margin: 8px 0 6px;
-  color: #0b1220;
-  font-size: 1.65rem;
-  font-weight: 800;
+  color: #141413;
+  font-size: 1.8rem;
+  font-weight: 500;
   letter-spacing: 0.03em;
 }
 
 .resume-identity p {
   margin: 4px 0;
-  color: #111827;
+  color: #3d3d3a;
 }
 
 .resume-links,
@@ -1376,16 +1367,16 @@ div.portfolio-grid > .portfolio-card {
 }
 
 .resume-links a {
-  color: #1d4ed8;
+  color: #1b365d;
   text-decoration: underline;
-  text-decoration-color: #bfdbfe;
+  text-decoration-color: #aebccc;
   text-underline-offset: 2px;
 }
 
 .resume-summary {
   max-width: 720px;
   margin: 10px auto 0 !important;
-  color: #374151 !important;
+  color: #504e49 !important;
   font-size: 0.92rem;
   line-height: 1.55;
 }
@@ -1398,10 +1389,10 @@ div.portfolio-grid > .portfolio-card {
 
 .resume-a4-section h2 {
   margin: 0 0 8px;
-  border-bottom: 1.5px solid #7fb3ff;
-  color: #2f7df6;
+  border-bottom: 1px solid #b8b7b0;
+  color: #1b365d;
   font-size: 1.05rem;
-  font-weight: 800;
+  font-weight: 500;
   line-height: 1.7;
 }
 
@@ -1424,8 +1415,8 @@ div.portfolio-grid > .portfolio-card {
 .resume-line-item strong,
 .resume-block-item strong,
 .resume-internship strong {
-  color: #111827;
-  font-weight: 800;
+  color: #141413;
+  font-weight: 500;
 }
 
 .resume-line-item p {
@@ -1433,21 +1424,21 @@ div.portfolio-grid > .portfolio-card {
 }
 
 .resume-line-item time {
-  color: #111827;
+  color: #504e49;
   white-space: nowrap;
 }
 
 .resume-line-item.muted {
-  color: #1f2937;
+  color: #6b6a64;
 }
 
 .resume-tech-stack {
   margin: 1px 0 2px;
-  color: #1f2937;
+  color: #504e49;
 }
 
 .resume-tech-stack strong {
-  color: #111827;
+  color: #3d3d3a;
 }
 
 .resume-experience-project {
@@ -1458,7 +1449,7 @@ div.portfolio-grid > .portfolio-card {
 }
 
 .resume-experience-project span {
-  color: #374151;
+  color: #504e49;
   font-size: 0.92em;
 }
 
@@ -1468,10 +1459,10 @@ div.portfolio-grid > .portfolio-card {
   margin-left: 8px;
   padding: 1px 7px;
   border-radius: 4px;
-  background: #e8f1ff;
-  color: #2f7df6;
+  background: #e4ecf5;
+  color: #1b365d;
   font-size: 0.86em;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .resume-block-item {
@@ -1487,23 +1478,23 @@ div.portfolio-grid > .portfolio-card {
 }
 
 .resume-project-heading > span {
-  color: #111827;
+  color: #504e49;
   font-size: 0.92em;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .resume-project-link {
   margin-left: auto;
-  color: #2563eb;
+  color: #1b365d;
   font-size: 0.9em;
   font-weight: 600;
   text-decoration: underline;
-  text-decoration-color: #93c5fd;
+  text-decoration-color: #aebccc;
   text-underline-offset: 2px;
 }
 
 .resume-project-link:hover {
-  color: #1d4ed8;
+  color: #2d5a8a;
 }
 
 .resume-bullets {
@@ -2223,7 +2214,7 @@ div.portfolio-grid > .portfolio-card {
   }
 
   .resume-a4-section h2 {
-    color: #1d4ed8;
+    color: #1b365d;
     font-size: 12pt;
   }
 
