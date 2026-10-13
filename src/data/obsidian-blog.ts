@@ -3690,6 +3690,51 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/skills/skill-creator.md"
   },
   {
+    "slug": "49393ed95b",
+    "title": "网页版",
+    "date": "",
+    "type": "Blog",
+    "summary": "https://study8677.github.io/awesome architecture/",
+    "href": "/blog/49393ed95b",
+    "tags": [
+      "计算机",
+      "awesome-architecture"
+    ],
+    "content": "https://study8677.github.io/awesome-architecture/",
+    "sourcePath": "计算机/awesome-architecture/网页版.md",
+    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/awesome-architecture/%E7%BD%91%E9%A1%B5%E7%89%88.md"
+  },
+  {
+    "slug": "f0b2f7c435-skill",
+    "title": "skill",
+    "date": "",
+    "type": "Blog",
+    "summary": "https://github.com/study8677/architecture copilot",
+    "href": "/blog/f0b2f7c435-skill",
+    "tags": [
+      "计算机",
+      "awesome-architecture"
+    ],
+    "content": "https://github.com/study8677/architecture-copilot",
+    "sourcePath": "计算机/awesome-architecture/skill.md",
+    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/awesome-architecture/skill.md"
+  },
+  {
+    "slug": "d45b38dee4",
+    "title": "未命名",
+    "date": "",
+    "type": "Blog",
+    "summary": "Obsidian vault 同步笔记。",
+    "href": "/blog/d45b38dee4",
+    "tags": [
+      "计算机",
+      "cleancode"
+    ],
+    "content": "",
+    "sourcePath": "计算机/cleancode/未命名.md",
+    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/cleancode/%E6%9C%AA%E5%91%BD%E5%90%8D.md"
+  },
+  {
     "slug": "9fb425ad6e",
     "title": "ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa这个命令会输出一堆东西，全部直接按回车",
     "date": "2001-10-01",
