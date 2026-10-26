@@ -14,10 +14,10 @@ jobs:
 
     steps:
       - name: Checkout site
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -36,7 +36,7 @@ jobs:
           npm run build
 
       - name: Commit synced Blog data
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chore: sync obsidian blog"
           file_pattern: src/data/obsidian-blog.ts
