@@ -3735,6 +3735,54 @@ export const obsidianBlogEntries: ContentEntry[] = [
     "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/cleancode/%E6%9C%AA%E5%91%BD%E5%90%8D.md"
   },
   {
+    "slug": "b55db156f9",
+    "title": "线程池",
+    "date": "",
+    "type": "Blog",
+    "summary": "因为java线程的创建和销毁性能消耗很大",
+    "href": "/blog/b55db156f9",
+    "tags": [
+      "计算机",
+      "JAVA",
+      "八股"
+    ],
+    "content": "因为java线程的创建和销毁性能消耗很大",
+    "sourcePath": "计算机/JAVA/八股/线程池.md",
+    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/JAVA/%E5%85%AB%E8%82%A1/%E7%BA%BF%E7%A8%8B%E6%B1%A0.md"
+  },
+  {
+    "slug": "749ef85d3d",
+    "title": "引用",
+    "date": "",
+    "type": "Blog",
+    "summary": "|引用类型|GC 回收规则| | | | |强引用|只要强引用可达，就不会回收| |软引用|内存不足时可能回收| |弱引用|只剩弱引用时，下次 GC 可以回收| |虚引用|不能通过它获取对象，主要用于跟踪回收过程|",
+    "href": "/blog/749ef85d3d",
+    "tags": [
+      "计算机",
+      "JAVA",
+      "八股"
+    ],
+    "content": "|引用类型|GC 回收规则|\n|---|---|\n|强引用|只要强引用可达，就不会回收|\n|软引用|内存不足时可能回收|\n|弱引用|只剩弱引用时，下次 GC 可以回收|\n|虚引用|不能通过它获取对象，主要用于跟踪回收过程|",
+    "sourcePath": "计算机/JAVA/八股/引用.md",
+    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/JAVA/%E5%85%AB%E8%82%A1/%E5%BC%95%E7%94%A8.md"
+  },
+  {
+    "slug": "5c4bcb78d0-threadlocal",
+    "title": "ThreadLocal",
+    "date": "",
+    "type": "Blog",
+    "summary": "解决并发安全问题,将资源复制多份使用(和锁的区别:锁是资源只有一份) 使用ThreadLocalMap实现,本质哈希 ThreadLocal对象当key,想要获取的资源当value 为什么key使用弱引用?防止内存泄露 value是强引用",
+    "href": "/blog/5c4bcb78d0-threadlocal",
+    "tags": [
+      "计算机",
+      "JAVA",
+      "八股"
+    ],
+    "content": "解决并发安全问题,将资源复制多份使用(和锁的区别:锁是资源只有一份)\n\n使用ThreadLocalMap实现,本质哈希\nThreadLocal对象当key,想要获取的资源当value\n为什么key使用弱引用?防止内存泄露\nvalue是强引用",
+    "sourcePath": "计算机/JAVA/八股/ThreadLocal.md",
+    "sourceUrl": "https://github.com/Tonkic/tonkic-obsidian-vault/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA/JAVA/%E5%85%AB%E8%82%A1/ThreadLocal.md"
+  },
+  {
     "slug": "9fb425ad6e",
     "title": "ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa这个命令会输出一堆东西，全部直接按回车",
     "date": "2001-10-01",
