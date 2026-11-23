@@ -29,15 +29,15 @@ export const resumeEducationEn: ResumeEducation[] = [
 export const resumeExperiencesEn: ResumeExperience[] = [
   {
     company: "China DataCom Information Co., Ltd.",
-    projectName: "Enterprise OA Approval Workflow Backend",
-    projectDescription: "Spring Boot · MyBatis · MySQL · jQuery",
-    role: "Java Backend Intern",
+    projectName: "Enterprise R&D Metrics & Task Orchestration Dashboard",
+    projectDescription: "Java · Spring Boot · MyBatis · MySQL · ECharts",
+    role: "Backend Engineering Intern",
     location: "Guangzhou",
-    period: "Aug 2024 – Oct 2024",
+    period: "Jun 2024 – Oct 2024",
     bullets: [
-      "Implemented backend endpoints for form submission, review, routing, and rejection across leave and reimbursement workflows, enforcing state transitions, role checks, and audit logs.",
-      "Wrote data persistence and approval-history queries with Spring Boot, MyBatis, and MySQL, working closely with frontend engineers on form submission, state rendering, and error messages.",
-      "Followed features through API specification, local testing, and QA regression, tracking down field-mapping mismatches and state-sync bugs during integration.",
+      "Built scheduled Java jobs to pull and incrementally sync activity from internal Git repositories, Case trackers, and task platforms, capturing daily case submissions, code volume, and task transitions.",
+      "Implemented Spring Boot, MyBatis, and MySQL aggregation APIs by member, team, and date range, handling record deduplication, cross-day status rollups, and task orchestration progress.",
+      "Collaborated on dashboard frontend-backend integration with ECharts to visualize daily engineering output, case breakdowns, and task pipeline progress for routine project tracking.",
     ],
   },
 ];

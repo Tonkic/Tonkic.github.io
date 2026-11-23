@@ -67,15 +67,15 @@ export const resumeEducation: ResumeEducation[] = [
 export const resumeExperiences: ResumeExperience[] = [
   {
     company: "中数通信息有限公司",
-    projectName: "企业 OA 审批流后端模块",
-    projectDescription: "Spring Boot · MyBatis · MySQL · jQuery",
-    role: "Java 后端实习生",
+    projectName: "企业研发效能与任务编排数据大屏",
+    projectDescription: "Java · Spring Boot · MyBatis · MySQL · ECharts",
+    role: "后端开发实习生",
     location: "广州",
-    period: "2024.08 - 2024.10",
+    period: "2024.06 - 2024.10",
     bullets: [
-      "负责请假、报销等单据在提交、审核、流转与驳回节点的后端接口开发，梳理各状态间的流转条件，补齐节点权限校验与操作留痕。",
-      "基于 Spring Boot、MyBatis 和 MySQL 编写单据持久化与历史审批记录查询接口，配合前端联调表单提交、状态回显及异常提示。",
-      "跟进模块从接口约定、开发自测到测试环境回归的完整流程，排查并修复联调阶段出现的字段映射偏差与状态不同步问题。",
+      "对接公司内部代码仓、Case 工单系统与任务管理平台，使用 Java 编写定时抓取与增量同步任务，采集员工每日提交 Case 数、代码提交量及任务流转状态并落库清洗。",
+      "基于 Spring Boot、MyBatis 与 MySQL 编写按人员、项目组及时间维度的统计查询接口，处理重复记录去重、跨天状态归口及任务完成进度编排等聚合逻辑。",
+      "参与大屏页面与后端接口联调，结合 ECharts 完成每日研发产出趋势、Case 处理分布与任务编排进度看板展示，供团队日常进度跟踪使用。",
     ],
   },
 ];

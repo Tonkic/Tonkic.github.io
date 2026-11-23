@@ -65,23 +65,6 @@ export function ResumeDocument() {
           ))}
         </ResumeSection>
 
-        <ResumeSection title={english ? "Projects" : "项目经历"}>
-          {projects.map((project) => (
-            <div className="resume-block-item" key={project.name}>
-              <div className="resume-project-heading">
-                <strong>{project.name}</strong>
-                <span>{project.description}</span>
-                {project.url ? (
-                  <Link className="resume-project-link" href={project.url} target="_blank" rel="noreferrer">
-                    {project.urlLabel ?? project.url} ↗
-                  </Link>
-                ) : null}
-              </div>
-              <BulletList items={project.bullets} />
-            </div>
-          ))}
-        </ResumeSection>
-
         <ResumeSection title={english ? "Internship Experience" : "实习经历"}>
           {experiences.map((item) => (
             <div className="resume-internship" key={`${item.company}-${item.role}`}>
@@ -99,6 +82,23 @@ export function ResumeDocument() {
                 <span>{item.projectDescription}</span>
               </div>
               <BulletList items={item.bullets} />
+            </div>
+          ))}
+        </ResumeSection>
+
+        <ResumeSection title={english ? "Projects" : "项目经历"}>
+          {projects.map((project) => (
+            <div className="resume-block-item" key={project.name}>
+              <div className="resume-project-heading">
+                <strong>{project.name}</strong>
+                <span>{project.description}</span>
+                {project.url ? (
+                  <Link className="resume-project-link" href={project.url} target="_blank" rel="noreferrer">
+                    {project.urlLabel ?? project.url} ↗
+                  </Link>
+                ) : null}
+              </div>
+              <BulletList items={project.bullets} />
             </div>
           ))}
         </ResumeSection>
