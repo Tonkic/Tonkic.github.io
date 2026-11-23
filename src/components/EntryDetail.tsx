@@ -4,6 +4,7 @@ import { MarkdownContent } from "@/components/MarkdownContent";
 import { Reveal } from "@/components/Reveal";
 import type { ContentEntry } from "@/data/site";
 import { LocalizedText } from "@/components/LocalizedText";
+import { messages } from "@/i18n/messages";
 
 export function EntryDetail({
   entry,
@@ -19,23 +20,39 @@ export function EntryDetail({
   return (
     <div className="page-stack article-shell">
       <Reveal className="glass-panel">
-        <p className="eyebrow">{entry.type}</p>
+        <div className="entry-detail-top">
+          <p className="eyebrow">{entry.type}</p>
+          {entry.type === "Portfolio" ? (
+            <Link className="entry-back-link" href="/portfolio">
+              <LocalizedText text={{ zh: "← 返回 Portfolio", en: "← Back to Portfolio" }} />
+            </Link>
+          ) : null}
+        </div>
         <h1>{entry.title}</h1>
-        <p className="entry-meta">{entry.date ?? <LocalizedText text={{ zh: "未注明日期", en: "Date not specified" }} />}</p>
+        <p className="entry-meta">
+          {entry.date ?? <LocalizedText text={{ zh: messages.zh.common.noDate, en: messages.en.common.noDate }} />}
+        </p>
         <p><LocalizedText text={{ zh: entry.summary, en: entry.summaryEn ?? entry.summary }} /></p>
-        {entry.tags ? (
-          <div className="tag-row">
+        {entry.tags?.length ? (
+          <ul className="tag-row" role="list">
             {entry.tags.map((tag) => (
-              <span className="tag" key={tag}>
+              <li className="tag" key={tag}>
                 {tag}
-              </span>
+              </li>
             ))}
-          </div>
+          </ul>
         ) : null}
         {entry.sourceUrl ? (
           <div className="inline-actions">
-            <Link className="button" href={entry.sourceUrl} target="_blank" rel="noreferrer">
-              <LocalizedText text={entry.type === "Blog" ? { zh: "查看 Obsidian 源文件", en: "View Obsidian source" } : { zh: "查看 GitHub 仓库", en: "View GitHub repository" }} />
+            <Link className="button primary" href={entry.sourceUrl} target="_blank" rel="noreferrer">
+              <LocalizedText
+                text={
+                  entry.type === "Blog"
+                    ? { zh: messages.zh.common.viewObsidian, en: messages.en.common.viewObsidian }
+                    : { zh: messages.zh.common.viewGithub, en: messages.en.common.viewGithub }
+                }
+              />
+              {" ↗"}
             </Link>
           </div>
         ) : null}
@@ -43,7 +60,13 @@ export function EntryDetail({
 
       {entry.content ? (
         <Reveal className="glass-panel article-body">
-          <MarkdownContent content={entry.content} contentEn={entry.contentEn} linkMap={linkMap} sourcePath={entry.sourcePath} />
+          <MarkdownContent
+            content={entry.content}
+            contentEn={entry.contentEn}
+            linkMap={linkMap}
+            sourcePath={entry.sourcePath}
+            title={entry.title}
+          />
         </Reveal>
       ) : null}
     </div>

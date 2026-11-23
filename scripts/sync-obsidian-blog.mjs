@@ -44,10 +44,18 @@ const slugify = (value) => {
   return ascii || "note";
 };
 
-const stripFrontmatter = (content) => content.replace(/^---[\s\S]*?---\s*/m, "");
+const stripFrontmatter = (content) =>
+  content.replace(/^\uFEFF?---\r?\n[\s\S]*?\r?\n---\s*(?:\r?\n|$)/, "");
+
+const extractFrontmatterBlock = (content) => {
+  const match = content.match(/^\uFEFF?---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
+  return match ? match[1] : "";
+};
 
 const frontmatterValue = (content, key) => {
-  const match = content.match(new RegExp(`^${key}:\\s*(.+)$`, "m"));
+  const fm = extractFrontmatterBlock(content);
+  if (!fm) return "";
+  const match = fm.match(new RegExp(`^${key}:\\s*(.+)$`, "m"));
   return match ? match[1].trim().replace(/^["']|["']$/g, "") : "";
 };
 

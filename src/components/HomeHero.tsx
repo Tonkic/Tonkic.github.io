@@ -13,15 +13,16 @@ export function HomeHero() {
 
   return (
     <section className="landing-hero" aria-label={t("home.landing")}>
+      <div className="landing-glow" aria-hidden="true" />
       <motion.div
         className="landing-ruler"
-        aria-hidden
+        aria-hidden="true"
         initial={reduce ? false : { scaleX: 0 }}
         animate={{ scaleX: 1 }}
-        transition={{ duration: reduce ? 0 : 1.2, ease: EASE }}
+        transition={{ duration: reduce ? 0 : 1.1, ease: EASE }}
       >
         {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-          <span key={i} className="ruler-tick" style={{ left: (i / 8) * 100 + "%" }} />
+          <span key={i} className="ruler-tick" style={{ left: `${(i / 8) * 100}%` }} />
         ))}
       </motion.div>
 
@@ -54,14 +55,14 @@ export function HomeHero() {
 
         <h1 className="landing-title" aria-label="Tonkic">
           {LETTERS.map((letter, i) => (
-            <span className="letter-wrap" key={i} aria-hidden>
+            <span className="letter-wrap" key={i} aria-hidden="true">
               <motion.span
                 className="letter"
                 initial={reduce ? false : { y: "110%" }}
                 animate={{ y: 0 }}
                 transition={{
-                  delay: reduce ? 0 : 0.32 + i * 0.07,
-                  duration: 0.9,
+                  delay: reduce ? 0 : 0.28 + i * 0.065,
+                  duration: 0.85,
                   ease: EASE,
                 }}
               >
@@ -75,26 +76,29 @@ export function HomeHero() {
           className="landing-tagline"
           initial={reduce ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: reduce ? 0 : 0.95, duration: 0.7, ease: EASE }}
+          transition={{ delay: reduce ? 0 : 0.85, duration: 0.65, ease: EASE }}
         >
-          ARTIFICIAL INTELLIGENCE / SYSTEMS / KNOWLEDGE
+          AI INFRASTRUCTURE · BACKEND SYSTEMS · KNOWLEDGE BASE
         </motion.p>
 
         <motion.div
           className="landing-actions"
-          initial={reduce ? false : { opacity: 0, y: 18 }}
+          initial={reduce ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: reduce ? 0 : 1.15, duration: 0.7, ease: EASE }}
+          transition={{ delay: reduce ? 0 : 1.02, duration: 0.65, ease: EASE }}
         >
           <Link className="button primary" href="/blog">
             {t("home.knowledge")}
           </Link>
+          <Link className="button" href="/api-relay">
+            {t("home.relay")}
+          </Link>
           <Link className="button" href="/portfolio">
             {t("home.projects")}
           </Link>
-          <a className="button" href="/cv">
+          <Link className="button" href="/cv">
             CV
-          </a>
+          </Link>
         </motion.div>
       </div>
 
@@ -102,11 +106,14 @@ export function HomeHero() {
         className="status-bar"
         initial={reduce ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: reduce ? 0 : 1.4, duration: 0.6, ease: EASE }}
+        transition={{ delay: reduce ? 0 : 1.25, duration: 0.6, ease: EASE }}
       >
-        <span>{t("home.online")}</span>
+        <span className="status-live">
+          <i className="status-dot" aria-hidden="true" />
+          {t("home.online")}
+        </span>
+        <span>GUANGZHOU · UTC+8</span>
         <span>STATIC / GITHUB PAGES</span>
-        <span>© 2026 TONKIC</span>
       </motion.div>
     </section>
   );

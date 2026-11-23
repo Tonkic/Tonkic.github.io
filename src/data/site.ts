@@ -19,13 +19,13 @@ export type ContentEntry = {
 export const fallbackBlogEntries: ContentEntry[] = [
   {
     slug: "site-building-log",
-    title: "个人网站建设记录",
+    title: "个人网站重构记录",
     date: "2026-05-25",
     type: "Blog",
-    summary: "记录从学术模板迁移到 TypeScript-first 个人网站的结构、设计和取舍。",
+    summary: "记录个人网站迁移到 Next.js 与 TypeScript 静态架构时的结构取舍。",
     href: "/blog/site-building-log",
     tags: ["Website", "Next.js"],
-    content: "这篇文章是站点内置 fallback。Obsidian vault 同步成功后，Blog 会优先展示 vault 中的笔记。",
+    content: "这是站点内置的兜底笔记。正常情况下，Blog 会直接展示从 Obsidian 仓库同步过来的知识库内容。",
   },
 ];
 
@@ -35,61 +35,64 @@ export const blogEntries: ContentEntry[] = obsidianBlogEntries.length
 
 export const portfolioEntries: ContentEntry[] = [
   {
-    slug: "tonkic-github-io",
-    title: "Tonkic.github.io",
-    date: "2026-05-27",
-    type: "Portfolio",
-    summary: "当前这站本身：一个用 Next.js 和 TypeScript 重建的个人网站，聚合 Blog、模型 API 中转、Portfolio、CV 与学术内容。",
-    summaryEn: "This website itself: a Next.js and TypeScript personal site bringing together a knowledge base, API relay, portfolio, CV, and academic pages.",
-    href: "/portfolio/tonkic-github-io",
-    tags: ["Next.js", "TypeScript", "Motion"],
-    sourceUrl: "https://github.com/Tonkic/Tonkic.github.io",
-    content:
-      "使用 Next.js App Router 与 TypeScript 构建并静态导出到 GitHub Pages。站点整合 Obsidian 知识库同步、Markdown 与公式渲染、模型 API 公开状态快照、项目展示和可打印简历，并通过自动化工作流持续部署。",
-    contentEn: "Built with the Next.js App Router and TypeScript, then statically exported to GitHub Pages. The site integrates Obsidian knowledge synchronization, Markdown and math rendering, a public API relay health snapshot, project pages, a printable CV, and automated deployment workflows.",
-  },
-  {
     slug: "cliproxyapiplus",
     title: "CLIProxyAPIPlus",
     date: "2026-04-20",
     type: "Portfolio",
-    summary: "面向模型 API 中转与能力扩展的 Go 服务，承担网关和调用链路相关工作。",
-    summaryEn: "A Go service for model API relay and gateway extensions across the request pipeline.",
+    summary: "用 Go 维护的模型 API 网关与协议扩展服务，负责多渠道转发、流式适配和工具调用兼容。",
+    summaryEn: "A Go model API gateway and protocol relay handling multi-provider routing, streaming adaptation, and tool-call compatibility.",
     href: "/portfolio/cliproxyapiplus",
-    tags: ["Go", "API Gateway", "Relay"],
+    tags: ["Go", "API Gateway", "SSE / Relay"],
     sourceUrl: "https://github.com/Tonkic/CLIProxyAPIPlus",
     content:
-      "模型 API 中转相关的后端项目，使用 Go 承接实际调用和网关逻辑，并与本站的 API Relay 状态页形成前后端分层。",
-    contentEn: "A Go backend for model API relay and gateway logic, paired with this site's public API Relay status page.",
+      "面向多模型调用场景的 Go 网关服务，负责上游渠道分发、OpenAI 兼容层与流式响应转换，并和本站的 API Relay 状态页配合提供公开可用性参考。",
+    contentEn:
+      "A Go backend service for multi-model API routing, OpenAI-compatible protocol translation, and streaming responses, paired with this site's public API Relay status page.",
+  },
+  {
+    slug: "tonkic-github-io",
+    title: "Tonkic.github.io",
+    date: "2026-05-27",
+    type: "Portfolio",
+    summary: "当前这个双语个人网站：基于 Next.js 静态导出，把知识库笔记、中转站状态、项目归档和在线简历收拢在一处。",
+    summaryEn: "This bilingual personal site: statically exported with Next.js to bring together notes, gateway status, projects, and a printable CV.",
+    href: "/portfolio/tonkic-github-io",
+    tags: ["Next.js", "TypeScript", "Static Export"],
+    sourceUrl: "https://github.com/Tonkic/Tonkic.github.io",
+    content:
+      "基于 Next.js App Router 与 TypeScript 构建并静态部署在 GitHub Pages。包含 Obsidian 目录树同步、轻量 Markdown 与 KaTeX 渲染、API 中转定时健康快照、可打印 A4 简历以及静态巡检测试。",
+    contentEn:
+      "Built with the Next.js App Router and TypeScript for GitHub Pages. Features Obsidian tree sync, lightweight Markdown and KaTeX rendering, scheduled API relay health snapshots, a print-ready A4 CV, and automated static regression checks.",
   },
   {
     slug: "tonkic-obsidian-vault",
     title: "tonkic-obsidian-vault",
     date: "2026-04-20",
     type: "Portfolio",
-    summary: "个人知识库与 Blog 内容源，通过自动化同步形成可浏览的目录树。",
-    summaryEn: "The source repository for the personal knowledge base and Blog, synchronized into a browsable directory tree.",
+    summary: "日常维护的个人知识库源仓库，记录人工智能、数学基础与工程实践笔记，每日自动同步到本站 Blog。",
+    summaryEn: "My day-to-day Obsidian vault covering AI, math foundations, and engineering notes, synced daily into the Blog.",
     href: "/portfolio/tonkic-obsidian-vault",
     tags: ["Obsidian", "Markdown", "Knowledge Base"],
     sourceUrl: "https://github.com/Tonkic/tonkic-obsidian-vault",
     content:
-      "仓库中的 Markdown、图片和目录结构会由 GitHub Actions 同步进本站，并通过 Fumadocs source 构建知识库目录树与独立笔记页面。",
-    contentEn: "GitHub Actions synchronizes Markdown, images, and directory structure into this site, where Fumadocs Core builds the knowledge tree and standalone note pages.",
+      "存放日常学习与开发整理的原版 Markdown 笔记和配图。GitHub Actions 每天拉取最新内容并生成静态目录树与独立文章页，保留原有文件夹层级。",
+    contentEn:
+      "Stores raw Markdown notes and figures from daily study and engineering work. GitHub Actions syncs updates every day into a browsable directory tree and standalone note pages.",
   },
-
   {
     slug: "cn-rail-data-pagerank-viz",
     title: "cn-rail-data-pagerank-viz",
     date: "2025-11-02",
     type: "Portfolio",
-    summary: "将中国铁路数据处理、PageRank 图算法与交互可视化串成完整分析流程。",
-    summaryEn: "An end-to-end analysis pipeline combining Chinese railway data, PageRank, and interactive visualization.",
+    summary: "基于中国铁路站点与车次数据构建有向图，用 PageRank 评估枢纽重要度并做交互式地图可视化。",
+    summaryEn: "Builds a directed graph from Chinese railway schedule data, ranking hub centrality with PageRank and interactive map visualizations.",
     href: "/portfolio/cn-rail-data-pagerank-viz",
-    tags: ["Python", "Visualization", "PageRank"],
+    tags: ["Python", "PageRank", "Visualization"],
     sourceUrl: "https://github.com/Tonkic/cn-rail-data-pagerank-viz",
     content:
-      "围绕铁路网络构建数据分析与可视化流程，使用 PageRank 观察节点重要性，展示从数据整理、图算法到结果表达的完整能力。",
-    contentEn: "A railway-network analysis and visualization workflow using PageRank to study node importance, covering data preparation, graph algorithms, and result communication.",
+      "从原始车次与站点数据清洗建模出发，构建全国铁路网络图并计算节点 PageRank 权重，直观对比地理分布与路网拓扑枢纽度。",
+    contentEn:
+      "Cleans raw train and station data into a national rail network graph, computes PageRank centrality scores, and visualizes how topological hub importance compares with geography.",
   },
 ];
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { BlogArticle } from "@/components/BlogArticle";
-import { blogLinkMap, blogPages, blogSource } from "@/lib/blog-source";
+import { blogPages, blogSource, buildEntryLinkMap } from "@/lib/blog-source";
 
 export function generateStaticParams() {
   return blogPages.map((page) => ({ slug: page.slugs[0] }));
@@ -38,5 +38,6 @@ export default async function BlogEntryPage({
   const entry = blogSource.getPage([slug])?.data;
   const previous = pageIndex > 0 ? blogPages[pageIndex - 1]?.data : undefined;
   const next = pageIndex >= 0 ? blogPages[pageIndex + 1]?.data : undefined;
-  return <BlogArticle entry={entry} linkMap={blogLinkMap} previous={previous} next={next} />;
+  const linkMap = buildEntryLinkMap(entry?.content, entry?.sourcePath);
+  return <BlogArticle entry={entry} linkMap={linkMap} previous={previous} next={next} />;
 }

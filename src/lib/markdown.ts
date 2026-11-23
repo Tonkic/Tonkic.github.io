@@ -4,6 +4,9 @@ export type MarkdownHeading = {
   id: string;
 };
 
+export const stripMarkdownFrontmatter = (content: string) =>
+  content.replace(/^\uFEFF?---\s*\r?\n[\s\S]*?\r?\n---\s*(?:\r?\n|$)/, "");
+
 const cleanHeadingText = (value: string) =>
   value
     .replace(/!\[([^\]]*)\]\([^)]*\)/g, "$1")
@@ -25,24 +28,42 @@ export const createHeadingId = (value: string, used: Map<string, number>) => {
   return count ? `${base}-${count + 1}` : base;
 };
 
-export const extractMarkdownHeadings = (content: string): MarkdownHeading[] => {
+export const extractMarkdownHeadings = (content: string, skipLeadingTitle?: string): MarkdownHeading[] => {
   const used = new Map<string, number>();
   const headings: MarkdownHeading[] = [];
+  const normalizedTitle = skipLeadingTitle ? cleanHeadingText(skipLeadingTitle).toLocaleLowerCase() : "";
   let inCode = false;
+  let seenFirstBlock = false;
 
-  for (const line of content.replace(/\r\n/g, "\n").split("\n")) {
-    if (line.trim().startsWith("```")) {
+  for (const line of stripMarkdownFrontmatter(content).replace(/\r\n/g, "\n").split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+
+    if (trimmed.startsWith("```")) {
       inCode = !inCode;
+      seenFirstBlock = true;
       continue;
     }
     if (inCode) continue;
 
-    const match = line.trim().match(/^(#{1,6})\s+(.+?)\s*#*$/);
-    if (!match) continue;
+    const match = trimmed.match(/^(#{1,6})\s+(.+?)\s*#*$/);
+    if (!match) {
+      seenFirstBlock = true;
+      continue;
+    }
+
+    const depth = match[1].length;
+    const text = match[2];
+    if (!seenFirstBlock && depth === 1 && normalizedTitle && cleanHeadingText(text).toLocaleLowerCase() === normalizedTitle) {
+      seenFirstBlock = true;
+      continue;
+    }
+
+    seenFirstBlock = true;
     headings.push({
-      depth: match[1].length,
-      text: match[2],
-      id: createHeadingId(match[2], used),
+      depth,
+      text: cleanHeadingText(text) || text,
+      id: createHeadingId(text, used),
     });
   }
 

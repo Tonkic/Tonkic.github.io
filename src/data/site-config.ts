@@ -6,7 +6,6 @@ export type NavItem = {
 
 export const siteProfile = {
   name: "Tonkic",
-  realName: "Zhang Tingyu",
   role: "Master's student in Artificial Intelligence",
   affiliation: "School of Artificial Intelligence, SCNU",
   email: "tonkic@qq.com",

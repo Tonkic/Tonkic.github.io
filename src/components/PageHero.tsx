@@ -12,7 +12,7 @@ export function PageHero({
   children?: React.ReactNode;
 }) {
   return (
-    <Reveal className="hero-panel">
+    <Reveal className={`hero-panel ${children ? "" : "hero-panel-compact"}`}>
       <p className="eyebrow">{eyebrow}</p>
       <h1 className="hero-title">
         {title}

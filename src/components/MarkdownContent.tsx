@@ -3,10 +3,10 @@
 import { useMemo, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import katex from "katex";
-import { createHeadingId } from "@/lib/markdown";
+import { createHeadingId, stripMarkdownFrontmatter } from "@/lib/markdown";
 
 const inlinePattern =
-  /(!?\[[^\]]*]\([^)]+\)|`[^`]+`|\*\*[^*]+\*\*|\\\[[\s\S]*?\\\]|(?<!\\)\$\$[\s\S]*?(?<!\\)\$\$|\\\([^\\\n]*?\\\)|(?<![\\$\\])\$(?!\$)(?:\\.|[^$\\\n])*?(?<!\\)\$(?!\$))/g;
+  /(`[^`]+`|\\\[[\s\S]*?\\\]|(?<!\\)\$\$[\s\S]*?(?<!\\)\$\$|\\\([^\\\n]*?\\\)|(?<![\\$\\])\$(?!\$)(?:\\.|[^$\\\n])*?(?<!\\)\$(?!\$)|!?\[[^\]]*]\((?:[^()\n]|\([^()\n]*\))+\)|\*\*[^*]+\*\*|~~[^~\n]+~~|(?<!\*)\*(?!\s)[^*\n]+(?<!\s)\*(?!\*))/g;
 
 type Block =
   | { type: "code"; content: string; language: string }
@@ -15,6 +15,8 @@ type Block =
   | { type: "math"; content: string }
   | { type: "table"; rows: string[][] }
   | { type: "list"; items: string[]; ordered: boolean }
+  | { type: "blockquote"; content: string }
+  | { type: "hr" }
   | { type: "paragraph"; content: string };
 
 const splitTableRow = (line: string) =>
@@ -27,6 +29,9 @@ const splitTableRow = (line: string) =>
 
 const isTableDivider = (line: string) =>
   /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line);
+
+const isHorizontalRule = (line: string) =>
+  /^(?:-\s*){3,}$|^(?:\*\s*){3,}$|^(?:_\s*){3,}$/.test(line.trim());
 
 const escapeHtml = (value: string) =>
   value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character] ?? character);
@@ -52,6 +57,25 @@ const renderLatex = (value: string, displayMode = false) => {
   }
 };
 
+const sanitizeBrokenMathSvg = (input: string) =>
+  input
+    .replace(/!\[{1,2}[^\]]*?data:image\/svg\+xml[^\n]*?<title[^>]*>([^<]+)<(?:%2F|\/)title>[^\n]*/gi, (_match, rawLatex: string) => {
+      try {
+        const decoded = decodeURIComponent(rawLatex).split("||").pop()?.replace(/\]+$/, "").trim() ?? "";
+        return decoded ? `\n$$\n${decoded}\n$$\n` : "";
+      } catch {
+        return "";
+      }
+    })
+    .replace(/\[图片：data:image\/svg\+xml[^\n]*?<title[^>]*>([^<]+)<(?:%2F|\/)title>[^\n]*?\)/gi, (_match, rawLatex: string) => {
+      try {
+        const decoded = decodeURIComponent(rawLatex).split("|")[0]?.trim() ?? "";
+        return decoded ? `$${decoded}$` : "";
+      } catch {
+        return "";
+      }
+    });
+
 const resolveImageSource = (src: string, sourcePath?: string) => {
   if (/^(https?:|data:|\/)/.test(src)) return src;
   if (!sourcePath) return src;
@@ -68,50 +92,34 @@ const resolveImageSource = (src: string, sourcePath?: string) => {
     .join("/")}`;
 };
 
-const normalizeVaultPath = (value: string) =>
-  value
-    .replace(/\\/g, "/")
-    .replace(/^\/+/, "")
-    .split("/")
-    .filter(Boolean)
-    .join("/");
-
-const resolveVaultPath = (href: string, sourcePath?: string) => {
-  const [pathWithMaybeHash, hash = ""] = href.split("#");
-  const [pathOnly, query = ""] = pathWithMaybeHash.split("?");
-
+const parseVaultLabel = (href: string) => {
+  const [pathPart, rawHash = ""] = href.split("#");
+  let decodedPath = pathPart;
+  let decodedHash = rawHash;
   try {
-    const decoded = decodeURI(pathOnly);
-    const segments = decoded.startsWith("/")
-      ? []
-      : sourcePath?.split("/").slice(0, -1) ?? [];
-
-    for (const part of decoded.split("/")) {
-      if (!part || part === ".") continue;
-      if (part === "..") segments.pop();
-      else segments.push(part);
-    }
-
-    const normalized = normalizeVaultPath(segments.join("/"));
-    return {
-      hash: hash ? `#${hash}` : "",
-      path: normalized.endsWith(".md") ? normalized : `${normalized}.md`,
-      query: query ? `?${query}` : "",
-    };
+    decodedPath = decodeURI(pathPart);
+    decodedHash = decodeURIComponent(rawHash);
   } catch {
-    return null;
+    // Keep raw strings if malformed URI
   }
+  const base = decodedPath
+    .replace(/\\/g, "/")
+    .split("/")
+    .pop()
+    ?.replace(/(?:\.md)+$/i, "");
+  return [base, decodedHash].filter(Boolean).join(" § ") || href;
 };
 
-const resolveLinkHref = (href: string, sourcePath?: string, linkMap?: Record<string, string>) => {
-  if (/^(https?:|mailto:|tel:|#)/.test(href)) return href;
-  if (!linkMap) return href;
-
-  const resolved = resolveVaultPath(href, sourcePath);
-  if (!resolved) return href;
-
-  const target = linkMap[resolved.path];
-  return target ? `${target}${resolved.hash}` : href;
+const resolveInternalLink = (href: string, linkMap?: Record<string, string>) => {
+  if (/^(https?:|mailto:|tel:|#)/.test(href)) {
+    return { href, external: /^https?:/.test(href), resolved: true, fallbackLabel: href };
+  }
+  const target = linkMap?.[href];
+  const fallbackLabel = parseVaultLabel(href);
+  if (!target) {
+    return { href, external: false, resolved: false, fallbackLabel };
+  }
+  return { href: target, external: false, resolved: true, fallbackLabel };
 };
 
 const readDisplayMathBlock = (lines: string[], start: number, delimiter: "$$" | "\\[", firstContent: string) => {
@@ -137,10 +145,15 @@ const readDisplayMathBlock = (lines: string[], start: number, delimiter: "$$" | 
   return { content: math.join("\n").trim(), end: index };
 };
 
-const parseBlocks = (content: string): Block[] => {
-  const withoutFrontmatter = content.replace(/^\uFEFF?---\s*\n[\s\S]*?\n---\s*(?:\n|$)/, "");
-  const lines = withoutFrontmatter.replace(/\$\$\$\$/g, "$$\n$$").replace(/\r\n/g, "\n").split("\n");
+const parseBlocks = (content: string, skipLeadingTitle?: string): Block[] => {
+  const cleaned = sanitizeBrokenMathSvg(stripMarkdownFrontmatter(content));
+  const lines = cleaned
+    .replace(/^w#\s+/gm, "# ")
+    .replace(/\$\$\$\$/g, "$$\n$$")
+    .replace(/\r\n/g, "\n")
+    .split("\n");
   const blocks: Block[] = [];
+  const normalizedTitle = skipLeadingTitle?.trim().toLocaleLowerCase() ?? "";
   let index = 0;
 
   while (index < lines.length) {
@@ -161,6 +174,23 @@ const parseBlocks = (content: string): Block[] => {
       }
       blocks.push({ type: "code", content: code.join("\n"), language });
       index += 1;
+      continue;
+    }
+
+    if (isHorizontalRule(trimmed)) {
+      blocks.push({ type: "hr" });
+      index += 1;
+      continue;
+    }
+
+    if (trimmed.startsWith(">")) {
+      const quoteLines: string[] = [];
+      while (index < lines.length && lines[index].trim().startsWith(">")) {
+        quoteLines.push(lines[index].trim().replace(/^>\s?/, "").replace(/^\[![A-Z]+\]\s*/i, ""));
+        index += 1;
+      }
+      const quoteText = quoteLines.filter(Boolean).join(" ");
+      if (quoteText) blocks.push({ type: "blockquote", content: quoteText });
       continue;
     }
 
@@ -199,12 +229,18 @@ const parseBlocks = (content: string): Block[] => {
       continue;
     }
 
-    const heading = trimmed.match(/^(#{1,6})\s+(.+)$/);
+    const heading = trimmed.match(/^(#{1,6})\s+(.+?)\s*#*$/);
     if (heading) {
+      const depth = Math.min(heading[1].length, 6) as 1 | 2 | 3 | 4 | 5 | 6;
+      const headingContent = heading[2].trim();
+      if (blocks.length === 0 && depth === 1 && normalizedTitle && headingContent.toLocaleLowerCase() === normalizedTitle) {
+        index += 1;
+        continue;
+      }
       blocks.push({
         type: "heading",
-        depth: Math.min(heading[1].length, 6) as 1 | 2 | 3 | 4 | 5 | 6,
-        content: heading[2],
+        depth,
+        content: headingContent,
       });
       index += 1;
       continue;
@@ -244,6 +280,8 @@ const parseBlocks = (content: string): Block[] => {
       const next = lines[index].trim();
       if (
         next.startsWith("```") ||
+        isHorizontalRule(next) ||
+        next.startsWith(">") ||
         next.startsWith("$$") ||
         next.startsWith("\\[") ||
         /^(?:[-*]|\d+[.)])\s+(?:\$\$|\\\[)/.test(next) ||
@@ -268,33 +306,55 @@ const renderInline = (text: string, sourcePath?: string, linkMap?: Record<string
     if (match.index > cursor) nodes.push(text.slice(cursor, match.index));
 
     const token = match[0];
-    const link = token.match(/^(!?)\[([^\]]*)]\(([^)]+)\)$/);
+    const link = token.match(/^(!?)\[([^\]]*)]\(((?:[^()\n]|\([^()\n]*\))+)\)$/);
     if (link) {
       if (link[1]) {
         nodes.push(
           <img
             alt={link[2]}
             className="markdown-inline-image"
+            decoding="async"
             key={match.index}
+            loading="lazy"
             src={resolveImageSource(link[3], sourcePath)}
           />,
         );
       } else {
-        nodes.push(
-          <a
-            href={resolveLinkHref(link[3], sourcePath, linkMap)}
-            key={match.index}
-            rel={/^(https?:)/.test(link[3]) ? "noreferrer" : undefined}
-            target={/^(https?:)/.test(link[3]) ? "_blank" : undefined}
-          >
-            {link[2] || link[3]}
-          </a>,
-        );
+        const target = resolveInternalLink(link[3], linkMap);
+        const label = link[2].trim() || target.fallbackLabel;
+
+        if (!target.resolved) {
+          const looksLikeVaultLink = link[3].includes("/") || /\.md(?:$|#|\?)/i.test(link[3]);
+          nodes.push(
+            looksLikeVaultLink ? (
+              <span className="markdown-unresolved-link" key={match.index}>
+                {label}
+              </span>
+            ) : (
+              token
+            ),
+          );
+        } else {
+          nodes.push(
+            <a
+              href={target.href}
+              key={match.index}
+              rel={target.external ? "noreferrer" : undefined}
+              target={target.external ? "_blank" : undefined}
+            >
+              {label}
+            </a>,
+          );
+        }
       }
     } else if (token.startsWith("`")) {
       nodes.push(<code key={match.index}>{token.slice(1, -1)}</code>);
     } else if (token.startsWith("**")) {
       nodes.push(<strong key={match.index}>{token.slice(2, -2)}</strong>);
+    } else if (token.startsWith("~~")) {
+      nodes.push(<del key={match.index}>{token.slice(2, -2)}</del>);
+    } else if (token.startsWith("*")) {
+      nodes.push(<em key={match.index}>{token.slice(1, -1)}</em>);
     } else if (token.startsWith("$") || token.startsWith("\\(") || token.startsWith("\\[")) {
       const display = token.startsWith("$$") || token.startsWith("\\[");
       const delimiterLength = token.startsWith("$") ? (display ? 2 : 1) : 2;
@@ -312,20 +372,29 @@ const renderInline = (text: string, sourcePath?: string, linkMap?: Record<string
   return nodes.length ? nodes : text;
 };
 
+const copyToClipboard = async (value: string, onSuccess: () => void) => {
+  try {
+    await navigator.clipboard.writeText(value);
+    onSuccess();
+  } catch {
+    // Ignore clipboard failure in restricted contexts
+  }
+};
+
 function CodeBlock({ content, language }: { content: string; language: string }) {
   const [copied, setCopied] = useState(false);
   const { t } = useLanguage();
 
-  const copy = async () => {
-    await navigator.clipboard.writeText(content);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1200);
-  };
+  const copy = () =>
+    copyToClipboard(content, () => {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1400);
+    });
 
   return (
     <div className="code-block">
       <div className="code-block-bar">
-        <span>{language || "code"}</span>
+        <span className="code-lang">{language || "code"}</span>
         <button onClick={copy} type="button">
           {copied ? t("blog.copied") : t("blog.copy")}
         </button>
@@ -341,18 +410,18 @@ function MathBlock({ content }: { content: string }) {
   const [copied, setCopied] = useState(false);
   const { t } = useLanguage();
 
-  const copy = async () => {
-    await navigator.clipboard.writeText(`$$\n${content}\n$$`);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1200);
-  };
+  const copy = () =>
+    copyToClipboard(`$$\n${content}\n$$`, () => {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1400);
+    });
 
   return (
     <figure className="math-block">
       <button onClick={copy} type="button">
         {copied ? t("blog.copied") : t("blog.copyFormula")}
       </button>
-      <div aria-label={t("blog.formula")} className="math-block-content">
+      <div aria-label={t("blog.formula")} className="math-block-content" role="math">
         <span dangerouslySetInnerHTML={{ __html: renderLatex(content, true) }} />
       </div>
     </figure>
@@ -364,15 +433,17 @@ export function MarkdownContent({
   contentEn,
   linkMap,
   sourcePath,
+  title,
 }: {
   content: string;
   contentEn?: string;
   linkMap?: Record<string, string>;
   sourcePath?: string;
+  title?: string;
 }) {
   const { locale } = useLanguage();
   const localizedContent = locale === "en" && contentEn ? contentEn : content;
-  const blocks = useMemo(() => parseBlocks(localizedContent), [localizedContent]);
+  const blocks = useMemo(() => parseBlocks(localizedContent, title), [localizedContent, title]);
   const headingIds = new Map<string, number>();
 
   return (
@@ -386,11 +457,29 @@ export function MarkdownContent({
           return <MathBlock content={block.content} key={index} />;
         }
 
+        if (block.type === "hr") {
+          return <hr className="markdown-hr" key={index} />;
+        }
+
+        if (block.type === "blockquote") {
+          return (
+            <blockquote className="markdown-quote" key={index}>
+              <p>{renderInline(block.content, sourcePath, linkMap)}</p>
+            </blockquote>
+          );
+        }
+
         if (block.type === "image") {
+          const caption = block.alt && !/^pasted image\b/i.test(block.alt.trim()) ? block.alt : "";
           return (
             <figure className="markdown-image" key={index}>
-              <img alt={block.alt} src={resolveImageSource(block.src, sourcePath)} />
-              {block.alt ? <figcaption>{block.alt}</figcaption> : null}
+              <img
+                alt={caption || ""}
+                decoding="async"
+                loading="lazy"
+                src={resolveImageSource(block.src, sourcePath)}
+              />
+              {caption ? <figcaption>{caption}</figcaption> : null}
             </figure>
           );
         }
@@ -403,7 +492,7 @@ export function MarkdownContent({
                 <thead>
                   <tr>
                     {head.map((cell, cellIndex) => (
-                      <th key={cellIndex}>{renderInline(cell, sourcePath, linkMap)}</th>
+                      <th key={cellIndex} scope="col">{renderInline(cell, sourcePath, linkMap)}</th>
                     ))}
                   </tr>
                 </thead>

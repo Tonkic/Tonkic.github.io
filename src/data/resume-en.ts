@@ -1,66 +1,29 @@
-import type { ResumeEducation, ResumeExperience, ResumeProject, ResumeSkill } from "./resume";
+import type { ResumeEducation, ResumeExperience, ResumeProfile, ResumeProject, ResumeSkill } from "./resume";
 
-export const resumeProfileEn = {
+export const resumeProfileEn: ResumeProfile = {
   name: "Tonkic",
-  handle: "Tonkic",
-  phone: "",
   location: "Guangzhou",
   target: "Backend Engineering / AI Infrastructure",
-  summary: "Focused on AI API gateways and backend engineering, with hands-on experience from protocol adaptation and model routing to Linux production delivery.",
   email: "tonkic@qq.com",
   github: "https://github.com/Tonkic",
   website: "https://tonkic.github.io/",
-  photoAlt: "ID photo placeholder",
 };
 
 export const resumeEducationEn: ResumeEducation[] = [
   {
-    school: "South China Agricultural University",
-    degree: "B.Eng.",
-    detail: "Data Science and Big Data Technology / School of Mathematics and Informatics, School of Software / Full-time",
-    period: "Sep 2021 – Jun 2025",
-    tags: ["Double First-Class"],
-  },
-  {
     school: "South China Normal University",
     degree: "M.Eng.",
-    detail: "Artificial Intelligence / School of Artificial Intelligence / Full-time",
+    detail: "Artificial Intelligence · School of Artificial Intelligence (Full-time)",
     period: "Sep 2025 – Jun 2028",
     tags: ["Project 211", "Double First-Class"],
   },
-];
-
-export const resumeProjectsEn: ResumeProject[] = [
   {
-    name: "Multi-model API Aggregation and Relay Platform",
-    description: "Go · API Gateway · Protocol Relay",
-    url: "https://tonkicapi.xyz/",
-    urlLabel: "tonkicapi.xyz",
-    bullets: [
-      "Extended New API and CLIProxyAPI into a multi-model aggregation and relay platform, connecting provider integration, unified access, and service operations; processed 136,034 requests and 11.82 billion tokens in the past month.",
-      "Contributed to compatibility work across OpenAI Responses, Codex, and GitHub Copilot flows, adapting model routing, SSE/WebSocket streaming, and tool-call results.",
-      "Contributed to usage-statistics and Keeper integration, while maintaining Linux update scripts, GitHub Actions releases, Alibaba Cloud OSS artifact distribution, and Nginx HTTPS reverse-proxy deployment.",
-    ],
+    school: "South China Agricultural University",
+    degree: "B.Eng.",
+    detail: "Data Science & Big Data Technology · School of Mathematics & Informatics / Software (Full-time)",
+    period: "Sep 2021 – Jun 2025",
+    tags: ["Double First-Class"],
   },
-  {
-    name: "Personal Website and Knowledge Base",
-    description: "Next.js · TypeScript · GitHub Pages",
-    url: "https://tonkic.github.io/",
-    urlLabel: "tonkic.github.io",
-    bullets: [
-      "Built a personal site with Next.js App Router and TypeScript for the knowledge base, portfolio, online CV, and API relay health page, using static export for GitHub Pages.",
-      "Designed the Obsidian synchronization and directory-tree pipeline, including Markdown, KaTeX, internal links, and image rendering; optimized data payloads and long formulas across 300+ static pages.",
-      "Established GitHub Actions workflows for content sync, type checking, production builds, regression tests, and Pages deployment.",
-    ],
-  },
-];
-
-export const resumeSkillsEn: ResumeSkill[] = [
-  { category: "AI API Gateways and Backend Engineering", detail: "Backend experience with Go, Java, and Python, including REST APIs and multi-model gateways; familiar with model routing, OpenAI-compatible protocols, Responses/Codex flows, SSE/WebSocket streaming, and tool-call adaptation." },
-  { category: "Linux Production Delivery", detail: "Hands-on with Linux, Shell, Nginx, HTTPS, and Docker deployment; contributed to GitHub Actions releases, OSS artifact distribution, update scripts, and diagnosis through reverse-proxy, application logs, and process state." },
-  { category: "Programming and Data Systems", detail: "Primary languages include Go, Java, Python, and TypeScript. Familiar with object-oriented design, interface abstraction, asynchronous/concurrent programming, Spring Boot, MyBatis, MySQL indexing, execution plans, caching, and message queues." },
-  { category: "Big Data and Data Engineering Foundations", detail: "Familiar with Spark, Hive, Flink, and Kafka, including batch/stream processing, partitioning, message consumption, ETL, and basic offline data-warehouse patterns; also experienced with PyTorch, computer vision, and model inference foundations." },
-  { category: "Frontend and Content Engineering", detail: "Able to build responsive sites and data interfaces with Next.js, React, TypeScript, and CSS, including Markdown, KaTeX, static export, complex content layout, ECharts, and Metabase." },
 ];
 
 export const resumeExperiencesEn: ResumeExperience[] = [
@@ -71,11 +34,58 @@ export const resumeExperiencesEn: ResumeExperience[] = [
     role: "Java Backend Intern",
     location: "Guangzhou",
     period: "Aug 2024 – Oct 2024",
-    techStack: "Spring Boot, MyBatis, MySQL, jQuery",
     bullets: [
-      "Contributed backend endpoints for submission, approval, routing, and rejection, translating approval rules into workflow states, node validation, and traceable records.",
-      "Used Spring Boot, MyBatis, and MySQL for request validation, persistence, and approval-record queries, while collaborating on API integration, error feedback, and data rendering.",
-      "Participated in requirement analysis, interface design, integration testing, and delivery verification, building practical experience in enterprise Java backend development and diagnosis.",
+      "Implemented backend endpoints for form submission, review, routing, and rejection across leave and reimbursement workflows, enforcing state transitions, role checks, and audit logs.",
+      "Wrote data persistence and approval-history queries with Spring Boot, MyBatis, and MySQL, working closely with frontend engineers on form submission, state rendering, and error messages.",
+      "Followed features through API specification, local testing, and QA regression, tracking down field-mapping mismatches and state-sync bugs during integration.",
     ],
+  },
+];
+
+export const resumeProjectsEn: ResumeProject[] = [
+  {
+    name: "Multi-model API Aggregation & Relay Gateway",
+    description: "Go · API Gateway · SSE / WebSocket",
+    url: "https://tonkicapi.xyz/",
+    urlLabel: "tonkicapi.xyz",
+    bullets: [
+      "Built and run a production multi-model API gateway on top of New API and CLIProxyAPI, handling upstream auth, channel routing, and retries; served 136K+ requests and 11.82B tokens over the past month.",
+      "Adapted compatibility layers for OpenAI Responses, Codex, and GitHub Copilot traffic, reconciling upstream differences in model aliases, SSE/WebSocket chunked streams, and tool-call payloads.",
+      "Wired up usage accounting and health checks with an internal Keeper service; maintain Linux rollout scripts, GitHub Actions builds, Alibaba Cloud OSS artifact delivery, and Nginx TLS reverse proxies.",
+    ],
+  },
+  {
+    name: "Personal Site & Obsidian Sync Pipeline",
+    description: "Next.js · TypeScript · GitHub Actions",
+    url: "https://tonkic.github.io/",
+    urlLabel: "tonkic.github.io",
+    bullets: [
+      "Built this bilingual site with Next.js App Router and TypeScript, statically exported to GitHub Pages to host technical notes, project archives, a printable CV, and a gateway status page.",
+      "Wrote a sync script that pulls Markdown notes from an Obsidian Git repo into a browsable tree, paired with custom Markdown/KaTeX rendering for wikilinks and wide formulas while trimming serialized list payloads across 300+ static pages.",
+      "Automated daily note syncs and 15-minute gateway health snapshots in GitHub Actions, backed by a static smoke-test crawler that checks broken links, math output, and page weight before deploy.",
+    ],
+  },
+];
+
+export const resumeSkillsEn: ResumeSkill[] = [
+  {
+    category: "Backend & API Gateways",
+    detail: "Day-to-day work in Go, Java, and Python; comfortable with HTTP/REST design, concurrency control, SSE/WebSocket streaming, multi-provider model routing, OpenAI-compatible proxies, and tool-call translation.",
+  },
+  {
+    category: "Linux & Production Ops",
+    detail: "Practical experience with Linux CLI, Shell scripting, Docker, and Nginx HTTPS reverse proxies; set up GitHub Actions release pipelines, OSS artifact distribution, and log/process-based live debugging.",
+  },
+  {
+    category: "Databases & Server Stack",
+    detail: "Solid foundation in MySQL schema design, indexing, and EXPLAIN query tuning; built internal web backends with Spring Boot and MyBatis, with working knowledge of Redis caching and message queues.",
+  },
+  {
+    category: "Data Engineering & AI",
+    detail: "Coursework and project experience with Spark, Flink, Hive, and Kafka for batch/stream pipelines; familiar with PyTorch training/inference basics, LLM serving, and practical RAG workflows.",
+  },
+  {
+    category: "Frontend & Tooling",
+    detail: "Build clean, responsive dashboards and documentation sites with Next.js, React, and TypeScript, including static export tuning, Markdown/KaTeX typesetting, ECharts, and Metabase.",
   },
 ];

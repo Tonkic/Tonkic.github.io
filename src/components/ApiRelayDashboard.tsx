@@ -20,7 +20,7 @@ type RelaySnapshot = {
 type RelayHealth = {
   label: string;
   reason: string;
-  tone: "checking" | "offline" | "online" | "unknown";
+  tone: "checking" | "offline" | "online";
 };
 
 const relaySnapshot = relaySnapshotData as RelaySnapshot;
@@ -31,6 +31,8 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 const formatCheckedAt = (value: string | null, locale: Locale, fallback: string) => {
   if (!value) return fallback;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return fallback;
   return new Intl.DateTimeFormat(locale === "zh" ? "zh-CN" : "en-US", {
     timeZone: "Asia/Shanghai",
     month: "2-digit",
@@ -38,40 +40,44 @@ const formatCheckedAt = (value: string | null, locale: Locale, fallback: string)
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
-  }).format(new Date(value));
+  }).format(date);
 };
 
-const snapshotHealth = (locale: Locale, t: (path: MessagePath) => string): RelayHealth =>
-  relaySnapshot.health.reachable
-    ? {
-        label: t("relay.onlineSnapshot"),
-        reason: `${t("relay.latest")}: ${formatCheckedAt(relaySnapshot.health.checkedAt, locale, t("relay.noSuccess"))}`,
-        tone: "online",
-      }
-    : {
-        label: t("relay.offline"),
-        reason: `${t("relay.lastOnline")}: ${formatCheckedAt(relaySnapshot.health.lastSuccessAt, locale, t("relay.noSuccess"))}`,
-        tone: "offline",
-      };
+const buildSnapshotHealth = (locale: Locale, t: (path: MessagePath) => string): RelayHealth => {
+  if (relaySnapshot.health.reachable) {
+    const checked = formatCheckedAt(relaySnapshot.health.checkedAt, locale, t("relay.noSuccess"));
+    return {
+      label: t("relay.onlineSnapshot"),
+      reason: `${t("relay.latest")} ${checked} · ${t("relay.snapshotCadence")}`,
+      tone: "online",
+    };
+  }
+
+  const lastSeen = formatCheckedAt(relaySnapshot.health.lastSuccessAt, locale, t("relay.noSuccess"));
+  return {
+    label: t("relay.offline"),
+    reason: `${t("relay.lastOnline")} ${lastSeen} · ${t("relay.snapshotCadence")}`,
+    tone: "offline",
+  };
+};
 
 export function ApiRelayDashboard() {
   const reduceMotion = useReducedMotion();
   const { locale, t } = useLanguage();
-  const [health, setHealth] = useState<RelayHealth>(() => snapshotHealth(locale, t));
+  const [liveHealth, setLiveHealth] = useState<RelayHealth | null>(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (!siteProfile.relayBrowserProbeEnabled) {
-      setHealth({
-        ...snapshotHealth(locale, t),
-        reason: `${snapshotHealth(locale, t).reason}; ${t("relay.corsPending")}`,
-      });
+      setLiveHealth(null);
       return;
     }
 
     if (window.location.protocol === "https:" && liveHealthUrl.startsWith("http://")) {
-      setHealth({
-        ...snapshotHealth(locale, t),
-        reason: `${snapshotHealth(locale, t).reason}; ${t("relay.httpsPending")}`,
+      const base = buildSnapshotHealth(locale, t);
+      setLiveHealth({
+        ...base,
+        reason: `${base.reason} · ${t("relay.httpsPending")}`,
       });
       return;
     }
@@ -95,7 +101,7 @@ export function ApiRelayDashboard() {
         const payload = (await response.json()) as { success?: boolean };
         if (payload.success === false) throw new Error("status failed");
         if (active) {
-          setHealth({
+          setLiveHealth({
             label: t("relay.liveOnline"),
             reason: t("relay.justProbed"),
             tone: "online",
@@ -103,9 +109,10 @@ export function ApiRelayDashboard() {
         }
       } catch {
         if (active) {
-          setHealth({
-            ...snapshotHealth(locale, t),
-            reason: `${snapshotHealth(locale, t).reason}; ${t("relay.unreadable")}`,
+          const base = buildSnapshotHealth(locale, t);
+          setLiveHealth({
+            ...base,
+            reason: `${base.reason} · ${t("relay.unreadable")}`,
           });
         }
       } finally {
@@ -125,18 +132,30 @@ export function ApiRelayDashboard() {
     };
   }, [locale, t]);
 
+  const health = liveHealth ?? buildSnapshotHealth(locale, t);
+
+  const copyOrigin = async () => {
+    try {
+      await navigator.clipboard.writeText(relayOrigin);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // Ignore clipboard failure
+    }
+  };
+
   return (
     <div className="dashboard-shell">
       <motion.section
         className="relay-gateway-frame"
-        initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: reduceMotion ? 0 : 0.65, ease: EASE }}
+        transition={{ duration: reduceMotion ? 0 : 0.6, ease: EASE }}
       >
         <header className="relay-gateway-topline">
           <p className="eyebrow">01 — API Relay / Gateway</p>
           <div aria-live="polite" className={`relay-health ${health.tone}`} role="status">
-            <span className="relay-health-dot" aria-hidden />
+            <span className="relay-health-dot" aria-hidden="true" />
             <span>
               <strong>{health.label}</strong>
               <small>{health.reason}</small>
@@ -150,8 +169,9 @@ export function ApiRelayDashboard() {
             <span>RELAY</span>
           </h1>
           <div className="relay-landing-meta">
-            <span>OPENAI COMPATIBLE</span>
-            <span>PUBLIC ACCESS</span>
+            <span>OPENAI / RESPONSES COMPATIBLE</span>
+            <span>SSE & WEBSOCKET STREAMING</span>
+            <span>MULTI-PROVIDER ROUTING</span>
           </div>
         </div>
 
@@ -161,11 +181,16 @@ export function ApiRelayDashboard() {
               <small>EXTERNAL GATEWAY</small>
               <strong>{t("relay.open")}</strong>
             </span>
-            <span className="relay-launch-arrow" aria-hidden>↗</span>
+            <span className="relay-launch-arrow" aria-hidden="true">↗</span>
           </a>
           <div className="relay-address">
             <span>{t("relay.address")}</span>
-            <strong>{relayOrigin}</strong>
+            <div className="relay-address-row">
+              <code>{relayOrigin}</code>
+              <button className="relay-copy-btn" onClick={copyOrigin} type="button">
+                {copied ? t("relay.copiedUrl") : t("relay.copyUrl")}
+              </button>
+            </div>
           </div>
         </footer>
       </motion.section>

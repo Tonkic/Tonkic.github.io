@@ -19,9 +19,9 @@
 
 ## 页面结构
 
-- 首页是独立的设计型 landing page，只链接知识库、项目和 CV。
+- 首页是独立的设计型 landing page，链接知识库、API 中转、项目和 CV。
 - Blog layout 使用 `BlogSidebar` 渲染目录树和搜索；`/blog/[slug]` 使用 `BlogArticle` 渲染独立文章、目录和上下篇导航。
-- Portfolio 列表直接跳转项目 GitHub；详情路由仍为已有外部链接提供页面。
+- Portfolio 列表同时提供项目 GitHub 跳转与站内详情入口。
 - CV 使用独立 A4 样式和打印媒体规则。
 - Academic 展示研究兴趣；Publications / Talks 当前使用空列表，没有动态详情路由。
 - API Relay 使用 `ApiRelayDashboard` 展示最近健康快照、服务地址和外部入口。
@@ -37,7 +37,7 @@ Obsidian repository
   -> BlogSidebar / BlogArticle / MarkdownContent
 ```
 
-`sourcePath` 用于目录树和内部链接解析。`blogListEntries` 会移除正文，避免每篇文章把整个知识库序列化到页面 HTML。KaTeX 在构建时生成公式 HTML，长公式只在公式容器内滚动。
+`sourcePath` 用于目录树和内部链接解析。`blogSearchEntries` 仅保留轻量检索字段，`buildEntryLinkMap` 按单篇文章实际引用的内部链接生成最小映射，避免每篇文章把完整链接索引和知识库正文序列化到页面 HTML。KaTeX 在构建时生成公式 HTML，长公式只在公式容器内滚动。
 
 ## Relay 数据流
 

@@ -1,28 +1,18 @@
-# Ignore the contents of the _site directory and other cache directories
-_site/
-.sass-cache/
-
-# Ignore the directory for local files during development
-local/
-
-# Ignore the Gemfile that is generated
-Gemfile.lock
-
-# Ignore dependency folders created by npm
+# Dependencies
 node_modules/
 
-# Ignore vendor/bundle and alternative installation outputs
-/vendor/
-.bundle/
-
-# Ignore folders related to IDEs
-.vscode/
-.vs/
-
-# Ignore frontend build outputs
-dist/
-.astro/
+# Next.js & static export outputs
 .next/
 out/
+dist/
+next-env.d.ts.bak
+
+# TypeScript & logs
 tsconfig.tsbuildinfo
 *.log
+
+# Local environment & IDE
+local/
+.env*.local
+.vscode/
+.vs/
