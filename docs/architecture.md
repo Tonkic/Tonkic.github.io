@@ -11,6 +11,7 @@
 - `src/data/site-config.ts`：可以进入客户端 bundle 的轻量站点配置。
 - `src/data/site.ts`：Blog fallback、Portfolio 和学术列表数据。
 - `src/data/obsidian-blog.ts`：同步生成的 Blog 内容，不手工编辑。
+- `src/data/github-projects.json`：同步生成的公开 GitHub 仓库与 Star 数快照。
 - `src/data/relay-snapshot.json`：同步生成的最小健康快照。
 - `src/i18n/`：locale 类型、持久化键与中英文 typed dictionaries。
 - `src/components/LanguageProvider.tsx`：客户端语言状态、DOM `lang` 属性与持久化。
@@ -21,7 +22,7 @@
 
 - 首页是独立的设计型 landing page，链接知识库、API 中转、项目和 CV。
 - Blog layout 使用 `BlogSidebar` 渲染目录树和搜索；`/blog/[slug]` 使用 `BlogArticle` 渲染独立文章、目录和上下篇导航。
-- Portfolio 列表同时提供项目 GitHub 跳转与站内详情入口。
+- Portfolio 基于 GitHub 公开仓库快照与浏览器端实时拉取展示仓库，按 Star 数降序排列（默认原创仓库，可切换显示含 Fork），卡片直接跳转 GitHub。
 - CV 使用独立 A4 样式和打印媒体规则。
 - Academic 展示研究兴趣；Publications / Talks 当前使用空列表，没有动态详情路由。
 - API Relay 使用 `ApiRelayDashboard` 展示最近健康快照、服务地址和外部入口。

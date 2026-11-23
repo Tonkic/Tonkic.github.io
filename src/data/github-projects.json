@@ -1,0 +1,162 @@
+{
+  "owner": "Tonkic",
+  "syncedAt": "2026-11-23T19:23:15.950Z",
+  "projects": [
+    {
+      "name": "cpa-codex-turn-state-plugin",
+      "htmlUrl": "https://github.com/Tonkic/cpa-codex-turn-state-plugin",
+      "description": "Native CPA plugin for per-account/model Codex turn-state caching and proactive refresh.",
+      "language": "Go",
+      "topics": [],
+      "stars": 31,
+      "forks": 9,
+      "isFork": false,
+      "pushedAt": "2026-09-21",
+      "homepage": ""
+    },
+    {
+      "name": "AIResearchToolkit",
+      "htmlUrl": "https://github.com/Tonkic/AIResearchToolkit",
+      "description": "",
+      "language": "",
+      "topics": [],
+      "stars": 2,
+      "forks": 0,
+      "isFork": false,
+      "pushedAt": "2026-11-18",
+      "homepage": ""
+    },
+    {
+      "name": "tonkic-obsidian-vault",
+      "htmlUrl": "https://github.com/Tonkic/tonkic-obsidian-vault",
+      "description": "",
+      "language": "",
+      "topics": [],
+      "stars": 1,
+      "forks": 0,
+      "isFork": false,
+      "pushedAt": "2026-11-18",
+      "homepage": ""
+    },
+    {
+      "name": "QuantCanvas",
+      "htmlUrl": "https://github.com/Tonkic/QuantCanvas",
+      "description": "",
+      "language": "Python",
+      "topics": [],
+      "stars": 1,
+      "forks": 0,
+      "isFork": false,
+      "pushedAt": "2026-08-12",
+      "homepage": ""
+    },
+    {
+      "name": "playsage",
+      "htmlUrl": "https://github.com/Tonkic/playsage",
+      "description": "PlaySage: evidence-backed game knowledge, memory and guarded execution",
+      "language": "Python",
+      "topics": [],
+      "stars": 0,
+      "forks": 0,
+      "isFork": false,
+      "pushedAt": "2026-11-23",
+      "homepage": ""
+    },
+    {
+      "name": "Tonkic.github.io",
+      "htmlUrl": "https://github.com/Tonkic/Tonkic.github.io",
+      "description": "Github Pages template based upon HTML and Markdown for personal, portfolio-based websites.",
+      "language": "TypeScript",
+      "topics": [],
+      "stars": 0,
+      "forks": 0,
+      "isFork": false,
+      "pushedAt": "2026-11-23",
+      "homepage": "https://academicpages.github.io"
+    },
+    {
+      "name": "pi-agent-governance",
+      "htmlUrl": "https://github.com/Tonkic/pi-agent-governance",
+      "description": "Repository-level agent engineering governance for PI-Desktop: task lifecycle, progressive context loading, and knowledge gates",
+      "language": "JavaScript",
+      "topics": [],
+      "stars": 0,
+      "forks": 0,
+      "isFork": false,
+      "pushedAt": "2026-11-21",
+      "homepage": ""
+    },
+    {
+      "name": "Tonkic-api",
+      "htmlUrl": "https://github.com/Tonkic/Tonkic-api",
+      "description": "A unified AI model hub for aggregation & distribution. It supports cross-converting various LLMs into OpenAI-compatible, Claude-compatible, or Gemini-compatible formats. A centralized gateway for personal and enterprise model management. 🍥",
+      "language": "Go",
+      "topics": [],
+      "stars": 0,
+      "forks": 0,
+      "isFork": true,
+      "pushedAt": "2026-11-18",
+      "homepage": "https://www.newapi.ai"
+    },
+    {
+      "name": "bps-local-public",
+      "htmlUrl": "https://github.com/Tonkic/bps-local-public",
+      "description": "",
+      "language": "",
+      "topics": [],
+      "stars": 0,
+      "forks": 0,
+      "isFork": true,
+      "pushedAt": "2026-11-13",
+      "homepage": ""
+    },
+    {
+      "name": "CLIProxyAPIPlus",
+      "htmlUrl": "https://github.com/Tonkic/CLIProxyAPIPlus",
+      "description": "The Plus version of CLIProxyAPI",
+      "language": "Go",
+      "topics": [],
+      "stars": 0,
+      "forks": 0,
+      "isFork": true,
+      "pushedAt": "2026-10-19",
+      "homepage": ""
+    },
+    {
+      "name": "ok-end-field",
+      "htmlUrl": "https://github.com/Tonkic/ok-end-field",
+      "description": "终末地 End Field Automation 基于ok-script开发的自动化",
+      "language": "Python",
+      "topics": [],
+      "stars": 0,
+      "forks": 0,
+      "isFork": true,
+      "pushedAt": "2026-02-09",
+      "homepage": ""
+    },
+    {
+      "name": "scnu-java-assignments",
+      "htmlUrl": "https://github.com/Tonkic/scnu-java-assignments",
+      "description": "SCNU华南师范大学 研究生课程 Java大数据开发 vscode版代码",
+      "language": "JavaScript",
+      "topics": [],
+      "stars": 0,
+      "forks": 0,
+      "isFork": false,
+      "pushedAt": "2025-11-25",
+      "homepage": ""
+    },
+    {
+      "name": "cn-rail-data-pagerank-viz",
+      "htmlUrl": "https://github.com/Tonkic/cn-rail-data-pagerank-viz",
+      "description": "中国铁路数据及pagerank可视化",
+      "language": "Python",
+      "topics": [],
+      "stars": 0,
+      "forks": 1,
+      "isFork": false,
+      "pushedAt": "2025-11-02",
+      "homepage": ""
+    }
+  ]
+}

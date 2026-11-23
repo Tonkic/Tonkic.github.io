@@ -37,8 +37,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Refresh public relay snapshot
-        run: npm run sync:relay
+      - name: Refresh public relay and GitHub projects snapshots
+        run: |
+          npm run sync:relay
+          npm run sync:projects
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Validate site
         run: |

@@ -19,6 +19,11 @@ export const messages = {
       open: "前往中转站控制台", address: "接入地址", copyUrl: "复制地址", copiedUrl: "已复制地址",
       footnote: "模型列表、渠道状态与实时计费说明以中转站内页面为准。",
     },
+    portfolio: {
+      originalOnly: "原创仓库", allRepos: "全部公开仓库（含 Fork）",
+      totalStars: "累计 Star", liveSynced: "已与 GitHub 实时同步", snapshotSynced: "基于 GitHub 公开仓库自动同步 · 按 Star 排序",
+      forkBadge: "Fork", updated: "更新于", noDescription: "暂无仓库简介，点击前往 GitHub 查看源码与说明。",
+    },
     common: { noDate: "未标注日期", viewObsidian: "查看源笔记", viewGithub: "查看 GitHub 仓库", empty: "暂时没有公开条目。", details: "项目详情", exportPdf: "导出 PDF" },
   },
   en: {
@@ -38,6 +43,11 @@ export const messages = {
       liveOnline: "Operational (live)", justProbed: "Checked just now", unreadable: "Browser probe restricted",
       open: "Open Relay Console", address: "Base Endpoint", copyUrl: "Copy URL", copiedUrl: "Copied",
       footnote: "Live model availability, upstream channels, and pricing are maintained on the relay site.",
+    },
+    portfolio: {
+      originalOnly: "Original Repos", allRepos: "All Public (incl. Forks)",
+      totalStars: "Total Stars", liveSynced: "Synced live from GitHub", snapshotSynced: "Synced from GitHub public repos · Sorted by stars",
+      forkBadge: "Fork", updated: "Pushed", noDescription: "No repository description yet — view source and README on GitHub.",
     },
     common: { noDate: "Undated", viewObsidian: "View source note", viewGithub: "View on GitHub", empty: "No public entries yet.", details: "Project details", exportPdf: "Export PDF" },
   },
