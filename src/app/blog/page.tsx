@@ -1,5 +1,8 @@
 import Link from "next/link";
-import { blogListEntries } from "@/lib/blog-source";
+import { BlogKnowledgeGraph } from "@/components/BlogKnowledgeGraph";
+import { LocalizedText } from "@/components/LocalizedText";
+import { messages } from "@/i18n/messages";
+import { blogGraphData, blogListEntries } from "@/lib/blog-source";
 
 export const metadata = {
   title: "Blog",
@@ -7,91 +10,36 @@ export const metadata = {
   alternates: { canonical: "/blog/" },
 };
 
-const buildDomainGroups = () => {
-  const counts = new Map<string, { count: number; sampleHref: string; sampleTitle: string }>();
-  for (const entry of blogListEntries) {
-    const root = entry.tags?.[0] ?? "Notes";
-    const current = counts.get(root);
-    if (!current) {
-      counts.set(root, { count: 1, sampleHref: entry.href, sampleTitle: entry.title });
-    } else {
-      current.count += 1;
-    }
-  }
-  return [...counts.entries()]
-    .sort((a, b) => b[1].count - a[1].count)
-    .slice(0, 6);
-};
-
 export default function BlogPage() {
-  const domainGroups = buildDomainGroups();
   const featuredNotes = blogListEntries
-    .filter((entry) => entry.summary && entry.summary.length > 24)
-    .slice(0, 6);
+    .filter((entry) => entry.summary && entry.summary.length > 20)
+    .slice(0, 8);
 
   return (
-    <div className="page-stack blog-page">
-      <section className="blog-index-card">
-        <span className="eyebrow">Tonkic / Obsidian Vault</span>
+    <div className="blog-workspace-home">
+      <header className="blog-workspace-header">
         <h1>
           <span data-lang="zh">知识库</span>
           <span data-lang="en">Knowledge Base</span>
         </h1>
-        <p>
-          <span data-lang="zh">
-            日常在 Obsidian 整理的人工智能、数学基础与系统工程笔记。左侧目录保留仓库原始层级，支持按 <kbd>⌘K</kbd> 快速检索。
-          </span>
-          <span data-lang="en">
-            Working notes on AI, math foundations, and systems engineering synced from Obsidian. Browse the directory tree or press <kbd>⌘K</kbd> to search.
-          </span>
-        </p>
-        <div className="blog-index-rule" />
-        <div className="blog-index-hint">
-          <span>
-            <strong>{blogListEntries.length}</strong>{" "}
-            <i data-lang="zh">篇已同步笔记</i>
-            <i data-lang="en">synced notes</i>
-          </span>
-          <span>Markdown · KaTeX</span>
-          <span>
-            <i data-lang="zh">每日自动同步</i>
-            <i data-lang="en">Synced daily</i>
-          </span>
-        </div>
-      </section>
+        <span className="blog-workspace-count">{blogListEntries.length}</span>
+      </header>
 
-      {domainGroups.length > 0 ? (
-        <section className="blog-index-section">
-          <h2 className="blog-index-section-title">
-            <span data-lang="zh">主题分区</span>
-            <span data-lang="en">Topics</span>
-          </h2>
-          <div className="blog-domain-grid">
-            {domainGroups.map(([name, info]) => (
-              <Link className="blog-domain-card" href={info.sampleHref} key={name}>
-                <div className="blog-domain-top">
-                  <strong>{name}</strong>
-                  <span>{info.count}</span>
-                </div>
-                <small>{info.sampleTitle} →</small>
-              </Link>
-            ))}
-          </div>
-        </section>
-      ) : null}
+      <BlogKnowledgeGraph data={blogGraphData} />
 
       {featuredNotes.length > 0 ? (
         <section className="blog-index-section">
           <h2 className="blog-index-section-title">
-            <span data-lang="zh">快速开始阅读</span>
-            <span data-lang="en">Quick Picks</span>
+            <LocalizedText text={{ zh: messages.zh.blog.featured, en: messages.en.blog.featured }} />
           </h2>
-          <div className="blog-quick-grid">
+          <div className="blog-note-index">
             {featuredNotes.map((entry) => (
-              <Link className="blog-quick-card" href={entry.href} key={entry.slug}>
-                <span className="blog-quick-path">{entry.tags?.join(" / ") || "Note"}</span>
-                <strong>{entry.title}</strong>
-                <p>{entry.summary}</p>
+              <Link className="blog-note-row" href={entry.href} key={entry.slug}>
+                <div className="blog-note-row-main">
+                  <strong>{entry.title}</strong>
+                  <span>{entry.tags?.slice(0, 2).join(" / ") || "Note"}</span>
+                </div>
+                <i aria-hidden="true">→</i>
               </Link>
             ))}
           </div>

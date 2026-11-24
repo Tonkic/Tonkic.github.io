@@ -188,3 +188,114 @@ export const buildEntryLinkMap = (content?: string, sourcePath?: string): Record
 
   return count > 0 ? result : undefined;
 };
+
+export type GraphDomain = "ai" | "exam" | "math";
+
+export type BlogGraphNode = {
+  id: string;
+  label: string;
+  href?: string;
+  domain: GraphDomain;
+  topic: string;
+  kind: "hub" | "note";
+  weight: number;
+};
+
+export type BlogGraphEdge = {
+  source: string;
+  target: string;
+  kind: "topic" | "ref";
+};
+
+export type BlogGraphData = {
+  nodes: BlogGraphNode[];
+  edges: BlogGraphEdge[];
+};
+
+const classifyDomain = (root?: string): GraphDomain => {
+  if (root === "考研") return "exam";
+  if (root === "数学") return "math";
+  return "ai";
+};
+
+const cleanTopicSegment = (segment: string) => segment.replace(/^\d+[_-]/, "").trim();
+
+const buildBlogGraph = (): BlogGraphData => {
+  const nodes: BlogGraphNode[] = [];
+  const edges: BlogGraphEdge[] = [];
+  const hubCounts = new Map<string, { id: string; label: string; domain: GraphDomain; count: number }>();
+  const hrefToNodeId = new Map<string, string>();
+
+  for (const page of blogPages) {
+    const entry = page.data;
+    const tags = entry.tags ?? [];
+    const domain = classifyDomain(tags[0]);
+    const rawSub = tags[1] === "人工智能" && tags[2] ? cleanTopicSegment(tags[2]) : cleanTopicSegment(tags[1] ?? tags[0] ?? "笔记");
+    const hubKey = `${domain}:${rawSub}`;
+    const hubId = `hub:${hubKey}`;
+
+    const existingHub = hubCounts.get(hubKey);
+    if (existingHub) {
+      existingHub.count += 1;
+    } else {
+      hubCounts.set(hubKey, { id: hubId, label: rawSub, domain, count: 1 });
+    }
+
+    const normalizedHref = entry.href.endsWith("/") ? entry.href : `${entry.href}/`;
+    hrefToNodeId.set(normalizedHref, entry.slug);
+
+    nodes.push({
+      id: entry.slug,
+      label: entry.title,
+      href: entry.href,
+      domain,
+      topic: rawSub,
+      kind: "note",
+      weight: 1,
+    });
+
+    edges.push({ source: hubId, target: entry.slug, kind: "topic" });
+  }
+
+  for (const hub of hubCounts.values()) {
+    nodes.unshift({
+      id: hub.id,
+      label: hub.label,
+      domain: hub.domain,
+      topic: hub.label,
+      kind: "hub",
+      weight: hub.count,
+    });
+  }
+
+  const seenRefs = new Set<string>();
+  const degreeBoost = new Map<string, number>();
+
+  for (const page of blogPages) {
+    const entry = page.data;
+    if (!entry.content) continue;
+    for (const match of entry.content.matchAll(/(?<!!)\[[^\]]*]\(((?:[^()\n]|\([^()\n]*\))+)\)/g)) {
+      const resolved = resolveSingleVaultHref(match[1], entry.sourcePath);
+      if (!resolved) continue;
+      const baseHref = resolved.split("#")[0];
+      const targetId = hrefToNodeId.get(baseHref);
+      if (!targetId || targetId === entry.slug) continue;
+      const edgeKey = [entry.slug, targetId].sort().join("::");
+      if (seenRefs.has(edgeKey)) continue;
+      seenRefs.add(edgeKey);
+      edges.push({ source: entry.slug, target: targetId, kind: "ref" });
+      degreeBoost.set(entry.slug, (degreeBoost.get(entry.slug) ?? 0) + 1);
+      degreeBoost.set(targetId, (degreeBoost.get(targetId) ?? 0) + 1);
+    }
+  }
+
+  for (const node of nodes) {
+    if (node.kind === "note") {
+      node.weight = 1 + (degreeBoost.get(node.id) ?? 0);
+    }
+  }
+
+  return { nodes, edges };
+};
+
+export const blogGraphData = buildBlogGraph();

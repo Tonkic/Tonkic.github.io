@@ -21,9 +21,6 @@ export function ResumeDocument() {
   return (
     <div className="resume-export-page">
       <div className="resume-toolbar">
-        <span className="resume-toolbar-hint">
-          {english ? "A4 print-ready · Fits cleanly on PDF export" : "A4 排版已适配 · 支持直接导出单页 PDF"}
-        </span>
         <PrintResumeButton />
       </div>
 

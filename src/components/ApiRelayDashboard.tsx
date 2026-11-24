@@ -19,7 +19,7 @@ type RelaySnapshot = {
 
 type RelayHealth = {
   label: string;
-  reason: string;
+  timeLabel: string;
   tone: "checking" | "offline" | "online";
 };
 
@@ -45,18 +45,16 @@ const formatCheckedAt = (value: string | null, locale: Locale, fallback: string)
 
 const buildSnapshotHealth = (locale: Locale, t: (path: MessagePath) => string): RelayHealth => {
   if (relaySnapshot.health.reachable) {
-    const checked = formatCheckedAt(relaySnapshot.health.checkedAt, locale, t("relay.noSuccess"));
     return {
       label: t("relay.onlineSnapshot"),
-      reason: `${t("relay.latest")} ${checked} · ${t("relay.snapshotCadence")}`,
+      timeLabel: formatCheckedAt(relaySnapshot.health.checkedAt, locale, t("relay.noSuccess")),
       tone: "online",
     };
   }
 
-  const lastSeen = formatCheckedAt(relaySnapshot.health.lastSuccessAt, locale, t("relay.noSuccess"));
   return {
     label: t("relay.offline"),
-    reason: `${t("relay.lastOnline")} ${lastSeen} · ${t("relay.snapshotCadence")}`,
+    timeLabel: formatCheckedAt(relaySnapshot.health.lastSuccessAt, locale, t("relay.noSuccess")),
     tone: "offline",
   };
 };
@@ -74,11 +72,6 @@ export function ApiRelayDashboard() {
     }
 
     if (window.location.protocol === "https:" && liveHealthUrl.startsWith("http://")) {
-      const base = buildSnapshotHealth(locale, t);
-      setLiveHealth({
-        ...base,
-        reason: `${base.reason} · ${t("relay.httpsPending")}`,
-      });
       return;
     }
 
@@ -103,18 +96,12 @@ export function ApiRelayDashboard() {
         if (active) {
           setLiveHealth({
             label: t("relay.liveOnline"),
-            reason: t("relay.justProbed"),
+            timeLabel: t("relay.justProbed"),
             tone: "online",
           });
         }
       } catch {
-        if (active) {
-          const base = buildSnapshotHealth(locale, t);
-          setLiveHealth({
-            ...base,
-            reason: `${base.reason} · ${t("relay.unreadable")}`,
-          });
-        }
+        // Keep snapshot state
       } finally {
         window.clearTimeout(timeout);
       }
@@ -138,7 +125,7 @@ export function ApiRelayDashboard() {
     try {
       await navigator.clipboard.writeText(relayOrigin);
       setCopied(true);
-      window.setTimeout(() => setCopied(false), 1500);
+      window.setTimeout(() => setCopied(false), 1400);
     } catch {
       // Ignore clipboard failure
     }
@@ -148,18 +135,16 @@ export function ApiRelayDashboard() {
     <div className="dashboard-shell">
       <motion.section
         className="relay-gateway-frame"
-        initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: reduceMotion ? 0 : 0.6, ease: EASE }}
+        transition={{ duration: reduceMotion ? 0 : 0.52, ease: EASE }}
       >
         <header className="relay-gateway-topline">
-          <p className="eyebrow">01 — API Relay / Gateway</p>
+          <p className="eyebrow">03 — Gateway</p>
           <div aria-live="polite" className={`relay-health ${health.tone}`} role="status">
             <span className="relay-health-dot" aria-hidden="true" />
-            <span>
-              <strong>{health.label}</strong>
-              <small>{health.reason}</small>
-            </span>
+            <strong>{health.label}</strong>
+            <small>{health.timeLabel}</small>
           </div>
         </header>
 
@@ -169,32 +154,27 @@ export function ApiRelayDashboard() {
             <span>RELAY</span>
           </h1>
           <div className="relay-landing-meta">
-            <span>OPENAI / RESPONSES COMPATIBLE</span>
-            <span>SSE & WEBSOCKET STREAMING</span>
-            <span>MULTI-PROVIDER ROUTING</span>
+            <span>OPENAI / RESPONSES</span>
+            <span>SSE & WEBSOCKET</span>
+            <span>MULTI-PROVIDER</span>
           </div>
         </div>
 
         <footer className="relay-gateway-footer">
           <a className="relay-launch" href={siteProfile.publicRelayUrl} target="_blank" rel="noreferrer">
             <span className="relay-launch-copy">
-              <small>EXTERNAL GATEWAY</small>
+              <small>TONKICAPI.XYZ</small>
               <strong>{t("relay.open")}</strong>
             </span>
             <span className="relay-launch-arrow" aria-hidden="true">↗</span>
           </a>
-          <div className="relay-address">
-            <span>{t("relay.address")}</span>
-            <div className="relay-address-row">
-              <code>{relayOrigin}</code>
-              <button className="relay-copy-btn" onClick={copyOrigin} type="button">
-                {copied ? t("relay.copiedUrl") : t("relay.copyUrl")}
-              </button>
-            </div>
-          </div>
+
+          <button className="relay-endpoint-surface" onClick={copyOrigin} type="button">
+            <span>{copied ? t("relay.copiedUrl") : t("relay.address")}</span>
+            <code>{relayOrigin}</code>
+          </button>
         </footer>
       </motion.section>
-      <p className="relay-landing-footnote">{t("relay.footnote")}</p>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Reveal } from "@/components/Reveal";
+import { motion, useReducedMotion } from "framer-motion";
 import { LocalizedText } from "@/components/LocalizedText";
 import { useLanguage } from "@/components/LanguageProvider";
 import { enrichGitHubRepo, type GitHubRepoSnapshotItem } from "@/data/site";
@@ -24,6 +24,14 @@ type GitHubApiRepo = {
 
 const CACHE_KEY = "tonkic-github-repos-v1";
 const CACHE_TTL_MS = 5 * 60 * 1000;
+
+const LANG_COLORS: Record<string, string> = {
+  Go: "#00ADD8",
+  Python: "#4B8BBE",
+  TypeScript: "#3178C6",
+  JavaScript: "#F1E05A",
+  Java: "#E07A5F",
+};
 
 const sortAndNormalizeRepos = (rawRepos: GitHubApiRepo[]): GitHubRepoSnapshotItem[] =>
   rawRepos
@@ -55,9 +63,9 @@ export function PortfolioCatalog({
   initialRepos: GitHubRepoSnapshotItem[];
 }) {
   const { t } = useLanguage();
+  const reduceMotion = useReducedMotion();
   const [repos, setRepos] = useState<GitHubRepoSnapshotItem[]>(initialRepos);
   const [includeForks, setIncludeForks] = useState(false);
-  const [isLive, setIsLive] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -69,10 +77,7 @@ export function PortfolioCatalog({
         if (cachedRaw) {
           const cached = JSON.parse(cachedRaw) as { ts: number; items: GitHubRepoSnapshotItem[] };
           if (Date.now() - cached.ts < CACHE_TTL_MS && Array.isArray(cached.items) && cached.items.length > 0) {
-            if (active) {
-              setRepos(cached.items);
-              setIsLive(true);
-            }
+            if (active) setRepos(cached.items);
             return;
           }
         }
@@ -94,7 +99,6 @@ export function PortfolioCatalog({
         const normalized = sortAndNormalizeRepos(payload);
         if (normalized.length > 0 && active) {
           setRepos(normalized);
-          setIsLive(true);
           try {
             window.sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), items: normalized }));
           } catch {
@@ -116,49 +120,55 @@ export function PortfolioCatalog({
   const originalCount = useMemo(() => repos.filter((repo) => !repo.isFork).length, [repos]);
   const totalStars = useMemo(() => repos.reduce((sum, repo) => sum + repo.stars, 0), [repos]);
 
-  const visibleEntries = useMemo(() => {
+  const visibleItems = useMemo(() => {
     const filtered = includeForks ? repos : repos.filter((repo) => !repo.isFork);
-    return filtered.map(enrichGitHubRepo);
+    return filtered.map((repo) => ({ repo, entry: enrichGitHubRepo(repo) }));
   }, [includeForks, repos]);
 
   return (
     <div className="portfolio-catalog">
       <div className="portfolio-toolbar">
-        <div className="portfolio-filter-group" role="group" aria-label="Repository filter">
+        <div className="portfolio-tabs" role="tablist" aria-label="Repository scope">
           <button
-            aria-pressed={!includeForks}
-            className={`portfolio-filter-btn ${!includeForks ? "active" : ""}`}
+            aria-selected={!includeForks}
+            className={`portfolio-tab ${!includeForks ? "active" : ""}`}
             onClick={() => setIncludeForks(false)}
+            role="tab"
             type="button"
           >
-            {t("portfolio.originalOnly")} <span>{originalCount}</span>
+            <span>{t("portfolio.originalOnly")}</span>
+            <small>{originalCount}</small>
           </button>
           <button
-            aria-pressed={includeForks}
-            className={`portfolio-filter-btn ${includeForks ? "active" : ""}`}
+            aria-selected={includeForks}
+            className={`portfolio-tab ${includeForks ? "active" : ""}`}
             onClick={() => setIncludeForks(true)}
+            role="tab"
             type="button"
           >
-            {t("portfolio.allRepos")} <span>{repos.length}</span>
+            <span>{t("portfolio.allRepos")}</span>
+            <small>{repos.length}</small>
           </button>
         </div>
 
-        <div className="portfolio-telemetry">
-          <span className="portfolio-star-summary">
-            ★ {totalStars} {t("portfolio.totalStars")}
-          </span>
-          <span className="portfolio-sync-note">
-            {isLive ? t("portfolio.liveSynced") : t("portfolio.snapshotSynced")}
-          </span>
-        </div>
+        <span className="portfolio-star-summary">★ {totalStars}</span>
       </div>
 
-      <Reveal className="portfolio-grid">
-        {visibleEntries.map((entry, index) => {
+      <div className="portfolio-grid">
+        {visibleItems.map(({ repo, entry }, index) => {
           const stars = entry.stars ?? 0;
           const forks = entry.forks ?? 0;
+          const langColor = repo.language ? LANG_COLORS[repo.language] ?? "#948c82" : null;
+
           return (
-            <article className="portfolio-card" key={entry.slug}>
+            <motion.article
+              className="portfolio-card"
+              key={entry.slug}
+              layout={!reduceMotion}
+              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.32, delay: reduceMotion ? 0 : Math.min(index * 0.035, 0.25) }}
+            >
               <div className="portfolio-card-top">
                 <div className="portfolio-card-badges">
                   <span className="portfolio-index">{String(index + 1).padStart(2, "0")}</span>
@@ -172,11 +182,7 @@ export function PortfolioCatalog({
                   ) : null}
                   {entry.isFork ? <span className="portfolio-fork-pill">{t("portfolio.forkBadge")}</span> : null}
                 </div>
-                {entry.date ? (
-                  <time className="portfolio-date" dateTime={entry.date}>
-                    {t("portfolio.updated")} {entry.date}
-                  </time>
-                ) : null}
+                <span className="portfolio-card-corner" aria-hidden="true">↗</span>
               </div>
 
               <div className="portfolio-card-main">
@@ -196,27 +202,28 @@ export function PortfolioCatalog({
               </div>
 
               <div className="portfolio-card-footer">
-                {entry.tags?.length ? (
-                  <ul className="tag-row" role="list">
-                    {entry.tags.map((tag) => (
-                      <li className="tag" key={tag}>
-                        {tag}
-                      </li>
-                    ))}
-                  </ul>
-                ) : <span />}
-                <div className="portfolio-card-links">
-                  {entry.sourceUrl ? (
-                    <a className="card-arrow" href={entry.sourceUrl} target="_blank" rel="noreferrer">
-                      GitHub ↗
-                    </a>
+                <div className="portfolio-meta-tags">
+                  {repo.language ? (
+                    <span className="portfolio-lang">
+                      <i style={{ background: langColor ?? undefined }} aria-hidden="true" />
+                      {repo.language}
+                    </span>
                   ) : null}
+                  {entry.tags
+                    ?.filter((tag) => tag.toLowerCase() !== repo.language.toLowerCase())
+                    .slice(0, 3)
+                    .map((tag) => (
+                      <span className="portfolio-topic" key={tag}>
+                        {tag}
+                      </span>
+                    ))}
                 </div>
+                {entry.date ? <time className="portfolio-date" dateTime={entry.date}>{entry.date}</time> : null}
               </div>
-            </article>
+            </motion.article>
           );
         })}
-      </Reveal>
+      </div>
     </div>
   );
 }

@@ -6,7 +6,6 @@ import type { CSSProperties, ReactNode } from "react";
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import type { PageTree } from "fumadocs-core/server";
 import type { BlogSearchItem } from "@/lib/blog-source";
-import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 
 type TreeNode = PageTree.Node;
@@ -40,7 +39,7 @@ function TreePage({ node, activeUrl, depth, unnamed }: { node: PageTree.Item; ac
   const active = activeUrl === href;
   return (
     <Link className={`blog-tree-link ${active ? "active" : ""}`} href={href} aria-current={active ? "page" : undefined}>
-      <span className="blog-tree-marker" aria-hidden="true">{active ? "●" : "○"}</span>
+      <span className="blog-tree-marker" aria-hidden="true">{active ? "●" : "·"}</span>
       <span style={{ paddingInlineStart: `${depth * 10}px` }}>{nodeText(node.name, unnamed)}</span>
     </Link>
   );
@@ -170,15 +169,14 @@ export function BlogSidebar({ pageTree, entries }: { pageTree: PageTree.Root; en
     const inputId = mobile ? "blog-search-mobile" : "blog-search-desktop";
     return (
       <>
-        <div className="blog-sidebar-brand">
-          <Link href="/" className="blog-sidebar-logo">Tonkic</Link>
-          <span>{locale === "zh" ? "知识库" : "Knowledge Base"}</span>
-        </div>
-        <div className="blog-sidebar-actions">
-          <Link href="/" className="blog-sidebar-home">{t("blog.backHome")}</Link>
-          <span>{totalNotes} {t("blog.noteCount")}</span>
-          <LanguageToggle compact />
-        </div>
+        {!mobile ? (
+          <div className="blog-sidebar-head">
+            <Link className="blog-sidebar-root-link" href="/blog">
+              {locale === "zh" ? "知识图谱" : "Constellation"}
+            </Link>
+            <span>{totalNotes} {t("blog.noteCount")}</span>
+          </div>
+        ) : null}
         <div className="blog-sidebar-search">
           <label className="sr-only" htmlFor={inputId}>{t("blog.searchLabel")}</label>
           <input
@@ -211,12 +209,6 @@ export function BlogSidebar({ pageTree, entries }: { pageTree: PageTree.Root; en
         <div className="blog-sidebar-tree" data-lenis-prevent>
           <TreeContent pageTree={pageTree} activeUrl={activeUrl} searchResults={searchResults} query={deferredQuery} />
         </div>
-        <nav className="blog-sidebar-nav" aria-label={mobile ? `${t("blog.navigation")} (mobile)` : t("blog.navigation")}>
-          <Link href="/api-relay">{t("nav.relay")}</Link>
-          <Link href="/portfolio">{t("nav.portfolio")}</Link>
-          <Link href="/cv">{t("nav.cv")}</Link>
-          <Link href="/academic">{t("nav.academic")}</Link>
-        </nav>
       </>
     );
   };
